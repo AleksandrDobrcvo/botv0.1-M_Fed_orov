@@ -541,6 +541,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     initializeLanguageSystem();
     initializeInteractions();
     renderApp();
+
+    // Dismiss splash screen
+    requestAnimationFrame(() => {
+        setTimeout(() => {
+            const splash = document.getElementById('splash-screen');
+            if (splash) {
+                splash.classList.add('splash-exit');
+                splash.addEventListener('animationend', () => {
+                    splash.remove();
+                }, { once: true });
+            }
+            const shell = document.getElementById('app-shell');
+            if (shell) shell.classList.add('app-revealed');
+        }, 1200);
+    });
+
     window.addEventListener('storage', (event) => {
         if (event.key !== 'gameData' || !window.gameDB) return;
         window.gameDB.loadData();
@@ -1427,10 +1443,24 @@ function closeHeroDetailModal() {
 }
 
 function syncModalState() {
-    const hasOpenModal = ['admin-modal', 'form-modal', 'user-detail-modal', 'notifications-modal', 'support-modal', 'hero-detail-modal']
+    const modals = ['admin-modal', 'form-modal', 'user-detail-modal', 'notifications-modal', 'support-modal', 'hero-detail-modal'];
+    const hasOpenModal = modals
         .map((id) => document.getElementById(id))
         .some((element) => element && !element.classList.contains('hidden'));
     document.body.classList.toggle('modal-open', hasOpenModal);
+
+    // Animate visible modals
+    modals.forEach((id) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (!el.classList.contains('hidden')) {
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => el.classList.add('modal-visible'));
+            });
+        } else {
+            el.classList.remove('modal-visible');
+        }
+    });
 }
 
 function getRequestStatusLabel(status, t = getTranslations()) {

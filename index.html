@@ -2,9 +2,11 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>TEST @PALMARON</title>
-    <meta name="theme-color" content="#0e1625">
+    <meta name="theme-color" content="#08111f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,13 +14,30 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Splash Screen -->
+    <div class="splash-screen" id="splash-screen">
+        <div class="splash-bg"></div>
+        <div class="splash-content">
+            <div class="splash-logo">
+                <div class="splash-logo-ring"></div>
+                <div class="splash-logo-icon">◆</div>
+            </div>
+            <h1 class="splash-title">RNX</h1>
+            <p class="splash-subtitle">Loading game...</p>
+            <div class="splash-loader">
+                <div class="splash-loader-bar"></div>
+            </div>
+        </div>
+    </div>
+
     <div class="bg-layer bg-layer-a"></div>
     <div class="bg-layer bg-layer-b"></div>
     <div class="bg-grid"></div>
     <div class="particles" id="particles"></div>
 
-    <main class="app-shell">
+    <main class="app-shell" id="app-shell">
         <header class="hero-panel panel">
+            <div class="hero-glow"></div>
             <div class="hero-top">
                 <div class="hero-copy">
                     <div class="hero-head-row">
@@ -243,16 +262,26 @@
             </button>
         </section>
 
-        <!-- Developer attribution -->
-        <div class="dev-footer">
-            <a class="dev-link" href="https://t.me/palmaron" target="_blank" rel="noopener noreferrer">
-                <div class="dev-left">Dev</div>
-                <div class="dev-right">
-                    <div class="dev-name">@palmaron</div>
-                    <div class="dev-sub">Разработчик — связаться в Telegram</div>
+        <!-- Footer -->
+        <footer class="app-footer">
+            <div class="app-footer-glow"></div>
+            <div class="app-footer-inner">
+                <div class="app-footer-brand">
+                    <span class="app-footer-logo">◆</span>
+                    <div>
+                        <div class="app-footer-name">RNX Game</div>
+                        <div class="app-footer-version">v1.0 · Telegram WebApp</div>
+                    </div>
                 </div>
-            </a>
-        </div>
+                <div class="app-footer-links">
+                    <a class="app-footer-link" href="https://t.me/palmaron" target="_blank" rel="noopener noreferrer">
+                        <span class="app-footer-link-icon">✦</span>
+                        <span>Dev @palmaron</span>
+                    </a>
+                </div>
+                <div class="app-footer-copy">© 2026 RNX · All rights reserved</div>
+            </div>
+        </footer>
 
         <nav class="bottom-nav" aria-label="Main navigation">
             <button class="nav-btn" type="button" data-nav="shop">
