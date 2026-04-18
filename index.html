@@ -241,6 +241,17 @@
             </div>
         </section>
 
+        <!-- Rating Section -->
+        <section class="shop-section panel app-view hidden" id="rating-section">
+            <div class="shop-head">
+                <div>
+                    <p class="section-label" data-translate="ratingTitle">Рейтинг игроков</p>
+                    <h3 class="modal-title" data-translate="ratingSubtitle">Топ игроков по очкам и балансу</h3>
+                </div>
+            </div>
+            <div id="rating-list" class="rating-list"></div>
+        </section>
+
         <section class="shop-section panel app-view hidden" id="history-section">
             <div class="shop-head">
                 <div>
@@ -332,12 +343,61 @@
                 <button class="icon-btn" id="close-admin-modal" type="button" aria-label="Close">×</button>
             </div>
 
-            <div class="admin-stats-row">
+            <div class="admin-stats-row admin-stats-extended">
                 <article class="admin-stat-chip">
                     <span class="admin-stat-icon">◆</span>
                     <div>
                         <span class="admin-stat-label" data-translate="totalUsers">Пользователей</span>
                         <strong class="admin-stat-value" id="admin-total-users">1</strong>
+                    </div>
+                </article>
+                <article class="admin-stat-chip">
+                    <span class="admin-stat-icon admin-stat-icon-green">●</span>
+                    <div>
+                        <span class="admin-stat-label" data-translate="adminOnlineNow">Сейчас онлайн</span>
+                        <strong class="admin-stat-value" id="admin-online-count">0</strong>
+                    </div>
+                </article>
+                <article class="admin-stat-chip">
+                    <span class="admin-stat-icon admin-stat-icon-amber">$</span>
+                    <div>
+                        <span class="admin-stat-label" data-translate="adminTotalBalance">Общий баланс</span>
+                        <strong class="admin-stat-value" id="admin-total-balance">0 TON</strong>
+                    </div>
+                </article>
+                <article class="admin-stat-chip">
+                    <span class="admin-stat-icon admin-stat-icon-green">↑</span>
+                    <div>
+                        <span class="admin-stat-label" data-translate="adminTotalDeposits">Все пополнения</span>
+                        <strong class="admin-stat-value" id="admin-total-deposits">0 TON</strong>
+                    </div>
+                </article>
+                <article class="admin-stat-chip">
+                    <span class="admin-stat-icon admin-stat-icon-red">↓</span>
+                    <div>
+                        <span class="admin-stat-label" data-translate="adminTotalWithdrawals">Все выводы</span>
+                        <strong class="admin-stat-value" id="admin-total-withdrawals">0 TON</strong>
+                    </div>
+                </article>
+                <article class="admin-stat-chip">
+                    <span class="admin-stat-icon admin-stat-icon-purple">◇</span>
+                    <div>
+                        <span class="admin-stat-label" data-translate="adminActiveHeroes">Активных героев</span>
+                        <strong class="admin-stat-value" id="admin-total-heroes">0</strong>
+                    </div>
+                </article>
+                <article class="admin-stat-chip">
+                    <span class="admin-stat-icon admin-stat-icon-amber">▣</span>
+                    <div>
+                        <span class="admin-stat-label" data-translate="adminPendingRequests">Заявки в ожидании</span>
+                        <strong class="admin-stat-value" id="admin-pending-requests">0</strong>
+                    </div>
+                </article>
+                <article class="admin-stat-chip">
+                    <span class="admin-stat-icon admin-stat-icon-cyan">✦</span>
+                    <div>
+                        <span class="admin-stat-label" data-translate="adminTotalRnx">Всего $RNX</span>
+                        <strong class="admin-stat-value" id="admin-total-rnx">0</strong>
                     </div>
                 </article>
                 <article class="admin-stat-chip">
@@ -359,6 +419,13 @@
                     <div>
                         <span class="admin-stat-label" data-translate="accessLevel">Доступ</span>
                         <strong class="admin-stat-value" id="admin-access">Admin</strong>
+                    </div>
+                </article>
+                <article class="admin-stat-chip">
+                    <span class="admin-stat-icon admin-stat-icon-green">+</span>
+                    <div>
+                        <span class="admin-stat-label" data-translate="adminRegisteredToday">Зарег. сегодня</span>
+                        <strong class="admin-stat-value" id="admin-registered-today">0</strong>
                     </div>
                 </article>
             </div>

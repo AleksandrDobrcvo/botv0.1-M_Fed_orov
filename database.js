@@ -84,6 +84,8 @@ class GameDatabase {
             rating: { position: 0, score: 0 },
             registrationDate: new Date().toISOString(),
             heroes: [],
+            lastSeen: new Date().toISOString(),
+            isOnline: false,
             stats: {
                 minedOre: 0,
                 level: 1,
@@ -219,6 +221,8 @@ class GameDatabase {
         normalized.referralCode = normalized.referralCode || '';
         normalized.referredBy = normalized.referredBy || '';
         normalized.referralEarnings = Number(normalized.referralEarnings || 0);
+        normalized.lastSeen = normalized.lastSeen || '';
+        normalized.isOnline = Boolean(normalized.isOnline);
         return normalized;
     }
 
@@ -1399,6 +1403,49 @@ class GameDatabase {
         return Number(this.data.onlineCount || 0);
     }
 
+    updateLastSeen(userId) {
+        const now = new Date().toISOString();
+        if (!userId || String(userId) === String(this.data.user.id || '')) {
+            this.data.user.lastSeen = now;
+            this.data.user.isOnline = true;
+        } else {
+            const u = this.data.otherUsers[String(userId)];
+            if (u) { u.lastSeen = now; u.isOnline = true; }
+        }
+        this.saveData();
+    }
+
+    setUserOffline(userId) {
+        const now = new Date().toISOString();
+        if (!userId || String(userId) === String(this.data.user.id || '')) {
+            this.data.user.lastSeen = now;
+            this.data.user.isOnline = false;
+        } else {
+            const u = this.data.otherUsers[String(userId)];
+            if (u) { u.lastSeen = now; u.isOnline = false; }
+        }
+        this.saveData();
+    }
+
+    getRatingLeaderboard() {
+        const allUsers = this.getAllUsers();
+        return allUsers
+            .map((u) => ({
+                id: u.id,
+                name: u.name || 'User',
+                username: u.username || '@user',
+                score: Number(u.rating?.score || 0),
+                balance: Number(u.balanceBuy || 0) + Number(u.balanceWithdraw || 0),
+                heroes: Array.isArray(u.heroes) ? u.heroes.length : 0,
+                level: Number(u.stats?.level || 1),
+                isOnline: Boolean(u.isOnline),
+                lastSeen: u.lastSeen || '',
+                photoUrl: u.photoUrl || ''
+            }))
+            .sort((a, b) => b.score - a.score || b.balance - a.balance)
+            .map((u, i) => ({ ...u, position: i + 1 }));
+    }
+
     setOnlineCount(value) {
         this.data.onlineCount = Number(value || 0);
         this.saveData();
@@ -1619,16 +1666,40 @@ class GameDatabase {
     }
 
     getDatabaseStats() {
-        const totalUsers = 1 + Object.keys(this.data.otherUsers || {}).length;
+        const allUsers = this.getAllUsers();
+        const totalUsers = allUsers.length;
         const pendingRequests = this.getRequests().filter((item) => item.status === 'pending').length;
+        let totalBalance = 0;
+        let totalDeposits = 0;
+        let totalWithdrawals = 0;
+        let totalHeroes = 0;
+        let totalRnx = 0;
+        let registeredToday = 0;
+        const today = new Date().toISOString().slice(0, 10);
+
+        allUsers.forEach((u) => {
+            totalBalance += Number(u.balanceBuy || 0) + Number(u.balanceWithdraw || 0);
+            totalDeposits += Number(u.stats?.deposited || 0);
+            totalWithdrawals += Number(u.stats?.withdrawn || 0);
+            totalHeroes += Array.isArray(u.heroes) ? u.heroes.length : 0;
+            totalRnx += Number(u.rnxBalance || 0);
+            if (u.registrationDate && u.registrationDate.slice(0, 10) === today) registeredToday++;
+        });
+
         return {
             totalUsers,
             lastUpdated: new Date().toISOString(),
-            version: '1.2.0',
+            version: '1.3.0',
             heroOperations: this.getHeroOperations().length,
             isAdmin: this.data.user.isAdmin || false,
             pendingRequests,
-            onlineCount: this.getOnlineCount()
+            onlineCount: this.getOnlineCount(),
+            totalBalance: totalBalance.toFixed(2),
+            totalDeposits: totalDeposits.toFixed(2),
+            totalWithdrawals: totalWithdrawals.toFixed(2),
+            totalHeroes,
+            totalRnx,
+            registeredToday
         };
     }
 }

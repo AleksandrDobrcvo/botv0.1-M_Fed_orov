@@ -223,14 +223,42 @@ const LOCALES = {
         referralTitle: 'Реферальная программа',
         referralSubtitle: '3-уровневая реферальная система',
         referralCodeLabel: 'Ваш реферальный код',
-        referralCopyBtn: 'Скопировать',
+        referralLinkLabel: 'Ваша реферальная ссылка',
+        referralCopyBtn: 'Скопировать ссылку',
+        referralCopyCodeBtn: 'Скопировать код',
         referralCopied: 'Скопировано',
+        referralShareBtn: 'Поделиться',
         referralStatsTitle: 'Статистика рефералов',
         referralCountLabel: 'Приглашено',
         referralEarningsLabel: 'Заработано',
         referralLevelsTitle: 'Уровни',
         referralLevel: 'Уровень',
         referralFixedReward: 'Фикс. награда',
+        ratingTitle: 'Рейтинг игроков',
+        ratingSubtitle: 'Топ игроков по очкам и балансу',
+        ratingPosition: 'Позиция',
+        ratingScore: 'Очки',
+        ratingBalance: 'Баланс',
+        ratingHeroes: 'Герои',
+        ratingLevel: 'Уровень',
+        ratingEmpty: 'Рейтинг пока пуст.',
+        ratingYou: 'Вы',
+        adminTotalBalance: 'Общий баланс',
+        adminTotalDeposits: 'Все пополнения',
+        adminTotalWithdrawals: 'Все выводы',
+        adminActiveHeroes: 'Активных героев',
+        adminPendingRequests: 'Заявки в ожидании',
+        adminTotalRnx: 'Всего $RNX',
+        adminOnlineNow: 'Сейчас онлайн',
+        adminRegisteredToday: 'Зарег. сегодня',
+        lastSeenLabel: 'Был',
+        lastSeenOnline: 'онлайн',
+        lastSeenJustNow: 'только что',
+        lastSeenMinAgo: 'мин. назад',
+        lastSeenHourAgo: 'ч. назад',
+        lastSeenDayAgo: 'д. назад',
+        onlineStatusOnline: 'В сети',
+        onlineStatusOffline: 'Не в сети',
         promoTitle: 'Промокод',
         promoSubtitle: 'Введите промокод для получения награды',
         promoInputLabel: 'Промокод',
@@ -477,13 +505,41 @@ const LOCALES = {
         referralTitle: 'Реферальна програма',
         referralSubtitle: '3-рівнева реферальна система',
         referralCodeLabel: 'Ваш реферальний код',
-        referralCopyBtn: 'Скопіювати',
+        referralLinkLabel: 'Ваше реферальне посилання',
+        referralCopyBtn: 'Скопіювати посилання',
+        referralCopyCodeBtn: 'Скопіювати код',
         referralCopied: 'Скопійовано',
+        referralShareBtn: 'Поділитися',
         referralStatsTitle: 'Статистика рефералів',
         referralCountLabel: 'Запрошено',
         referralEarningsLabel: 'Зароблено',
         referralLevelsTitle: 'Рівні',
         referralLevel: 'Рівень',
+        ratingTitle: 'Рейтинг гравців',
+        ratingSubtitle: 'Топ гравців за очками та балансом',
+        ratingPosition: 'Позиція',
+        ratingScore: 'Очки',
+        ratingBalance: 'Баланс',
+        ratingHeroes: 'Герої',
+        ratingLevel: 'Рівень',
+        ratingEmpty: 'Рейтинг поки порожній.',
+        ratingYou: 'Ви',
+        adminTotalBalance: 'Загальний баланс',
+        adminTotalDeposits: 'Усі поповнення',
+        adminTotalWithdrawals: 'Усі виведення',
+        adminActiveHeroes: 'Активних героїв',
+        adminPendingRequests: 'Заявки в очікуванні',
+        adminTotalRnx: 'Усього $RNX',
+        adminOnlineNow: 'Зараз онлайн',
+        adminRegisteredToday: 'Зареєстр. сьогодні',
+        lastSeenLabel: 'Був',
+        lastSeenOnline: 'онлайн',
+        lastSeenJustNow: 'щойно',
+        lastSeenMinAgo: 'хв. тому',
+        lastSeenHourAgo: 'год. тому',
+        lastSeenDayAgo: 'д. тому',
+        onlineStatusOnline: 'У мережі',
+        onlineStatusOffline: 'Не в мережі',
         referralFixedReward: 'Фікс. нагорода',
         promoTitle: 'Промокод',
         promoSubtitle: 'Введіть промокод для отримання нагороди',
@@ -538,11 +594,27 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Connect to Firebase (loads cloud data, sets up real-time sync)
         await window.gameDB.initFirebase();
         await normalizeUserData();
+        // Track online status
+        window.gameDB.updateLastSeen(window.gameDB.getUser().id);
     }
 
     initializeLanguageSystem();
     initializeInteractions();
     renderApp();
+
+    // Track online/offline via visibility change
+    document.addEventListener('visibilitychange', () => {
+        if (!window.gameDB) return;
+        const uid = window.gameDB.getUser().id;
+        if (document.visibilityState === 'visible') {
+            window.gameDB.updateLastSeen(uid);
+        } else {
+            window.gameDB.setUserOffline(uid);
+        }
+    });
+    window.addEventListener('beforeunload', () => {
+        if (window.gameDB) window.gameDB.setUserOffline(window.gameDB.getUser().id);
+    });
 
     // Dismiss splash screen
     requestAnimationFrame(() => {
@@ -1123,6 +1195,7 @@ function renderApp() {
     renderHeroDetailModal();
     renderReferralSection();
     renderPromoSection();
+    renderRatingSection();
 
     populateAdminModal();
     renderAdminTabState();
@@ -1771,6 +1844,7 @@ function renderMenuDashboard() {
         { icon: '◇', title: heroText.menuHeroLedger, value: heroOps, accent: 'purple', action: () => { APP_STATE.historyFilter = 'completed'; renderHistorySection(); } },
         { icon: '▣', title: heroText.synergy, value: `${Math.round(synergy.totalBonus * 100)}%`, accent: 'green', action: () => handleNavigation('mines') },
         { icon: '●', title: menuT.referralTitle, value: user.stats?.referrals || 0, accent: 'cyan', action: () => { setActiveNavButton('tasks'); handleNavigation('referral'); } },
+        { icon: '⚔', title: menuT.ratingTitle || 'Рейтинг', value: `#${user.rating?.position || 0}`, accent: 'purple', action: () => { setActiveNavButton('tasks'); handleNavigation('rating'); } },
         { icon: '◆', title: menuT.promoTitle, value: '→', accent: 'amber', action: () => openPromoCodeModal() }
     ];
 
@@ -2366,14 +2440,17 @@ function renderAdminUsersList() {
     users.forEach((user) => {
         const effectiveId = user.id || '__current__';
         const isCurrentUser = String(effectiveId) === String(window.gameDB.getUser().id || '');
+        const onlineStatus = formatLastSeen(user.lastSeen, user.isOnline);
+        const onlineDot = user.isOnline ? '<span class="online-dot online-dot-active"></span>' : '<span class="online-dot"></span>';
         const card = document.createElement('div');
         card.className = 'user-card';
         card.innerHTML = `
             <div class="user-card-head">
                 <div>
-                    <div class="user-card-name">${user.name || 'User'}</div>
+                    <div class="user-card-name">${onlineDot} ${user.name || 'User'}</div>
                     <div class="user-card-meta">ID ${user.id || '-'} · ${user.username || '@user'}</div>
                     <div class="user-card-meta">${Number(user.balanceBuy || 0).toFixed(2)} TON · ${getTranslations().levelLabel}: ${user.stats?.level || 1}</div>
+                    <div class="user-card-meta user-card-last-seen">${onlineStatus}</div>
                 </div>
                 <span class="status-chip ${user.isAdmin ? 'approved' : 'pending'}">${user.isAdmin ? t.accessAdmin : t.accessUser}</span>
             </div>
@@ -2994,6 +3071,11 @@ function openAdminCreatePromoModal() {
     });
 }
 
+function getReferralBotLink(referralCode) {
+    const botUsername = (window.DB_CONFIG && window.DB_CONFIG.botUsername) || 'YourBotUsername';
+    return `https://t.me/${botUsername}?start=ref_${referralCode}`;
+}
+
 function renderReferralSection() {
     const container = document.getElementById('referral-content');
     if (!container || !window.gameDB) return;
@@ -3007,17 +3089,37 @@ function renderReferralSection() {
         window.gameDB.generateReferralCode(user.id || '__current__');
     }
     const freshUser = window.gameDB.getUser();
+    const refCode = freshUser.referralCode || '';
+    const refLink = refCode ? getReferralBotLink(refCode) : '';
 
     const levelsHtml = (config.levels || []).map((lvl) =>
         `<div class="summary-row"><span>${t.referralLevel} ${lvl.level}</span><strong>${lvl.percentage}%</strong></div>`
     ).join('');
 
     container.innerHTML = `
-        <div class="referral-code-block">
-            <div class="info-card">
+        <div class="referral-link-block">
+            <div class="info-card referral-link-card">
+                <span class="info-label">${t.referralLinkLabel || t.referralCodeLabel}</span>
+                <div class="referral-link-display" id="referral-link-display">${refLink || '—'}</div>
+                <div class="referral-actions-row">
+                    <button class="action-btn referral-copy-btn" id="referral-copy-link-btn" type="button">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                        ${t.referralCopyBtn || 'Скопировать'}
+                    </button>
+                    <button class="action-btn referral-share-btn" id="referral-share-btn" type="button">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+                        ${t.referralShareBtn || 'Поделиться'}
+                    </button>
+                </div>
+            </div>
+            <div class="referral-code-mini">
                 <span class="info-label">${t.referralCodeLabel}</span>
-                <strong class="info-value referral-code-value" id="referral-code-display">${freshUser.referralCode || '—'}</strong>
-                <button class="action-btn referral-copy-btn" id="referral-copy-btn" type="button">${t.referralCopyBtn}</button>
+                <div class="referral-code-row">
+                    <strong class="referral-code-value" id="referral-code-display">${refCode || '—'}</strong>
+                    <button class="referral-code-copy-mini" id="referral-copy-code-btn" type="button" title="${t.referralCopyCodeBtn || 'Скопировать код'}">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                    </button>
+                </div>
             </div>
         </div>
         <div class="stats-grid referral-stats">
@@ -3037,12 +3139,34 @@ function renderReferralSection() {
         </div>
     `;
 
-    const copyBtn = document.getElementById('referral-copy-btn');
-    if (copyBtn) {
-        copyBtn.addEventListener('click', () => {
-            const code = freshUser.referralCode || '';
-            if (code && navigator.clipboard) {
-                navigator.clipboard.writeText(code).then(() => showNotification(t.referralCopied, 'success'));
+    const copyLinkBtn = document.getElementById('referral-copy-link-btn');
+    if (copyLinkBtn) {
+        copyLinkBtn.addEventListener('click', () => {
+            if (refLink && navigator.clipboard) {
+                navigator.clipboard.writeText(refLink).then(() => showNotification(t.referralCopied, 'success'));
+            }
+        });
+    }
+
+    const copyCodeBtn = document.getElementById('referral-copy-code-btn');
+    if (copyCodeBtn) {
+        copyCodeBtn.addEventListener('click', () => {
+            if (refCode && navigator.clipboard) {
+                navigator.clipboard.writeText(refCode).then(() => showNotification(t.referralCopied, 'success'));
+            }
+        });
+    }
+
+    const shareBtn = document.getElementById('referral-share-btn');
+    if (shareBtn) {
+        shareBtn.addEventListener('click', () => {
+            if (!refLink) return;
+            if (window.Telegram && window.Telegram.WebApp && typeof window.Telegram.WebApp.switchInlineQuery === 'function') {
+                window.Telegram.WebApp.switchInlineQuery(refLink, ['users']);
+            } else if (navigator.share) {
+                navigator.share({ text: refLink }).catch(() => {});
+            } else if (navigator.clipboard) {
+                navigator.clipboard.writeText(refLink).then(() => showNotification(t.referralCopied, 'success'));
             }
         });
     }
@@ -3080,6 +3204,52 @@ function renderPromoSection() {
     }
 }
 
+function renderRatingSection() {
+    const container = document.getElementById('rating-list');
+    if (!container || !window.gameDB) return;
+
+    const t = getTranslations();
+    const locale = LANGUAGE_TO_LOCALE[getCurrentLanguage()] || 'ru-RU';
+    const leaderboard = window.gameDB.getRatingLeaderboard();
+    const currentUserId = String(window.gameDB.getUser().id || '');
+
+    container.innerHTML = '';
+
+    if (!leaderboard.length) {
+        const empty = document.createElement('div');
+        empty.className = 'request-card';
+        empty.textContent = t.ratingEmpty || 'Рейтинг пока пуст.';
+        container.appendChild(empty);
+        return;
+    }
+
+    leaderboard.forEach((entry) => {
+        const isYou = String(entry.id) === currentUserId;
+        const onlineStatus = formatLastSeen(entry.lastSeen, entry.isOnline);
+        const onlineDot = entry.isOnline ? '<span class="online-dot online-dot-active"></span>' : '<span class="online-dot"></span>';
+        const positionClass = entry.position <= 3 ? `rating-top-${entry.position}` : '';
+        const youBadge = isYou ? `<span class="rating-you-badge">${t.ratingYou || 'Вы'}</span>` : '';
+
+        const card = document.createElement('div');
+        card.className = `rating-card ${positionClass} ${isYou ? 'rating-card-you' : ''} rating-card-enter`;
+        card.style.animationDelay = `${entry.position * 0.04}s`;
+        card.innerHTML = `
+            <div class="rating-position">${entry.position <= 3 ? ['🥇', '🥈', '🥉'][entry.position - 1] : `#${entry.position}`}</div>
+            <div class="rating-info">
+                <div class="rating-name">${onlineDot} ${entry.name} ${youBadge}</div>
+                <div class="rating-meta">${entry.username} · ${onlineStatus}</div>
+            </div>
+            <div class="rating-stats-col">
+                <div class="rating-stat-row"><span>${t.ratingScore || 'Очки'}</span><strong>${formatNumber(entry.score, locale)}</strong></div>
+                <div class="rating-stat-row"><span>${t.ratingBalance || 'Баланс'}</span><strong>${entry.balance.toFixed(2)} TON</strong></div>
+                <div class="rating-stat-row"><span>${t.ratingHeroes || 'Герои'}</span><strong>${entry.heroes}</strong></div>
+                <div class="rating-stat-row"><span>${t.ratingLevel || 'Уровень'}</span><strong>${entry.level}</strong></div>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+}
+
 function handleNavigation(type) {
     const shopSection = document.getElementById('shop-section');
     const profileSection = document.querySelector('.profile-panel');
@@ -3088,6 +3258,7 @@ function handleNavigation(type) {
     const historySection = document.getElementById('history-section');
     const auditSection = document.getElementById('audit-section');
     const referralSection = document.getElementById('referral-section');
+    const ratingSection = document.getElementById('rating-section');
 
     // Hide main panels
     if (shopSection) shopSection.classList.add('hidden');
@@ -3097,6 +3268,7 @@ function handleNavigation(type) {
     if (historySection) historySection.classList.add('hidden');
     if (auditSection) auditSection.classList.add('hidden');
     if (referralSection) referralSection.classList.add('hidden');
+    if (ratingSection) ratingSection.classList.add('hidden');
 
     if (type === 'profile') {
         if (profileSection) showAppView(profileSection);
@@ -3133,6 +3305,14 @@ function handleNavigation(type) {
             showAppView(referralSection);
             renderReferralSection();
             renderPromoSection();
+        }
+        return;
+    }
+
+    if (type === 'rating') {
+        if (ratingSection) {
+            showAppView(ratingSection);
+            renderRatingSection();
         }
         return;
     }
@@ -3194,6 +3374,14 @@ function populateAdminModal() {
     setText('admin-last-updated', new Date(stats.lastUpdated).toLocaleString(locale));
     setText('admin-version', stats.version);
     setText('admin-access', stats.isAdmin ? t.accessAdmin : t.accessUser);
+    setText('admin-online-count', formatNumber(stats.onlineCount, locale));
+    setText('admin-total-balance', `${stats.totalBalance} TON`);
+    setText('admin-total-deposits', `${stats.totalDeposits} TON`);
+    setText('admin-total-withdrawals', `${stats.totalWithdrawals} TON`);
+    setText('admin-total-heroes', formatNumber(stats.totalHeroes, locale));
+    setText('admin-pending-requests', formatNumber(stats.pendingRequests, locale));
+    setText('admin-total-rnx', formatNumber(stats.totalRnx, locale));
+    setText('admin-registered-today', formatNumber(stats.registeredToday, locale));
     renderFinanceSummary();
     renderAdminUsersList();
     renderAdminRequestList();
@@ -3329,6 +3517,22 @@ function formatRegistrationDate(value, locale) {
     }
 
     return value;
+}
+
+function formatLastSeen(isoDate, isOnline) {
+    const t = getTranslations();
+    if (isOnline) return t.onlineStatusOnline || 'В сети';
+    if (!isoDate) return t.onlineStatusOffline || 'Не в сети';
+    const now = Date.now();
+    const then = new Date(isoDate).getTime();
+    const diff = Math.max(0, now - then);
+    const mins = Math.floor(diff / 60000);
+    if (mins < 1) return t.lastSeenJustNow || 'только что';
+    if (mins < 60) return `${mins} ${t.lastSeenMinAgo || 'мин. назад'}`;
+    const hours = Math.floor(mins / 60);
+    if (hours < 24) return `${hours} ${t.lastSeenHourAgo || 'ч. назад'}`;
+    const days = Math.floor(hours / 24);
+    return `${days} ${t.lastSeenDayAgo || 'д. назад'}`;
 }
 
 function getInitials(name, username) {
