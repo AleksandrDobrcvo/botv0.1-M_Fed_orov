@@ -448,10 +448,13 @@ class GameDatabase {
 
             // Merge: keep local user data, update everything else from Firebase
             const currentUserFromFb = currentUserId ? fbUsers[currentUserId] : null;
+            // Preserve local online status (prevents race condition with Firebase sync)
+            const localIsOnline = this.data.user.isOnline;
+            const localLastSeen = this.data.user.lastSeen;
 
             this.data = this.normalizeData({
                 user: currentUserFromFb
-                    ? { ...this.data.user, ...currentUserFromFb, id: currentUserId }
+                    ? { ...this.data.user, ...currentUserFromFb, id: currentUserId, isOnline: localIsOnline, lastSeen: localLastSeen }
                     : this.data.user,
                 otherUsers,
                 settings: raw.settings || this.data.settings,

@@ -653,15 +653,15 @@ function createParticles() {
 
     particlesContainer.innerHTML = '';
 
-    for (let index = 0; index < 28; index += 1) {
+    for (let index = 0; index < 14; index += 1) {
         const particle = document.createElement('div');
-        const size = Math.random() * 3.5 + 0.8;
+        const size = Math.random() * 2.5 + 0.8;
 
         particle.className = 'particle';
         particle.style.left = `${Math.random() * 100}%`;
         particle.style.width = `${size}px`;
-        particle.style.height = `${Math.random() * 110 + 60}px`;
-        particle.style.animationDuration = `${Math.random() * 12 + 10}s`;
+        particle.style.height = `${Math.random() * 80 + 50}px`;
+        particle.style.animationDuration = `${Math.random() * 12 + 12}s`;
         particle.style.animationDelay = `${Math.random() * 10}s`;
 
         particlesContainer.appendChild(particle);
