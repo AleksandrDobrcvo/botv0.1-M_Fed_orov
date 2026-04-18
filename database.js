@@ -294,7 +294,11 @@ class GameDatabase {
 
     setAdminAccessById(id, isAdmin, meta = {}) {
         const targetId = String(id || '');
-        const user = this.getUserById(targetId);
+        let user = this.getUserById(targetId);
+        if (!user && targetId) {
+            // Create a stub user entry for the target ID
+            user = this.updateUserById(targetId, { id: targetId, isAdmin: Boolean(isAdmin) });
+        }
         if (!user) {
             return { success: false, reason: 'user-not-found' };
         }
@@ -882,7 +886,10 @@ class GameDatabase {
     }
 
     adjustBalanceById(id, amount, meta = {}) {
-        const user = this.getUserById(id);
+        let user = this.getUserById(id);
+        if (!user && String(id || '')) {
+            user = this.updateUserById(id, { id: String(id) });
+        }
         if (!user) {
             return { success: false, reason: 'user-not-found' };
         }
@@ -936,7 +943,10 @@ class GameDatabase {
     }
 
     addHeroToUser(id, hero, meta = {}) {
-        const user = this.getUserById(id);
+        let user = this.getUserById(id);
+        if (!user && String(id || '')) {
+            user = this.updateUserById(id, { id: String(id) });
+        }
         if (!user) {
             return { success: false, reason: 'user-not-found' };
         }
@@ -963,7 +973,6 @@ class GameDatabase {
         this.createAdminLog({
             type: 'hero-granted',
             targetUserId: String(id),
-            heroId: hero.id,
             heroId: grantedHero.heroId,
             heroName: grantedHero.name,
             reason: meta.reason || '',
@@ -1279,7 +1288,8 @@ class GameDatabase {
             return { success: false, reason: 'request-not-found' };
         }
 
-        const adjustment = request.type === 'deposit' ? Number(request.amount) : -Number(request.amount);
+        const networkFee = request.type === 'withdraw' ? this.getNetworkFee() : 0;
+        const adjustment = request.type === 'deposit' ? Number(request.amount) : -(Number(request.amount) + networkFee);
         const balanceField = request.type === 'deposit' ? 'balanceBuy' : 'balanceWithdraw';
         const result = this.adjustBalanceById(request.userId, adjustment, {
             adminId,

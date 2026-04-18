@@ -213,6 +213,7 @@ const LOCALES = {
         supportStatusDone: 'Статус тикета обновлён',
         balanceBuyLabel: 'Баланс покупки',
         balanceWithdrawLabel: 'Баланс вывода',
+        balanceFieldLabel: 'Кошелёк',
         rnxBalanceLabel: 'Баланс $RNX',
         exchangeTitle: 'Обмен $RNX → TON',
         exchangeButton: 'Обменять',
@@ -468,6 +469,7 @@ const LOCALES = {
         supportStatusDone: 'Статус тікета оновлено',
         balanceBuyLabel: 'Баланс покупки',
         balanceWithdrawLabel: 'Баланс виведення',
+        balanceFieldLabel: 'Гаманець',
         rnxBalanceLabel: 'Баланс $RNX',
         exchangeTitle: 'Обмін $RNX → TON',
         exchangeButton: 'Обміняти',
@@ -758,6 +760,9 @@ function initializeInteractions() {
                 return;
             }
 
+            localStorage.removeItem('gameData');
+            window.gameDB.loadData();
+            initializeTelegramWebApp();
             normalizeUserData().then(() => {
                 renderApp();
                 closeAdminModal();
@@ -2538,6 +2543,16 @@ function openAdminBalanceModal(mode, presetTargetId = '') {
         sectionLabel: t.modalSectionAdmin,
         fields: [
             { name: 'target', label: t.targetUserLabel, type: 'text', placeholder: t.targetUserPlaceholder, value: presetTargetId || '' },
+            {
+                name: 'balanceField',
+                label: t.balanceFieldLabel || 'Кошелёк',
+                type: 'select',
+                value: 'balanceBuy',
+                options: [
+                    { value: 'balanceBuy', label: t.balanceBuyLabel },
+                    { value: 'balanceWithdraw', label: t.balanceWithdrawLabel }
+                ]
+            },
             { name: 'amount', label: t.amountLabel, type: 'number', placeholder: isAdd ? '100' : '50', required: true },
             { name: 'reason', label: t.reasonLabel, type: 'textarea', placeholder: '' }
         ],
@@ -2551,6 +2566,7 @@ function openAdminBalanceModal(mode, presetTargetId = '') {
             const result = window.gameDB.adjustBalanceById(targetId, isAdd ? amount : -amount, {
                 adminId: window.gameDB.getUser().id,
                 reason: values.reason,
+                balanceField: values.balanceField || 'balanceBuy',
                 countAsDeposit: isAdd,
                 countAsWithdraw: !isAdd
             });
