@@ -1731,6 +1731,10 @@ body.telegram-webapp .admin-actions-wrap {
     overflow-y: auto;
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
+    background: linear-gradient(180deg, rgba(18, 29, 47, 0.97), rgba(10, 18, 30, 0.95));
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    backdrop-filter: none;
     transform: translateY(24px) scale(0.97);
     opacity: 0;
     transition: transform 0.4s var(--transition-smooth), opacity 0.3s ease;
@@ -3047,14 +3051,7 @@ body.telegram-webapp .hero-img {
     100% { transform: scale(1); }
 }
 
-.modal-card {
-    animation: modalSlideUp 0.38s var(--transition-smooth);
-}
 
-@keyframes modalSlideUp {
-    0% { opacity: 0; transform: translateY(40px) scale(0.95); }
-    100% { opacity: 1; transform: translateY(0) scale(1); }
-}
 
 .toast {
     animation: toastSlideIn 0.4s var(--transition-smooth);
