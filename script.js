@@ -899,6 +899,8 @@ function initializeInteractions() {
     if (formModal) {
         formModal.addEventListener('click', (event) => {
             if (event.target === formModal) {
+                const openedAt = Number(formModal.dataset.openedAt || 0);
+                if (Date.now() - openedAt < 400) return;
                 closeFormModal();
             }
         });
@@ -1037,6 +1039,7 @@ function initializeInteractions() {
         };
 
         modal.classList.remove('hidden');
+        modal.dataset.openedAt = String(Date.now());
         syncModalState();
     };
 
