@@ -1694,6 +1694,7 @@ class GameDatabase {
             isAdmin: this.data.user.isAdmin || false,
             pendingRequests,
             onlineCount: this.getOnlineCount(),
+            realOnlineCount: allUsers.filter(u => Boolean(u.isOnline)).length,
             totalBalance: totalBalance.toFixed(2),
             totalDeposits: totalDeposits.toFixed(2),
             totalWithdrawals: totalWithdrawals.toFixed(2),

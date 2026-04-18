@@ -653,16 +653,16 @@ function createParticles() {
 
     particlesContainer.innerHTML = '';
 
-    for (let index = 0; index < 16; index += 1) {
+    for (let index = 0; index < 28; index += 1) {
         const particle = document.createElement('div');
-        const size = Math.random() * 3 + 1;
+        const size = Math.random() * 3.5 + 0.8;
 
         particle.className = 'particle';
         particle.style.left = `${Math.random() * 100}%`;
         particle.style.width = `${size}px`;
-        particle.style.height = `${Math.random() * 90 + 90}px`;
-        particle.style.animationDuration = `${Math.random() * 10 + 14}s`;
-        particle.style.animationDelay = `${Math.random() * 8}s`;
+        particle.style.height = `${Math.random() * 110 + 60}px`;
+        particle.style.animationDuration = `${Math.random() * 12 + 10}s`;
+        particle.style.animationDelay = `${Math.random() * 10}s`;
 
         particlesContainer.appendChild(particle);
     }
@@ -1051,7 +1051,6 @@ function initializeInteractions() {
     const adminSubBtn = document.getElementById('admin-subtract-balance');
     const adminGrantHeroBtn = document.getElementById('admin-grant-hero');
     const adminGrantAccessBtn = document.getElementById('admin-grant-access');
-    const adminOnlineBtn = document.getElementById('admin-online-edit');
     const adminFinanceSettingsBtn = document.getElementById('admin-finance-settings');
     const adminAddTaskBtn = document.getElementById('admin-add-task');
 
@@ -1059,7 +1058,6 @@ function initializeInteractions() {
     if (adminSubBtn) adminSubBtn.addEventListener('click', () => openAdminBalanceModal('subtract'));
     if (adminGrantHeroBtn) adminGrantHeroBtn.addEventListener('click', openGrantHeroModal);
     if (adminGrantAccessBtn) adminGrantAccessBtn.addEventListener('click', () => openAdminAccessModal());
-    if (adminOnlineBtn) adminOnlineBtn.addEventListener('click', openOnlineEditModal);
     if (adminFinanceSettingsBtn) adminFinanceSettingsBtn.addEventListener('click', openFinanceSettingsModal);
     if (adminAddTaskBtn) adminAddTaskBtn.addEventListener('click', openAddTaskModal);
     if (adminOpenAuditBtn) adminOpenAuditBtn.addEventListener('click', openAuditScreen);
@@ -1143,7 +1141,6 @@ function renderApp() {
     setText('admin-subtract-balance', t.adminSubtractBalanceButton);
     setText('admin-grant-hero', t.adminGrantHeroButton);
     setText('admin-grant-access', t.adminGrantAccessButton);
-    setText('admin-online-edit', t.adminOnlineButton);
     setText('admin-finance-settings', t.manageFinanceTitle);
     setText('admin-add-task', t.addTaskTitle);
     setText('admin-create-promo', t.adminCreatePromoBtn);
@@ -1180,9 +1177,10 @@ function renderApp() {
         }
     }
 
-    if (window.gameDB && typeof window.gameDB.getOnlineCount === 'function') {
+    if (window.gameDB && typeof window.gameDB.getDatabaseStats === 'function') {
         const onlineEl = document.getElementById('online-value');
-        if (onlineEl) onlineEl.textContent = String(window.gameDB.getOnlineCount() || 0);
+        const stats = window.gameDB.getDatabaseStats();
+        if (onlineEl) onlineEl.textContent = String(stats.realOnlineCount || 0);
     }
 
     renderUserRequests();
@@ -3072,8 +3070,7 @@ function openAdminCreatePromoModal() {
 }
 
 function getReferralBotLink(referralCode) {
-    const botUsername = (window.DB_CONFIG && window.DB_CONFIG.botUsername) || 'YourBotUsername';
-    return `https://t.me/${botUsername}?start=ref_${referralCode}`;
+    return `https://t.me/RoboNexusBot?start=ref_${referralCode}`;
 }
 
 function renderReferralSection() {
@@ -3099,7 +3096,7 @@ function renderReferralSection() {
     container.innerHTML = `
         <div class="referral-link-block">
             <div class="info-card referral-link-card">
-                <span class="info-label">${t.referralLinkLabel || t.referralCodeLabel}</span>
+                <span class="info-label">${t.referralLinkLabel || 'Реферальная ссылка'}</span>
                 <div class="referral-link-display" id="referral-link-display">${refLink || '—'}</div>
                 <div class="referral-actions-row">
                     <button class="action-btn referral-copy-btn" id="referral-copy-link-btn" type="button">
@@ -3109,15 +3106,6 @@ function renderReferralSection() {
                     <button class="action-btn referral-share-btn" id="referral-share-btn" type="button">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
                         ${t.referralShareBtn || 'Поделиться'}
-                    </button>
-                </div>
-            </div>
-            <div class="referral-code-mini">
-                <span class="info-label">${t.referralCodeLabel}</span>
-                <div class="referral-code-row">
-                    <strong class="referral-code-value" id="referral-code-display">${refCode || '—'}</strong>
-                    <button class="referral-code-copy-mini" id="referral-copy-code-btn" type="button" title="${t.referralCopyCodeBtn || 'Скопировать код'}">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
                     </button>
                 </div>
             </div>
@@ -3144,15 +3132,6 @@ function renderReferralSection() {
         copyLinkBtn.addEventListener('click', () => {
             if (refLink && navigator.clipboard) {
                 navigator.clipboard.writeText(refLink).then(() => showNotification(t.referralCopied, 'success'));
-            }
-        });
-    }
-
-    const copyCodeBtn = document.getElementById('referral-copy-code-btn');
-    if (copyCodeBtn) {
-        copyCodeBtn.addEventListener('click', () => {
-            if (refCode && navigator.clipboard) {
-                navigator.clipboard.writeText(refCode).then(() => showNotification(t.referralCopied, 'success'));
             }
         });
     }
@@ -3374,7 +3353,7 @@ function populateAdminModal() {
     setText('admin-last-updated', new Date(stats.lastUpdated).toLocaleString(locale));
     setText('admin-version', stats.version);
     setText('admin-access', stats.isAdmin ? t.accessAdmin : t.accessUser);
-    setText('admin-online-count', formatNumber(stats.onlineCount, locale));
+    setText('admin-online-count', formatNumber(stats.realOnlineCount, locale));
     setText('admin-total-balance', `${stats.totalBalance} TON`);
     setText('admin-total-deposits', `${stats.totalDeposits} TON`);
     setText('admin-total-withdrawals', `${stats.totalWithdrawals} TON`);

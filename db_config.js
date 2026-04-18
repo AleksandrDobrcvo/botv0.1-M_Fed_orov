@@ -4,7 +4,7 @@
 
 window.DB_CONFIG = {
   adminIds: ['6029312631'], // <-- замените на ваш Telegram ID
-  botUsername: 'YourBotUsername', // <-- замените на username вашего бота (без @)
+  botUsername: 'RoboNexusBot', // username бота
   // Firebase Realtime Database configuration
   firebase: {
     apiKey: "AIzaSyAqsy3xVkqvIwJ-Kn8zHP2hIeQrd7dYTC4",
