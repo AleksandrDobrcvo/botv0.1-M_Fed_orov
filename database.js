@@ -1,7 +1,11 @@
-// Database simulation for Telegram WebApp Game
+// Database for Telegram WebApp Game — Firebase Realtime Database + localStorage cache
 class GameDatabase {
     constructor() {
         this.adminIds = (window.DB_CONFIG && Array.isArray(window.DB_CONFIG.adminIds)) ? window.DB_CONFIG.adminIds : ['123456789', '987654321'];
+        this._firebaseRef = null;
+        this._firebaseReady = false;
+        this._saveTimer = null;
+        this._syncing = false;
         this.defaultData = {
             user: this.createBaseUser(),
             settings: {
@@ -68,6 +72,7 @@ class GameDatabase {
             id: '',
             username: '@user',
             name: 'User',
+            photoUrl: '',
             isAdmin: false,
             balance: 0,
             balanceBuy: 0,
@@ -273,7 +278,6 @@ class GameDatabase {
         try {
             const savedData = localStorage.getItem('gameData');
             this.data = savedData ? this.normalizeData(JSON.parse(savedData)) : this.normalizeData();
-            this.saveData();
         } catch (error) {
             console.error('Error loading data:', error);
             this.data = this.normalizeData();
@@ -284,8 +288,189 @@ class GameDatabase {
         try {
             localStorage.setItem('gameData', JSON.stringify(this.data));
         } catch (error) {
-            console.error('Error saving data:', error);
+            console.error('Error saving to localStorage:', error);
         }
+        this._debouncedFirebaseSave();
+    }
+
+    // ── Firebase integration ──────────────────────────────────────
+
+    async initFirebase() {
+        const cfg = window.DB_CONFIG && window.DB_CONFIG.firebase;
+        if (!cfg || !cfg.databaseURL || typeof firebase === 'undefined') {
+            console.warn('Firebase not configured — using localStorage only');
+            return;
+        }
+
+        try {
+            if (!firebase.apps.length) {
+                firebase.initializeApp(cfg);
+            }
+            this._firebaseRef = firebase.database().ref();
+            this._firebaseReady = true;
+
+            // Load data from Firebase (merge with local cache)
+            await this._loadFromFirebase();
+
+            // Setup real-time listener for changes from other clients
+            this._setupFirebaseListeners();
+
+            console.log('Firebase connected');
+        } catch (error) {
+            console.error('Firebase init error:', error);
+            this._firebaseReady = false;
+        }
+    }
+
+    async _loadFromFirebase() {
+        if (!this._firebaseRef) return;
+
+        try {
+            const snapshot = await this._firebaseRef.once('value');
+            const raw = snapshot.val();
+            if (!raw) {
+                // Firebase is empty — push current local data as initial seed
+                await this._pushToFirebase();
+                return;
+            }
+
+            const currentUserId = String(this.data.user.id || '');
+
+            // Reconstruct data from Firebase structure
+            const fbUsers = raw.users || {};
+            const currentUserFromFb = currentUserId ? fbUsers[currentUserId] : null;
+            const otherUsers = {};
+
+            Object.entries(fbUsers).forEach(([key, val]) => {
+                if (key !== currentUserId && val) {
+                    otherUsers[key] = val;
+                }
+            });
+
+            const mergedData = {
+                user: currentUserFromFb
+                    ? { ...this.data.user, ...currentUserFromFb, id: currentUserId }
+                    : this.data.user,
+                otherUsers,
+                settings: raw.settings || this.data.settings,
+                onlineCount: raw.onlineCount != null ? raw.onlineCount : this.data.onlineCount,
+                requests: Array.isArray(raw.requests) ? raw.requests : (this.data.requests || []),
+                adminLog: Array.isArray(raw.adminLog) ? raw.adminLog : (this.data.adminLog || []),
+                notifications: Array.isArray(raw.notifications) ? raw.notifications : (this.data.notifications || []),
+                supportTickets: Array.isArray(raw.supportTickets) ? raw.supportTickets : (this.data.supportTickets || []),
+                financeOperations: Array.isArray(raw.financeOperations) ? raw.financeOperations : (this.data.financeOperations || []),
+                heroOperations: Array.isArray(raw.heroOperations) ? raw.heroOperations : (this.data.heroOperations || []),
+                finance: raw.finance || this.data.finance,
+                referralConfig: raw.referralConfig || this.data.referralConfig,
+                promoCodes: Array.isArray(raw.promoCodes) ? raw.promoCodes : (this.data.promoCodes || []),
+                tasks: Array.isArray(raw.tasks) ? raw.tasks : (this.data.tasks || [])
+            };
+
+            this.data = this.normalizeData(mergedData);
+            localStorage.setItem('gameData', JSON.stringify(this.data));
+        } catch (error) {
+            console.error('Firebase load error:', error);
+        }
+    }
+
+    async _pushToFirebase() {
+        if (!this._firebaseRef) return;
+
+        try {
+            this._syncing = true;
+            const updates = this._buildFirebaseUpdates();
+            await this._firebaseRef.update(updates);
+        } catch (error) {
+            console.error('Firebase push error:', error);
+        } finally {
+            setTimeout(() => { this._syncing = false; }, 300);
+        }
+    }
+
+    _buildFirebaseUpdates() {
+        const userId = String(this.data.user.id || '');
+        const updates = {};
+
+        if (userId) {
+            updates[`users/${userId}`] = this.data.user;
+        }
+
+        // Include other users modified by admin
+        Object.entries(this.data.otherUsers || {}).forEach(([key, val]) => {
+            if (key && val) updates[`users/${key}`] = val;
+        });
+
+        updates['settings'] = this.data.settings || null;
+        updates['onlineCount'] = this.data.onlineCount || 0;
+        updates['requests'] = this.data.requests || [];
+        updates['adminLog'] = this.data.adminLog || [];
+        updates['notifications'] = this.data.notifications || [];
+        updates['supportTickets'] = this.data.supportTickets || [];
+        updates['financeOperations'] = this.data.financeOperations || [];
+        updates['heroOperations'] = this.data.heroOperations || [];
+        updates['finance'] = this.data.finance || null;
+        updates['referralConfig'] = this.data.referralConfig || null;
+        updates['promoCodes'] = this.data.promoCodes || [];
+        updates['tasks'] = this.data.tasks || [];
+
+        return updates;
+    }
+
+    _debouncedFirebaseSave() {
+        if (!this._firebaseReady) return;
+        clearTimeout(this._saveTimer);
+        this._saveTimer = setTimeout(() => {
+            this._pushToFirebase();
+        }, 500);
+    }
+
+    _setupFirebaseListeners() {
+        if (!this._firebaseRef) return;
+
+        this._firebaseRef.on('value', (snapshot) => {
+            if (this._syncing) return;
+            const raw = snapshot.val();
+            if (!raw) return;
+
+            const currentUserId = String(this.data.user.id || '');
+            const fbUsers = raw.users || {};
+            const otherUsers = {};
+
+            Object.entries(fbUsers).forEach(([key, val]) => {
+                if (key !== currentUserId && val) {
+                    otherUsers[key] = val;
+                }
+            });
+
+            // Merge: keep local user data, update everything else from Firebase
+            const currentUserFromFb = currentUserId ? fbUsers[currentUserId] : null;
+
+            this.data = this.normalizeData({
+                user: currentUserFromFb
+                    ? { ...this.data.user, ...currentUserFromFb, id: currentUserId }
+                    : this.data.user,
+                otherUsers,
+                settings: raw.settings || this.data.settings,
+                onlineCount: raw.onlineCount != null ? raw.onlineCount : this.data.onlineCount,
+                requests: Array.isArray(raw.requests) ? raw.requests : this.data.requests,
+                adminLog: Array.isArray(raw.adminLog) ? raw.adminLog : this.data.adminLog,
+                notifications: Array.isArray(raw.notifications) ? raw.notifications : this.data.notifications,
+                supportTickets: Array.isArray(raw.supportTickets) ? raw.supportTickets : this.data.supportTickets,
+                financeOperations: Array.isArray(raw.financeOperations) ? raw.financeOperations : this.data.financeOperations,
+                heroOperations: Array.isArray(raw.heroOperations) ? raw.heroOperations : this.data.heroOperations,
+                finance: raw.finance || this.data.finance,
+                referralConfig: raw.referralConfig || this.data.referralConfig,
+                promoCodes: Array.isArray(raw.promoCodes) ? raw.promoCodes : this.data.promoCodes,
+                tasks: Array.isArray(raw.tasks) ? raw.tasks : this.data.tasks
+            });
+
+            localStorage.setItem('gameData', JSON.stringify(this.data));
+
+            // Auto-refresh UI when data changes from another client
+            if (typeof renderApp === 'function') {
+                try { renderApp(); } catch (e) { /* silent */ }
+            }
+        });
     }
 
     isAdmin(userId) {
@@ -1409,6 +1594,7 @@ class GameDatabase {
                 id: String(telegramUser.id),
                 username: telegramUser.username ? `@${telegramUser.username}` : this.data.user.username,
                 name: fullName || this.data.user.name,
+                photoUrl: telegramUser.photo_url || this.data.user.photoUrl || '',
                 isAdmin: this.isAdmin(String(telegramUser.id)) || this.data.user.isAdmin
             });
             this.saveData();

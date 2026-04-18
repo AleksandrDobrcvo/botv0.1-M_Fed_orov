@@ -531,11 +531,15 @@ const APP_STATE = {
 document.addEventListener('DOMContentLoaded', async () => {
     createParticles();
 
+    // Init Telegram first to get user ID
+    initializeTelegramWebApp();
+
     if (window.gameDB) {
+        // Connect to Firebase (loads cloud data, sets up real-time sync)
+        await window.gameDB.initFirebase();
         await normalizeUserData();
     }
 
-    initializeTelegramWebApp();
     initializeLanguageSystem();
     initializeInteractions();
     renderApp();
@@ -1043,6 +1047,22 @@ function renderApp() {
     setText('deposited-data', `${Number(user.stats.deposited || 0).toFixed(2)} TON`);
     setText('withdrawn-data', `${Number(user.stats.withdrawn || 0).toFixed(2)} TON`);
     setText('avatar-initials', initials);
+
+    // Show Telegram avatar if available
+    const avatarPhoto = document.getElementById('avatar-photo');
+    const avatarInitials = document.getElementById('avatar-initials');
+    const photoUrl = user.photoUrl || window.Telegram?.WebApp?.initDataUnsafe?.user?.photo_url || '';
+    if (avatarPhoto && avatarInitials) {
+        if (photoUrl) {
+            avatarPhoto.src = photoUrl;
+            avatarPhoto.classList.remove('hidden');
+            avatarInitials.classList.add('hidden');
+        } else {
+            avatarPhoto.classList.add('hidden');
+            avatarInitials.classList.remove('hidden');
+        }
+    }
+
     setText('deposit-btn', t.depositButton);
     setText('withdraw-btn', t.withdrawButton);
     setText('exchange-btn', `${t.exchangeButton} $RNX`);

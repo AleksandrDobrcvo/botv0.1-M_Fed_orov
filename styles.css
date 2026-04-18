@@ -780,6 +780,15 @@ body.telegram-webapp .section-label {
     font-weight: 700;
 }
 
+.avatar-photo {
+    position: absolute;
+    inset: 4px;
+    border-radius: 50%;
+    width: calc(100% - 8px);
+    height: calc(100% - 8px);
+    object-fit: cover;
+}
+
 .profile-meta {
     min-width: 0;
 }
