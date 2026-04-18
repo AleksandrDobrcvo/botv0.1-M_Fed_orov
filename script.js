@@ -159,9 +159,7 @@ const LOCALES = {
         accessGranted: 'Админ-доступ выдан',
         accessRevoked: 'Админ-доступ снят',
         telegramIdLabel: 'ID',
-        localDataWarning: 'Локальная база: права, онлайн и уведомления синхронизируются только в пределах этой клиентской копии без сервера.',
-        accessGrantedLocalOnly: 'Права записаны только в локальную базу этой копии приложения. На другом телефоне без backend это не появится.',
-        onlineUpdatedLocalOnly: 'Онлайн обновлён только локально в этой копии приложения. Между устройствами без backend значение не синхронизируется.'
+        adminConfigHint: 'Для постоянного доступа добавьте ID в db_config.js и сделайте git push'
         ,
         auditTitle: 'Аудит админки',
         auditSubtitle: 'Кто, когда и что менял',
@@ -415,9 +413,7 @@ const LOCALES = {
         accessGranted: 'Адмін-доступ видано',
         accessRevoked: 'Адмін-доступ знято',
         telegramIdLabel: 'ID',
-        localDataWarning: 'Локальна база: права, онлайн і сповіщення синхронізуються лише в межах цієї клієнтської копії без сервера.',
-        accessGrantedLocalOnly: 'Права записані лише в локальну базу цієї копії застосунку. На іншому телефоні без backend це не зʼявиться.',
-        onlineUpdatedLocalOnly: 'Онлайн оновлено лише локально в цій копії застосунку. Між пристроями без backend значення не синхронізується.'
+        adminConfigHint: 'Для постійного доступу додайте ID в db_config.js та зробіть git push'
         ,
         auditTitle: 'Аудит адмінки',
         auditSubtitle: 'Хто, коли і що змінював',
@@ -1060,7 +1056,6 @@ function renderApp() {
     setText('admin-add-task', t.addTaskTitle);
     setText('admin-create-promo', t.adminCreatePromoBtn);
     setText('admin-open-audit', t.auditTitle);
-    setText('admin-sim-note', t.localDataWarning);
     setText('user-detail-cancel', t.closeAction);
     setText('user-detail-edit', t.editAction);
     setText('notifications-modal-label', t.notificationsTitle);
@@ -2665,9 +2660,14 @@ function openAdminAccessModal(presetTargetId = '', presetAccess = 'enabled') {
             showNotification(nextAccess ? t.accessGranted : t.accessRevoked, 'success', {
                 title: `${t.targetUserLabel}: ${targetId}`
             });
-            showNotification(t.accessGrantedLocalOnly, 'info', {
-                title: nextAccess ? t.adminGrantAccessTitle : t.adminRevokeAccessButton
-            });
+            if (nextAccess) {
+                const currentIds = (window.DB_CONFIG && Array.isArray(window.DB_CONFIG.adminIds)) ? window.DB_CONFIG.adminIds : [];
+                const allIds = [...new Set([...currentIds, targetId])];
+                const configLine = `adminIds: [${allIds.map(id => "'" + id + "'").join(', ')}]`;
+                showNotification(`${t.adminConfigHint}: ${configLine}`, 'info', {
+                    title: 'db_config.js → git push'
+                });
+            }
         }
     });
 }
@@ -2690,9 +2690,6 @@ function openOnlineEditModal() {
             renderApp();
             showNotification(t.updatedOnline, 'success', {
                 title: `${t.onlineCountLabel}: ${Number(values.count || 0)}`
-            });
-            showNotification(t.onlineUpdatedLocalOnly, 'info', {
-                title: t.adminOnlineTitle
             });
         }
     });

@@ -2919,17 +2919,6 @@ body.telegram-webapp .hero-inline-stats span {
     gap: 12px;
 }
 
-.admin-sim-note {
-    margin-top: 14px;
-    padding: 14px 16px;
-    border-radius: 16px;
-    border: 1px solid rgba(245, 158, 11, 0.2);
-    background: linear-gradient(135deg, rgba(245,158,11,0.12), rgba(255,255,255,0.02));
-    color: #f8dfb2;
-    font-size: 13px;
-    line-height: 1.5;
-}
-
 .hero-profile-panel {
     margin-top: 2px;
 }
