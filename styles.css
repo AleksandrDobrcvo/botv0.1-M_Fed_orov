@@ -192,7 +192,8 @@ button {
 
 .bg-layer,
 .bg-grid,
-.particles,
+.bg-aurora,
+.bg-scene,
 .toast-container,
 .modal-backdrop {
     position: fixed;
@@ -207,48 +208,87 @@ button {
 
 .bg-layer-a {
     background:
-        radial-gradient(circle at 20% 15%, rgba(103, 232, 249, 0.12), transparent 35%),
-        radial-gradient(circle at 75% 25%, rgba(139, 92, 246, 0.1), transparent 30%),
-        radial-gradient(circle at 50% 80%, rgba(245, 158, 11, 0.08), transparent 35%);
+        radial-gradient(ellipse 60% 50% at 15% 10%, rgba(103, 232, 249, 0.14), transparent),
+        radial-gradient(ellipse 50% 60% at 80% 20%, rgba(139, 92, 246, 0.12), transparent),
+        radial-gradient(ellipse 40% 40% at 50% 85%, rgba(245, 158, 11, 0.08), transparent);
     animation: driftA 20s ease-in-out infinite;
 }
 
 .bg-layer-b {
     background:
-        radial-gradient(circle at 65% 15%, rgba(255, 255, 255, 0.04), transparent 20%),
-        radial-gradient(circle at 25% 70%, rgba(103, 232, 249, 0.08), transparent 30%);
+        radial-gradient(ellipse 50% 40% at 70% 15%, rgba(255, 255, 255, 0.03), transparent),
+        radial-gradient(ellipse 45% 50% at 20% 75%, rgba(103, 232, 249, 0.07), transparent);
     animation: driftB 25s ease-in-out infinite;
 }
 
-.bg-layer-c {
-    display: none;
-}
-
-.bg-orbs {
-    display: none;
+.bg-aurora {
+    pointer-events: none;
+    z-index: 0;
+    background:
+        linear-gradient(135deg, transparent 30%, rgba(103, 232, 249, 0.06) 45%, transparent 55%),
+        linear-gradient(225deg, transparent 35%, rgba(139, 92, 246, 0.05) 50%, transparent 60%);
+    filter: blur(60px);
+    opacity: 0;
+    animation: auroraWave 12s ease-in-out infinite;
 }
 
 .bg-grid {
     pointer-events: none;
-    opacity: 0.12;
+    opacity: 0.08;
     background-image:
         linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
     background-size: 36px 36px;
-    mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.8), transparent 85%);
+    mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.6), transparent 80%);
 }
 
-.particles {
+.bg-scene {
     pointer-events: none;
     z-index: 0;
+    overflow: hidden;
 }
 
-.particle {
+.bg-shape {
     position: absolute;
-    border-radius: 999px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(103, 232, 249, 0));
     opacity: 0;
-    animation: particleRise linear infinite;
+    will-change: transform, opacity;
+}
+
+.bg-shape-hex {
+    width: 28px;
+    height: 32px;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    animation: shapeFloat linear infinite;
+}
+
+.bg-shape-diamond {
+    width: 16px;
+    height: 16px;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    animation: shapeSpin linear infinite;
+}
+
+.bg-shape-ring {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1.5px solid;
+    background: transparent !important;
+    animation: shapeFloat linear infinite;
+}
+
+.bg-shape-dot {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    animation: shapePulse linear infinite;
+}
+
+.bg-shape-cross {
+    width: 14px;
+    height: 14px;
+    clip-path: polygon(35% 0%, 65% 0%, 65% 35%, 100% 35%, 100% 65%, 65% 65%, 65% 100%, 35% 100%, 35% 65%, 0% 65%, 0% 35%, 35% 35%);
+    animation: shapeSpin linear infinite;
 }
 
 .app-shell {
@@ -1662,23 +1702,26 @@ body.telegram-webapp .admin-actions-wrap {
 }
 
 .modal-backdrop {
-    display: grid;
-    place-items: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 16px;
-    z-index: 30;
+    z-index: 100;
     background: rgba(5, 9, 17, 0);
     backdrop-filter: blur(0);
-    overflow: hidden;
-    transition: background 0.35s ease, backdrop-filter 0.35s ease;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: background 0.35s ease, backdrop-filter 0.35s ease, opacity 0.3s ease, visibility 0s linear 0.35s;
 }
 
-.modal-backdrop.modal-visible {
-    background: rgba(5, 9, 17, 0.7);
-    backdrop-filter: blur(10px);
-}
-
-.modal-backdrop.hidden {
-    display: none;
+.modal-backdrop.modal-active {
+    background: rgba(5, 9, 17, 0.72);
+    backdrop-filter: blur(12px);
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    transition: background 0.35s ease, backdrop-filter 0.35s ease, opacity 0.3s ease, visibility 0s linear 0s;
 }
 
 .modal-card {
@@ -1688,12 +1731,12 @@ body.telegram-webapp .admin-actions-wrap {
     overflow-y: auto;
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
-    transform: translateY(40px) scale(0.95);
+    transform: translateY(24px) scale(0.97);
     opacity: 0;
-    transition: transform 0.4s var(--transition-smooth), opacity 0.35s ease;
+    transition: transform 0.4s var(--transition-smooth), opacity 0.3s ease;
 }
 
-.modal-visible .modal-card {
+.modal-active .modal-card {
     transform: translateY(0) scale(1);
     opacity: 1;
 }
@@ -1959,25 +2002,37 @@ body.telegram-webapp .admin-actions-wrap {
     }
 }
 
-@keyframes particleRise {
-    0% {
-        transform: translateY(100vh) scale(0.8) rotate(0deg);
-        opacity: 0;
-    }
-    10% {
-        opacity: 0.6;
-    }
-    50% {
-        opacity: 0.3;
-        transform: translateY(40vh) scale(1) rotate(180deg);
-    }
-    85% {
-        opacity: 0.1;
-    }
-    100% {
-        transform: translateY(-18vh) scale(1.1) rotate(360deg);
-        opacity: 0;
-    }
+@keyframes auroraWave {
+    0%, 100% { opacity: 0; transform: translateX(-8%) scale(1); }
+    30% { opacity: 0.7; transform: translateX(2%) scale(1.08); }
+    60% { opacity: 0.4; transform: translateX(6%) scale(1.02); }
+    80% { opacity: 0.8; transform: translateX(-2%) scale(1.1); }
+}
+
+@keyframes shapeFloat {
+    0% { transform: translateY(105vh) rotate(0deg); opacity: 0; }
+    8% { opacity: var(--shape-opacity, 0.15); }
+    50% { opacity: var(--shape-opacity, 0.15); transform: translateY(45vh) rotate(180deg); }
+    92% { opacity: 0.02; }
+    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+}
+
+@keyframes shapeSpin {
+    0% { transform: translateY(105vh) rotate(0deg) scale(0.8); opacity: 0; }
+    8% { opacity: var(--shape-opacity, 0.12); }
+    50% { opacity: var(--shape-opacity, 0.12); transform: translateY(45vh) rotate(540deg) scale(1); }
+    92% { opacity: 0.02; }
+    100% { transform: translateY(-10vh) rotate(1080deg) scale(0.8); opacity: 0; }
+}
+
+@keyframes shapePulse {
+    0% { transform: translateY(105vh) scale(0.5); opacity: 0; }
+    8% { opacity: var(--shape-opacity, 0.25); }
+    25% { transform: translateY(70vh) scale(1.4); opacity: var(--shape-opacity, 0.35); }
+    50% { transform: translateY(45vh) scale(0.8); opacity: var(--shape-opacity, 0.2); }
+    75% { transform: translateY(20vh) scale(1.2); opacity: var(--shape-opacity, 0.3); }
+    92% { opacity: 0.02; }
+    100% { transform: translateY(-10vh) scale(0.5); opacity: 0; }
 }
 
 @keyframes sectionEnter {
@@ -2296,9 +2351,9 @@ body.telegram-webapp .admin-actions-wrap {
     }
 
     .modal-backdrop {
-        place-items: end center;
+        align-items: flex-end;
+        justify-content: center;
         padding: 0;
-        overflow: hidden;
     }
 
     .modal-card,
@@ -2316,10 +2371,10 @@ body.telegram-webapp .admin-actions-wrap {
         opacity: 1;
     }
 
-    .modal-visible .modal-card,
-    .modal-visible #form-modal .modal-card,
-    .modal-visible .compact-modal-card,
-    .modal-visible .support-modal-card {
+    .modal-active .modal-card,
+    .modal-active #form-modal .modal-card,
+    .modal-active .compact-modal-card,
+    .modal-active .support-modal-card {
         transform: translateY(0);
     }
 

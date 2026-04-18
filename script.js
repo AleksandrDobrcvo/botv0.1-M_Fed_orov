@@ -585,16 +585,12 @@ const APP_STATE = {
 };
 
 document.addEventListener('DOMContentLoaded', async () => {
-    createParticles();
-
-    // Init Telegram first to get user ID
+    createBackgroundScene();
     initializeTelegramWebApp();
 
     if (window.gameDB) {
-        // Connect to Firebase (loads cloud data, sets up real-time sync)
         await window.gameDB.initFirebase();
         await normalizeUserData();
-        // Track online status
         window.gameDB.updateLastSeen(window.gameDB.getUser().id);
     }
 
@@ -602,7 +598,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     initializeInteractions();
     renderApp();
 
-    // Track online/offline via visibility change
     document.addEventListener('visibilitychange', () => {
         if (!window.gameDB) return;
         const uid = window.gameDB.getUser().id;
@@ -616,7 +611,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (window.gameDB) window.gameDB.setUserOffline(window.gameDB.getUser().id);
     });
 
-    // Dismiss splash screen
     requestAnimationFrame(() => {
         setTimeout(() => {
             const splash = document.getElementById('splash-screen');
@@ -645,27 +639,53 @@ document.addEventListener('DOMContentLoaded', async () => {
     }, 1000);
 });
 
-function createParticles() {
-    const particlesContainer = document.getElementById('particles');
-    if (!particlesContainer) {
-        return;
-    }
+function createBackgroundScene() {
+    const scene = document.getElementById('bg-scene');
+    if (!scene) return;
+    scene.innerHTML = '';
 
-    particlesContainer.innerHTML = '';
+    const shapes = [
+        { cls: 'bg-shape-hex', count: 6 },
+        { cls: 'bg-shape-diamond', count: 5 },
+        { cls: 'bg-shape-ring', count: 4 },
+        { cls: 'bg-shape-dot', count: 12 },
+        { cls: 'bg-shape-cross', count: 3 }
+    ];
 
-    for (let index = 0; index < 14; index += 1) {
-        const particle = document.createElement('div');
-        const size = Math.random() * 2.5 + 0.8;
+    const palette = [
+        'rgba(103, 232, 249, VAR)',
+        'rgba(139, 92, 246, VAR)',
+        'rgba(245, 158, 11, VAR)',
+        'rgba(52, 211, 153, VAR)',
+        'rgba(251, 113, 133, VAR)'
+    ];
 
-        particle.className = 'particle';
-        particle.style.left = `${Math.random() * 100}%`;
-        particle.style.width = `${size}px`;
-        particle.style.height = `${Math.random() * 80 + 50}px`;
-        particle.style.animationDuration = `${Math.random() * 12 + 12}s`;
-        particle.style.animationDelay = `${Math.random() * 10}s`;
+    shapes.forEach(({ cls, count }) => {
+        for (let i = 0; i < count; i++) {
+            const el = document.createElement('div');
+            el.className = `bg-shape ${cls}`;
+            const color = palette[Math.floor(Math.random() * palette.length)];
+            const opBase = cls === 'bg-shape-dot' ? 0.3 : 0.12;
+            const op = (Math.random() * 0.08 + opBase).toFixed(2);
+            const dur = (Math.random() * 20 + 18).toFixed(1);
+            const delay = (Math.random() * 20).toFixed(1);
+            const scale = (Math.random() * 0.6 + 0.7).toFixed(2);
 
-        particlesContainer.appendChild(particle);
-    }
+            el.style.left = `${Math.random() * 96 + 2}%`;
+            el.style.setProperty('--shape-opacity', op);
+            el.style.animationDuration = `${dur}s`;
+            el.style.animationDelay = `${delay}s`;
+            el.style.transform = `scale(${scale})`;
+
+            if (cls === 'bg-shape-ring') {
+                el.style.borderColor = color.replace('VAR', op);
+            } else {
+                el.style.background = color.replace('VAR', op);
+            }
+
+            scene.appendChild(el);
+        }
+    });
 }
 
 function initializeTelegramWebApp() {
@@ -807,8 +827,7 @@ function initializeInteractions() {
             }
 
             populateAdminModal();
-            adminModal.classList.remove('hidden');
-            syncModalState();
+            openModal('admin-modal');
             triggerHaptic('medium');
         });
     }
@@ -898,11 +917,7 @@ function initializeInteractions() {
     if (formModalCancel) formModalCancel.addEventListener('click', closeFormModal);
     if (formModal) {
         formModal.addEventListener('click', (event) => {
-            if (event.target === formModal) {
-                const openedAt = Number(formModal.dataset.openedAt || 0);
-                if (Date.now() - openedAt < 400) return;
-                closeFormModal();
-            }
+            if (event.target === formModal) closeFormModal();
         });
     }
 
@@ -1038,9 +1053,8 @@ function initializeInteractions() {
             onConfirm(values);
         };
 
-        modal.classList.remove('hidden');
-        modal.dataset.openedAt = String(Date.now());
-        syncModalState();
+        modal.classList.add('modal-active');
+        document.body.classList.add('modal-open');
     };
 
     const depositBtn = document.getElementById('deposit-btn');
@@ -1209,35 +1223,23 @@ function getActorId() {
 }
 
 function openNotificationsModal() {
-    const modal = document.getElementById('notifications-modal');
-    if (modal) {
-        modal.classList.remove('hidden');
-    }
-    syncModalState();
+    openModal('notifications-modal');
 }
 
 function closeNotificationsModal() {
-    const modal = document.getElementById('notifications-modal');
-    if (modal) {
-        modal.classList.add('hidden');
-    }
-    syncModalState();
+    const el = document.getElementById('notifications-modal');
+    if (el) el.classList.remove('modal-active');
+    refreshModalBodyLock();
 }
 
 function openSupportModal() {
-    const modal = document.getElementById('support-modal');
-    if (modal) {
-        modal.classList.remove('hidden');
-    }
-    syncModalState();
+    openModal('support-modal');
 }
 
 function closeSupportModal() {
-    const modal = document.getElementById('support-modal');
-    if (modal) {
-        modal.classList.add('hidden');
-    }
-    syncModalState();
+    const el = document.getElementById('support-modal');
+    if (el) el.classList.remove('modal-active');
+    refreshModalBodyLock();
 }
 
 function getNotificationIcon(type) {
@@ -1512,49 +1514,38 @@ function getSupportStatusOptions() {
 }
 
 function closeFormModal() {
-    const formModal = document.getElementById('form-modal');
-    if (formModal) {
-        formModal.classList.add('hidden');
-    }
-    syncModalState();
+    const el = document.getElementById('form-modal');
+    if (el) el.classList.remove('modal-active');
+    refreshModalBodyLock();
 }
 
 function closeUserDetailModal() {
-    const userDetailModal = document.getElementById('user-detail-modal');
-    if (userDetailModal) {
-        userDetailModal.classList.add('hidden');
-    }
-    syncModalState();
+    const el = document.getElementById('user-detail-modal');
+    if (el) el.classList.remove('modal-active');
+    refreshModalBodyLock();
 }
 
 function closeHeroDetailModal() {
-    const heroDetailModal = document.getElementById('hero-detail-modal');
-    if (heroDetailModal) {
-        heroDetailModal.classList.add('hidden');
-    }
+    const el = document.getElementById('hero-detail-modal');
+    if (el) el.classList.remove('modal-active');
     APP_STATE.selectedHeroInstanceId = '';
-    syncModalState();
+    refreshModalBodyLock();
 }
 
-function syncModalState() {
-    const modals = ['admin-modal', 'form-modal', 'user-detail-modal', 'notifications-modal', 'support-modal', 'hero-detail-modal'];
-    const hasOpenModal = modals
-        .map((id) => document.getElementById(id))
-        .some((element) => element && !element.classList.contains('hidden'));
-    document.body.classList.toggle('modal-open', hasOpenModal);
-
-    // Animate visible modals
-    modals.forEach((id) => {
+function refreshModalBodyLock() {
+    const ids = ['admin-modal', 'form-modal', 'user-detail-modal', 'notifications-modal', 'support-modal', 'hero-detail-modal'];
+    const anyOpen = ids.some((id) => {
         const el = document.getElementById(id);
-        if (!el) return;
-        if (!el.classList.contains('hidden')) {
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => el.classList.add('modal-visible'));
-            });
-        } else {
-            el.classList.remove('modal-visible');
-        }
+        return el && el.classList.contains('modal-active');
     });
+    document.body.classList.toggle('modal-open', anyOpen);
+}
+
+function openModal(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.add('modal-active');
+    document.body.classList.add('modal-open');
 }
 
 function getRequestStatusLabel(status, t = getTranslations()) {
@@ -2272,11 +2263,7 @@ function openUserDetailModal(userId, initialTab = 'finance') {
     APP_STATE.selectedUserId = userId;
     APP_STATE.selectedUserTab = initialTab;
     renderUserDetailModal();
-    const modal = document.getElementById('user-detail-modal');
-    if (modal) {
-        modal.classList.remove('hidden');
-    }
-    syncModalState();
+    openModal('user-detail-modal');
 }
 
 function renderUserDetailModal() {
@@ -3242,7 +3229,6 @@ function handleNavigation(type) {
     const referralSection = document.getElementById('referral-section');
     const ratingSection = document.getElementById('rating-section');
 
-    // Hide main panels
     if (shopSection) shopSection.classList.add('hidden');
     if (profileSection) profileSection.classList.add('hidden');
     if (myHeroesSection) myHeroesSection.classList.add('hidden');
@@ -3265,7 +3251,6 @@ function handleNavigation(type) {
         return;
     }
 
-    // Перенос раздела "Мої герої" в навигацию "Шахты"
     if (type === 'mines') {
         if (myHeroesSection) {
             showAppView(myHeroesSection);
@@ -3373,11 +3358,9 @@ function populateAdminModal() {
 }
 
 function closeAdminModal() {
-    const adminModal = document.getElementById('admin-modal');
-    if (adminModal) {
-        adminModal.classList.add('hidden');
-    }
-    syncModalState();
+    const el = document.getElementById('admin-modal');
+    if (el) el.classList.remove('modal-active');
+    refreshModalBodyLock();
 }
 
 function exportData() {
@@ -3817,11 +3800,7 @@ function reissueHero(heroInstanceId, userId = '__current__') {
 function openHeroDetailModal(heroInstanceId) {
     APP_STATE.selectedHeroInstanceId = heroInstanceId;
     renderHeroDetailModal();
-    const modal = document.getElementById('hero-detail-modal');
-    if (modal) {
-        modal.classList.remove('hidden');
-    }
-    syncModalState();
+    openModal('hero-detail-modal');
 }
 
 function renderHeroDetailModal() {

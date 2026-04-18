@@ -16,7 +16,6 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Splash Screen -->
     <div class="splash-screen" id="splash-screen">
         <div class="splash-bg"></div>
         <div class="splash-content">
@@ -34,15 +33,9 @@
 
     <div class="bg-layer bg-layer-a"></div>
     <div class="bg-layer bg-layer-b"></div>
-    <div class="bg-layer bg-layer-c"></div>
+    <div class="bg-aurora"></div>
     <div class="bg-grid"></div>
-    <div class="bg-orbs">
-        <div class="bg-orb bg-orb-1"></div>
-        <div class="bg-orb bg-orb-2"></div>
-        <div class="bg-orb bg-orb-3"></div>
-        <div class="bg-orb bg-orb-4"></div>
-    </div>
-    <div class="particles" id="particles"></div>
+    <div class="bg-scene" id="bg-scene"></div>
 
     <main class="app-shell" id="app-shell">
         <header class="hero-panel panel">
@@ -340,7 +333,7 @@
 
     <div class="toast-container" id="toast-container" aria-live="polite"></div>
 
-    <div class="modal-backdrop hidden" id="admin-modal">
+    <div class="modal-backdrop" id="admin-modal">
         <div class="modal-card panel admin-modal-card">
             <div class="modal-head">
                 <div>
@@ -528,8 +521,7 @@
         </div>
     </div>
 
-    <!-- Generic form modal -->
-    <div class="modal-backdrop hidden" id="form-modal">
+    <div class="modal-backdrop" id="form-modal">
         <div class="modal-card panel" id="form-modal-card">
             <div class="modal-head">
                 <div>
@@ -538,9 +530,7 @@
                 </div>
                 <button class="icon-btn" id="form-modal-close" type="button" aria-label="Close">×</button>
             </div>
-            <div id="form-modal-body">
-                <!-- fields injected here -->
-            </div>
+            <div id="form-modal-body"></div>
             <div class="modal-actions" style="margin-top:12px;">
                 <button class="action-btn action-cancel" id="form-modal-cancel" type="button">Отмена</button>
                 <button class="action-btn" id="form-modal-confirm" type="button">Подтвердить</button>
@@ -548,7 +538,7 @@
         </div>
     </div>
 
-    <div class="modal-backdrop hidden" id="user-detail-modal">
+    <div class="modal-backdrop" id="user-detail-modal">
         <div class="modal-card panel user-detail-card">
             <div class="modal-head">
                 <div>
@@ -566,7 +556,7 @@
         </div>
     </div>
 
-    <div class="modal-backdrop hidden" id="notifications-modal">
+    <div class="modal-backdrop" id="notifications-modal">
         <div class="modal-card panel compact-modal-card">
             <div class="modal-head">
                 <div>
@@ -582,7 +572,7 @@
         </div>
     </div>
 
-    <div class="modal-backdrop hidden" id="support-modal">
+    <div class="modal-backdrop" id="support-modal">
         <div class="modal-card panel compact-modal-card support-modal-card">
             <div class="modal-head">
                 <div>
@@ -598,7 +588,7 @@
         </div>
     </div>
 
-    <div class="modal-backdrop hidden" id="hero-detail-modal">
+    <div class="modal-backdrop" id="hero-detail-modal">
         <div class="modal-card panel user-detail-card hero-detail-modal-card">
             <div class="modal-head">
                 <div>
