@@ -378,6 +378,78 @@ body.telegram-webapp .audit-section {
     gap: 14px;
 }
 
+/* ─── Header Action Buttons (notifications, support, lang) ─── */
+.hero-head-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.header-action-btn {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--muted);
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+
+.header-action-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+.header-action-btn:active {
+    transform: scale(0.9);
+    transition-duration: 0.1s;
+}
+
+.header-action-notify {
+    background: rgba(103, 232, 249, 0.1);
+    border-color: rgba(103, 232, 249, 0.2);
+    color: var(--accent);
+}
+
+.header-action-support {
+    background: rgba(245, 158, 11, 0.1);
+    border-color: rgba(245, 158, 11, 0.2);
+    color: var(--accent-2);
+}
+
+.header-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    z-index: 2;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 800;
+    color: #fff;
+    background: linear-gradient(135deg, #fb7185, #f43f5e);
+    box-shadow: 0 4px 12px rgba(244, 63, 94, 0.4);
+    animation: badgePulse 2s ease-in-out infinite;
+}
+
+.header-badge.hidden {
+    display: none;
+}
+
+@keyframes badgePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+
 .eyebrow,
 .section-label {
     color: var(--accent);
@@ -929,12 +1001,20 @@ body.telegram-webapp .identity-chip {
     color: var(--muted);
     cursor: pointer;
     font-weight: 700;
+    font-size: 13px;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.tab-chip:active {
+    transform: scale(0.95);
+    transition-duration: 0.1s;
 }
 
 .tab-chip.active {
     color: var(--text);
     border-color: rgba(103,232,249,0.35);
     background: linear-gradient(135deg, rgba(103,232,249,0.18), rgba(139,92,246,0.18));
+    box-shadow: 0 4px 16px rgba(103, 232, 249, 0.12);
 }
 
 .user-detail-body {
@@ -1085,6 +1165,12 @@ body.telegram-webapp .identity-chip {
     cursor: pointer;
     text-align: left;
     transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
+    animation: menuCardIn 0.4s var(--transition-smooth) both;
+}
+
+@keyframes menuCardIn {
+    from { opacity: 0; transform: translateY(12px) scale(0.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .menu-hub-card:hover,
@@ -1092,6 +1178,40 @@ body.telegram-webapp .identity-chip {
     transform: translateY(-4px);
     border-color: rgba(103, 232, 249, 0.25);
     box-shadow: 0 22px 40px rgba(0, 0, 0, 0.26);
+}
+
+.menu-hub-card:active {
+    transform: scale(0.97);
+    transition-duration: 0.1s;
+}
+
+.menu-hub-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.menu-hub-icon {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    font-size: 16px;
+}
+
+.menu-hub-icon-cyan { background: rgba(103, 232, 249, 0.12); color: var(--accent); }
+.menu-hub-icon-amber { background: rgba(245, 158, 11, 0.12); color: var(--accent-2); }
+.menu-hub-icon-purple { background: rgba(139, 92, 246, 0.12); color: var(--accent-3); }
+.menu-hub-icon-green { background: rgba(52, 211, 153, 0.12); color: var(--success); }
+
+.menu-hub-badge {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #fb7185;
+    box-shadow: 0 0 8px rgba(251, 113, 133, 0.5);
+    animation: badgePulse 2s ease-in-out infinite;
 }
 
 .menu-hub-label {
@@ -1162,9 +1282,123 @@ body.telegram-webapp .identity-chip {
     grid-template-columns: 1fr;
 }
 
+/* ─── New Admin Stats Row ─── */
+.admin-stats-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.admin-stat-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.admin-stat-icon {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(103, 232, 249, 0.12), rgba(139, 92, 246, 0.12));
+    color: var(--accent);
+    font-size: 15px;
+    flex-shrink: 0;
+}
+
+.admin-stat-label {
+    display: block;
+    color: var(--muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 700;
+}
+
+.admin-stat-value {
+    display: block;
+    font-size: 16px;
+    font-weight: 800;
+    margin-top: 2px;
+}
+
+/* ─── Admin Actions Section ─── */
+.admin-actions-section {
+    margin: 14px 0;
+}
+
+.admin-actions-title {
+    font-size: 13px;
+    font-weight: 800;
+    margin-bottom: 10px;
+    color: var(--text);
+}
+
+.admin-action-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    color: var(--text);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: left;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.admin-action-card:active {
+    transform: scale(0.97);
+    transition-duration: 0.1s;
+}
+
+.admin-action-card:hover {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+.admin-action-card-danger {
+    border-color: rgba(251, 113, 133, 0.2);
+}
+
+.admin-action-card-danger:hover {
+    background: rgba(251, 113, 133, 0.08);
+    border-color: rgba(251, 113, 133, 0.3);
+}
+
+.admin-action-icon {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.admin-action-green { background: rgba(52, 211, 153, 0.12); color: #34d399; }
+.admin-action-red { background: rgba(251, 113, 133, 0.12); color: #fb7185; }
+.admin-action-purple { background: rgba(139, 92, 246, 0.12); color: #8b5cf6; }
+.admin-action-amber { background: rgba(245, 158, 11, 0.12); color: #f59e0b; }
+.admin-action-cyan { background: rgba(103, 232, 249, 0.12); color: #67e8f9; }
+
+/* ─── Admin Modal Card ─── */
+.admin-modal-card {
+    width: min(100%, 560px) !important;
+}
+
 .admin-actions-wrap {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 8px;
 }
 
@@ -1269,82 +1503,126 @@ body.telegram-webapp .admin-actions-wrap {
     justify-content: flex-start;
     align-items: center;
     padding: 20px 16px;
-    z-index: 25;
+    z-index: 50;
 }
 
 .toast {
+    pointer-events: auto;
     width: min(100%, 420px);
     margin-bottom: 10px;
-    padding: 16px 16px 15px;
-    border-radius: 18px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: linear-gradient(135deg, rgba(9, 16, 29, 0.96), rgba(20, 30, 48, 0.94));
-    backdrop-filter: blur(16px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: linear-gradient(135deg, rgba(12, 20, 35, 0.98), rgba(20, 30, 48, 0.96));
+    backdrop-filter: blur(20px);
     color: var(--text);
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.04);
-    transform: translate3d(18px, -14px, 0) scale(0.96);
-    opacity: 0;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
     overflow: hidden;
-    animation: toastIn 0.32s cubic-bezier(0.2, 0.9, 0.2, 1) forwards;
+    transform: translateX(60px) scale(0.95);
+    opacity: 0;
+    animation: toastSlideIn 0.45s var(--transition-smooth) forwards;
 }
 
-.toast::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at top right, rgba(255,255,255,0.14), transparent 38%);
-    pointer-events: none;
+.toast-exit {
+    animation: toastSlideOut 0.35s ease forwards;
 }
 
-.toast::after {
-    content: '';
-    position: absolute;
-    left: 14px;
-    right: 14px;
-    bottom: 8px;
+.toast-accent-line {
     height: 3px;
-    border-radius: 999px;
-    background: linear-gradient(90deg, rgba(103, 232, 249, 0.92), rgba(139, 92, 246, 0.92));
-    transform-origin: left center;
-    animation: toastProgress 2.5s linear forwards;
+    width: 100%;
 }
 
-.toast.success {
-    border-color: rgba(52, 211, 153, 0.25);
-}
+.toast-accent-success { background: linear-gradient(90deg, #34d399, #10b981); }
+.toast-accent-error { background: linear-gradient(90deg, #fb7185, #ef4444); }
+.toast-accent-info { background: linear-gradient(90deg, #67e8f9, #06b6d4); }
+.toast-accent-support { background: linear-gradient(90deg, #f59e0b, #d97706); }
 
-.toast.error {
-    border-color: rgba(251, 113, 133, 0.3);
-}
-
-.toast.info {
-    border-color: rgba(103, 232, 249, 0.25);
-}
-
-.toast-title {
+.toast-body {
     display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 14px;
-    font-weight: 800;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
 }
 
-.toast-icon {
-    width: 34px;
-    height: 34px;
+.toast-icon-wrap {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
     display: grid;
     place-items: center;
     border-radius: 12px;
-    background: rgba(255, 255, 255, 0.07);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+.toast-icon-success { background: rgba(52, 211, 153, 0.15); color: #34d399; }
+.toast-icon-error { background: rgba(251, 113, 133, 0.15); color: #fb7185; }
+.toast-icon-info { background: rgba(103, 232, 249, 0.15); color: #67e8f9; }
+.toast-icon-support { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+
+.toast-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.toast-title {
+    font-size: 14px;
+    font-weight: 800;
+    line-height: 1.3;
 }
 
 .toast-message {
-    margin-top: 8px;
-    color: #dbe8fb;
+    margin-top: 4px;
+    color: var(--muted);
     font-size: 13px;
-    line-height: 1.5;
-    padding-left: 44px;
+    line-height: 1.45;
+}
+
+.toast-close {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--muted);
+    cursor: pointer;
+    border: 0;
+    font-size: 16px;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.toast-close:active {
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--text);
+}
+
+.toast-progress {
+    height: 2px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.toast-progress-bar {
+    height: 100%;
+    animation: toastProgressShrink 3.5s linear forwards;
+}
+
+.toast-progress-success { background: #34d399; }
+.toast-progress-error { background: #fb7185; }
+.toast-progress-info { background: #67e8f9; }
+.toast-progress-support { background: #f59e0b; }
+
+@keyframes toastSlideIn {
+    0% { opacity: 0; transform: translateX(60px) scale(0.95); }
+    100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+@keyframes toastSlideOut {
+    0% { opacity: 1; transform: translateX(0) scale(1); }
+    100% { opacity: 0; transform: translateX(60px) scale(0.9); }
+}
+
+@keyframes toastProgressShrink {
+    0% { width: 100%; }
+    100% { width: 0%; }
 }
 
 .modal-backdrop {
@@ -1527,120 +1805,6 @@ body.telegram-webapp .admin-actions-wrap {
     grid-template-columns: 1fr;
 }
 
-.floating-actions {
-    position: static;
-}
-
-.fab-btn {
-    position: fixed;
-    width: 58px;
-    height: 58px;
-    border-radius: 20px;
-    display: grid;
-    place-items: center;
-    cursor: pointer;
-    color: var(--text);
-    border: 1px solid rgba(255,255,255,0.1);
-    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(18px);
-    overflow: hidden;
-}
-
-.fab-btn-top {
-    top: calc(16px + env(safe-area-inset-top));
-    right: 16px;
-    z-index: 24;
-}
-
-.fab-btn-bottom {
-    right: 16px;
-    bottom: calc(108px + env(safe-area-inset-bottom));
-    z-index: 22;
-}
-
-body.telegram-webapp .fab-btn {
-    width: 50px;
-    height: 50px;
-    border-radius: 18px;
-}
-
-body.telegram-webapp .fab-btn-top {
-    top: auto;
-    right: 12px;
-    bottom: calc(166px + env(safe-area-inset-bottom));
-}
-
-body.telegram-webapp .fab-btn-bottom {
-    right: 12px;
-    bottom: calc(102px + env(safe-area-inset-bottom));
-}
-
-.fab-btn::before {
-    content: '';
-    position: absolute;
-    inset: 1px;
-    border-radius: 19px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
-}
-
-.fab-btn::after {
-    content: '';
-    position: absolute;
-    inset: -30%;
-    background: radial-gradient(circle, rgba(255,255,255,0.18), transparent 52%);
-    opacity: 0;
-    transition: opacity 0.25s ease, transform 0.25s ease;
-}
-
-.fab-btn:hover::after,
-.fab-btn:focus-visible::after {
-    opacity: 1;
-    transform: scale(1.08);
-}
-
-.fab-btn-notify {
-    background: linear-gradient(135deg, rgba(103, 232, 249, 0.22), rgba(20, 30, 48, 0.92));
-}
-
-.fab-btn-support {
-    background: linear-gradient(135deg, rgba(245, 158, 11, 0.28), rgba(41, 20, 10, 0.92));
-}
-
-.fab-icon {
-    position: relative;
-    z-index: 1;
-    font-size: 22px;
-}
-
-.fab-icon-svg {
-    width: 24px;
-    height: 24px;
-    display: inline-flex;
-}
-
-.fab-icon-svg svg {
-    width: 24px;
-    height: 24px;
-}
-
-.fab-badge {
-    position: absolute;
-    top: -4px;
-    right: -4px;
-    z-index: 2;
-    min-width: 22px;
-    height: 22px;
-    padding: 0 6px;
-    display: grid;
-    place-items: center;
-    border-radius: 999px;
-    font-size: 11px;
-    font-weight: 800;
-    color: #fff;
-    background: linear-gradient(135deg, #fb7185, #f43f5e);
-    box-shadow: 0 8px 18px rgba(244, 63, 94, 0.35);
-}
-
 .notification-card,
 .support-ticket-card,
 .ticket-message {
@@ -1763,22 +1927,6 @@ body.telegram-webapp .fab-btn-bottom {
     }
 }
 
-@keyframes toastIn {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes toastProgress {
-    from {
-        transform: scaleX(1);
-    }
-    to {
-        transform: scaleX(0);
-    }
-}
-
 @keyframes sectionEnter {
     0% {
         opacity: 0;
@@ -1848,7 +1996,21 @@ body.telegram-webapp .fab-btn-bottom {
     .hero-head-row {
         width: 100%;
         align-items: flex-start;
-        flex-direction: column;
+    }
+
+    .hero-head-actions {
+        flex-shrink: 0;
+    }
+
+    .header-action-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 12px;
+    }
+
+    .header-action-btn svg {
+        width: 18px;
+        height: 18px;
     }
 
     .hero-summary,
@@ -2005,16 +2167,18 @@ body.telegram-webapp .fab-btn-bottom {
     .toast {
         width: 100%;
         border-radius: 16px;
-        padding: 14px 14px 13px;
-    }
-
-    .toast-message {
-        padding-left: 0;
-        font-size: 12px;
     }
 
     .admin-queues,
     #form-modal-body {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-stats-row {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-actions-wrap {
         grid-template-columns: 1fr;
     }
 
@@ -2041,22 +2205,6 @@ body.telegram-webapp .fab-btn-bottom {
         width: 100%;
         max-width: 120px;
         height: 120px;
-    }
-
-    .toast-container {
-        align-items: center;
-        padding-top: 12px;
-        padding-left: 10px;
-        padding-right: 10px;
-    }
-
-    .toast {
-        width: 100%;
-        border-radius: 16px;
-    }
-
-    .toast-message {
-        padding-left: 0;
     }
 
     .modal-backdrop {

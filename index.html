@@ -46,15 +46,24 @@
                             <h1 class="game-title" data-translate="gameTitle">TEST @PALMARON</h1>
                             <h2 class="profile-title" id="hero-header-name">User</h2>
                         </div>
-                        <div class="language-menu" id="language-menu" aria-label="Language switcher">
-                            <button class="language-trigger" id="language-trigger" type="button" aria-expanded="false" aria-controls="language-dropdown">
-                                <span class="language-trigger-label">LANG</span>
-                                <span class="language-trigger-value" id="language-current">RU</span>
-                                <span class="language-trigger-icon">▾</span>
+                        <div class="hero-head-actions">
+                            <button class="header-action-btn header-action-support" id="support-fab" type="button" aria-label="Support">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5h11A2.5 2.5 0 0 1 20 7.5v6A2.5 2.5 0 0 1 17.5 16H13l-3.8 3v-3H6.5A2.5 2.5 0 0 1 4 13.5v-6Z"></path><path d="M9 10h6"></path><path d="M9 13h4"></path></svg>
                             </button>
-                            <div class="language-dropdown hidden" id="language-dropdown">
-                                <button class="language-option" type="button" data-language="ru">RU</button>
-                                <button class="language-option" type="button" data-language="ua">UA</button>
+                            <button class="header-action-btn header-action-notify" id="notifications-fab" type="button" aria-label="Notifications">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 1 1 12 0v4.2l1.4 2.3a1 1 0 0 1-.86 1.5H5.46a1 1 0 0 1-.86-1.5L6 13.2V9"></path><path d="M10 18a2 2 0 0 0 4 0"></path></svg>
+                                <span class="header-badge hidden" id="notifications-badge">0</span>
+                            </button>
+                            <div class="language-menu" id="language-menu" aria-label="Language switcher">
+                                <button class="language-trigger" id="language-trigger" type="button" aria-expanded="false" aria-controls="language-dropdown">
+                                    <span class="language-trigger-label">LANG</span>
+                                    <span class="language-trigger-value" id="language-current">RU</span>
+                                    <span class="language-trigger-icon">▾</span>
+                                </button>
+                                <div class="language-dropdown hidden" id="language-dropdown">
+                                    <button class="language-option" type="button" data-language="ru">RU</button>
+                                    <button class="language-option" type="button" data-language="ua">UA</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -306,32 +315,12 @@
             </button>
         </nav>
 
-        <div class="floating-actions">
-            <button class="fab-btn fab-btn-notify fab-btn-top" id="notifications-fab" type="button" aria-label="Notifications">
-                <span class="fab-icon fab-icon-svg" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M6 9a6 6 0 1 1 12 0v4.2l1.4 2.3a1 1 0 0 1-.86 1.5H5.46a1 1 0 0 1-.86-1.5L6 13.2V9"></path>
-                        <path d="M10 18a2 2 0 0 0 4 0"></path>
-                    </svg>
-                </span>
-                <span class="fab-badge hidden" id="notifications-badge">0</span>
-            </button>
-            <button class="fab-btn fab-btn-support fab-btn-bottom" id="support-fab" type="button" aria-label="Support">
-                <span class="fab-icon fab-icon-svg" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M4 7.5A2.5 2.5 0 0 1 6.5 5h11A2.5 2.5 0 0 1 20 7.5v6A2.5 2.5 0 0 1 17.5 16H13l-3.8 3v-3H6.5A2.5 2.5 0 0 1 4 13.5v-6Z"></path>
-                        <path d="M9 10h6"></path>
-                        <path d="M9 13h4"></path>
-                    </svg>
-                </span>
-            </button>
-        </div>
     </main>
 
     <div class="toast-container" id="toast-container" aria-live="polite"></div>
 
     <div class="modal-backdrop hidden" id="admin-modal">
-        <div class="modal-card panel">
+        <div class="modal-card panel admin-modal-card">
             <div class="modal-head">
                 <div>
                     <p class="section-label" data-translate="admin">Админ-панель</p>
@@ -340,50 +329,96 @@
                 <button class="icon-btn" id="close-admin-modal" type="button" aria-label="Close">×</button>
             </div>
 
-            <div class="modal-grid">
-                <article class="modal-stat">
-                    <span class="info-label" data-translate="totalUsers">Пользователей</span>
-                    <strong class="info-value" id="admin-total-users">1</strong>
+            <div class="admin-stats-row">
+                <article class="admin-stat-chip">
+                    <span class="admin-stat-icon">◆</span>
+                    <div>
+                        <span class="admin-stat-label" data-translate="totalUsers">Пользователей</span>
+                        <strong class="admin-stat-value" id="admin-total-users">1</strong>
+                    </div>
                 </article>
-                <article class="modal-stat">
-                    <span class="info-label" data-translate="lastUpdated">Обновлено</span>
-                    <strong class="info-value" id="admin-last-updated">-</strong>
+                <article class="admin-stat-chip">
+                    <span class="admin-stat-icon">◔</span>
+                    <div>
+                        <span class="admin-stat-label" data-translate="lastUpdated">Обновлено</span>
+                        <strong class="admin-stat-value" id="admin-last-updated">-</strong>
+                    </div>
                 </article>
-                <article class="modal-stat">
-                    <span class="info-label" data-translate="version">Версия</span>
-                    <strong class="info-value" id="admin-version">1.0.0</strong>
+                <article class="admin-stat-chip">
+                    <span class="admin-stat-icon">▣</span>
+                    <div>
+                        <span class="admin-stat-label" data-translate="version">Версия</span>
+                        <strong class="admin-stat-value" id="admin-version">1.0.0</strong>
+                    </div>
                 </article>
-                <article class="modal-stat">
-                    <span class="info-label" data-translate="accessLevel">Доступ</span>
-                    <strong class="info-value" id="admin-access">Admin</strong>
+                <article class="admin-stat-chip">
+                    <span class="admin-stat-icon">●</span>
+                    <div>
+                        <span class="admin-stat-label" data-translate="accessLevel">Доступ</span>
+                        <strong class="admin-stat-value" id="admin-access">Admin</strong>
+                    </div>
                 </article>
             </div>
 
             <div class="admin-sim-note" id="admin-sim-note">Локальная база: права, онлайн и уведомления синхронизируются только в пределах этой клиентской копии без сервера.</div>
 
-            <div class="modal-actions admin-actions-grid">
+            <div class="admin-actions-section">
+                <p class="admin-actions-title">⚡ Быстрые действия</p>
                 <div class="admin-actions-wrap">
-                    <button class="action-btn" id="admin-add-balance" type="button">Добавить баланс</button>
-                    <button class="action-btn" id="admin-subtract-balance" type="button">Забрать баланс</button>
-                    <button class="action-btn" id="admin-grant-hero" type="button">Выдать героя</button>
-                    <button class="action-btn" id="admin-grant-access" type="button">Выдать админку</button>
-                    <button class="action-btn" id="admin-online-edit" type="button">Изменить онлайн</button>
-                    <button class="action-btn" id="admin-finance-settings" type="button">Настроить финансы</button>
-                    <button class="action-btn" id="admin-add-task" type="button">Добавить задание</button>
-                    <button class="action-btn" id="admin-create-promo" type="button">Создать промокод</button>
-                    <button class="action-btn" id="admin-open-audit" type="button">Логи аудита</button>
-                    <button class="action-btn action-btn-danger" id="reset-all-btn" type="button" data-translate="resetAll">Сбросить всё</button>
-                    <button class="action-btn" id="export-data-btn" type="button" data-translate="exportData">Экспорт</button>
+                    <button class="admin-action-card" id="admin-add-balance" type="button">
+                        <span class="admin-action-icon admin-action-green">+</span>
+                        <span>Добавить баланс</span>
+                    </button>
+                    <button class="admin-action-card" id="admin-subtract-balance" type="button">
+                        <span class="admin-action-icon admin-action-red">−</span>
+                        <span>Забрать баланс</span>
+                    </button>
+                    <button class="admin-action-card" id="admin-grant-hero" type="button">
+                        <span class="admin-action-icon admin-action-purple">◇</span>
+                        <span>Выдать героя</span>
+                    </button>
+                    <button class="admin-action-card" id="admin-grant-access" type="button">
+                        <span class="admin-action-icon admin-action-amber">◆</span>
+                        <span>Выдать админку</span>
+                    </button>
+                    <button class="admin-action-card" id="admin-online-edit" type="button">
+                        <span class="admin-action-icon admin-action-cyan">●</span>
+                        <span>Изменить онлайн</span>
+                    </button>
+                    <button class="admin-action-card" id="admin-finance-settings" type="button">
+                        <span class="admin-action-icon admin-action-green">⚙</span>
+                        <span>Настроить финансы</span>
+                    </button>
+                    <button class="admin-action-card" id="admin-add-task" type="button">
+                        <span class="admin-action-icon admin-action-purple">▣</span>
+                        <span>Добавить задание</span>
+                    </button>
+                    <button class="admin-action-card" id="admin-create-promo" type="button">
+                        <span class="admin-action-icon admin-action-amber">✦</span>
+                        <span>Создать промокод</span>
+                    </button>
+                    <button class="admin-action-card" id="admin-open-audit" type="button">
+                        <span class="admin-action-icon admin-action-cyan">◔</span>
+                        <span>Логи аудита</span>
+                    </button>
+                    <button class="admin-action-card admin-action-card-danger" id="reset-all-btn" type="button" data-translate="resetAll">
+                        <span class="admin-action-icon admin-action-red">✕</span>
+                        <span>Сбросить всё</span>
+                    </button>
+                    <button class="admin-action-card" id="export-data-btn" type="button" data-translate="exportData">
+                        <span class="admin-action-icon admin-action-green">↓</span>
+                        <span>Экспорт</span>
+                    </button>
                 </div>
             </div>
 
             <div class="admin-tabs" id="admin-tabs">
-                <button class="tab-chip active" type="button" data-admin-tab="overview">Обзор</button>
-                <button class="tab-chip" type="button" data-admin-tab="users">Пользователи</button>
-                <button class="tab-chip" type="button" data-admin-tab="requests">Заявки</button>
-                <button class="tab-chip" type="button" data-admin-tab="tasks">Задания</button>
-                <button class="tab-chip" type="button" data-admin-tab="support">Поддержка</button>
-                <button class="tab-chip" type="button" data-admin-tab="logs">Логи</button>
+                <button class="tab-chip active" type="button" data-admin-tab="overview">◔ Обзор</button>
+                <button class="tab-chip" type="button" data-admin-tab="users">◆ Пользователи</button>
+                <button class="tab-chip" type="button" data-admin-tab="requests">▣ Заявки</button>
+                <button class="tab-chip" type="button" data-admin-tab="tasks">✦ Задания</button>
+                <button class="tab-chip" type="button" data-admin-tab="support">● Поддержка</button>
+                <button class="tab-chip" type="button" data-admin-tab="logs">◇ Логи</button>
             </div>
 
             <div class="admin-queues">

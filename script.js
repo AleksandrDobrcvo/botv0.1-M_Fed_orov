@@ -1744,15 +1744,14 @@ function renderMenuDashboard() {
     const pendingTickets = window.gameDB.getSupportTickets().filter((item) => Boolean(user.isAdmin) || String(item.userId) === getActorId()).filter((item) => item.status !== 'closed').length;
     const heroOps = window.gameDB.getHeroOperations().filter((item) => String(item.userId) === String(user.id || '') || (!user.id && !item.userId)).length;
 
-    const isUa = getCurrentLanguage() === 'ua';
     const menuT = getTranslations();
     const cards = [
-        { title: heroText.menuNotifications, value: unread, action: () => openNotificationsModal() },
-        { title: heroText.menuSupport, value: pendingTickets, action: () => openSupportModal() },
-        { title: heroText.menuHeroLedger, value: heroOps, action: () => { APP_STATE.historyFilter = 'completed'; renderHistorySection(); } },
-        { title: heroText.synergy, value: `${Math.round(synergy.totalBonus * 100)}%`, action: () => handleNavigation('mines') },
-        { title: menuT.referralTitle, value: user.stats?.referrals || 0, action: () => { setActiveNavButton('tasks'); handleNavigation('referral'); } },
-        { title: menuT.promoTitle, value: '→', action: () => openPromoCodeModal() }
+        { icon: '◔', title: heroText.menuNotifications, value: unread, accent: 'cyan', badge: unread > 0, action: () => openNotificationsModal() },
+        { icon: '✦', title: heroText.menuSupport, value: pendingTickets, accent: 'amber', badge: pendingTickets > 0, action: () => openSupportModal() },
+        { icon: '◇', title: heroText.menuHeroLedger, value: heroOps, accent: 'purple', action: () => { APP_STATE.historyFilter = 'completed'; renderHistorySection(); } },
+        { icon: '▣', title: heroText.synergy, value: `${Math.round(synergy.totalBonus * 100)}%`, accent: 'green', action: () => handleNavigation('mines') },
+        { icon: '●', title: menuT.referralTitle, value: user.stats?.referrals || 0, accent: 'cyan', action: () => { setActiveNavButton('tasks'); handleNavigation('referral'); } },
+        { icon: '◆', title: menuT.promoTitle, value: '→', accent: 'amber', action: () => openPromoCodeModal() }
     ];
 
     container.innerHTML = `
@@ -1766,14 +1765,19 @@ function renderMenuDashboard() {
 
     const grid = document.createElement('div');
     grid.className = 'menu-dashboard-grid';
-    cards.forEach((item) => {
+    cards.forEach((item, i) => {
         const card = document.createElement('button');
         card.type = 'button';
         card.className = 'menu-hub-card';
+        card.style.animationDelay = `${i * 0.06}s`;
         card.innerHTML = `
+            <div class="menu-hub-head">
+                <span class="menu-hub-icon menu-hub-icon-${item.accent}">${item.icon}</span>
+                ${item.badge ? '<span class="menu-hub-badge"></span>' : ''}
+            </div>
             <span class="menu-hub-label">${item.title}</span>
             <strong class="menu-hub-value">${item.value}</strong>
-            <span class="menu-hub-action">${heroText.menuOpen}</span>
+            <span class="menu-hub-action">${heroText.menuOpen} →</span>
         `;
         card.addEventListener('click', item.action);
         grid.appendChild(card);
@@ -2520,7 +2524,7 @@ function openFinanceRequestModal(type) {
             }
 
             renderApp();
-            showNotification(t.requestCreated, 'success');
+            showNotification(t.requestCreated, 'success', { persist: true });
         }
     });
 }
@@ -2556,7 +2560,7 @@ function openAdminBalanceModal(mode, presetTargetId = '') {
             }
 
             renderApp();
-            showNotification(isAdd ? t.addedBalance : t.subtractedBalance, 'success');
+            showNotification(isAdd ? t.addedBalance : t.subtractedBalance, 'success', { persist: true });
         }
     });
 }
@@ -2900,7 +2904,7 @@ function openExchangeModal() {
                 return showNotification(t.insufficientRnx, 'error');
             }
             renderApp();
-            showNotification(`${t.exchangeSuccess}: +${result.halfTon.toFixed(4)} TON ${t.balanceBuyLabel}, +${result.halfTon.toFixed(4)} TON ${t.balanceWithdrawLabel}`, 'success');
+            showNotification(`${t.exchangeSuccess}: +${result.halfTon.toFixed(4)} TON ${t.balanceBuyLabel}, +${result.halfTon.toFixed(4)} TON ${t.balanceWithdrawLabel}`, 'success', { persist: true });
         }
     });
 }
@@ -3195,23 +3199,50 @@ function showNotification(message, type = 'info', options = {}) {
         return;
     }
 
-    const toast = document.createElement('div');
-    toast.className = `toast ${type}`;
     const title = options.title || (type === 'success' ? t.statusApproved : type === 'error' ? t.statusRejected : type === 'support' ? t.supportTitle : t.notificationsTitle);
+
+    // Persist to notification center only when explicitly requested
+    if (window.gameDB && options.persist === true) {
+        window.gameDB.createNotification({
+            type: type,
+            title: title,
+            message: message,
+            audience: options.audience || 'user',
+            userId: options.userId || getActorId()
+        });
+        renderNotificationsCenter();
+    }
+
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+
+    const iconMap = {
+        success: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><polyline points="20 6 9 17 4 12"></polyline></svg>`,
+        error: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>`,
+        info: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>`,
+        support: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5h11A2.5 2.5 0 0 1 20 7.5v6A2.5 2.5 0 0 1 17.5 16H13l-3.8 3v-3H6.5A2.5 2.5 0 0 1 4 13.5v-6Z"></path></svg>`
+    };
+
     toast.innerHTML = `
-        <div class="toast-title">
-            <span class="toast-icon">${getNotificationIcon(type)}</span>
-            <span>${title}</span>
+        <div class="toast-accent-line toast-accent-${type}"></div>
+        <div class="toast-body">
+            <div class="toast-icon-wrap toast-icon-${type}">${iconMap[type] || iconMap.info}</div>
+            <div class="toast-content">
+                <div class="toast-title">${title}</div>
+                <div class="toast-message">${message}</div>
+            </div>
+            <button class="toast-close" onclick="this.closest('.toast').remove()">×</button>
         </div>
-        <div class="toast-message">${message}</div>
+        <div class="toast-progress"><div class="toast-progress-bar toast-progress-${type}"></div></div>
     `;
     container.appendChild(toast);
 
+    triggerHaptic(type === 'error' ? 'heavy' : type === 'success' ? 'medium' : 'light');
+
     window.setTimeout(() => {
-        toast.style.opacity = '0';
-        toast.style.transform = 'translate3d(18px, -14px, 0) scale(0.96)';
-        window.setTimeout(() => toast.remove(), 220);
-    }, 2600);
+        toast.classList.add('toast-exit');
+        window.setTimeout(() => toast.remove(), 350);
+    }, 3500);
 }
 
 function getCurrentLanguage() {
@@ -3520,7 +3551,7 @@ function buyHero(heroId) {
     renderApp();
     renderShop();
     renderMyHeroes();
-    showNotification(heroText.heroPurchased, 'success', { title: localizedHero.name });
+    showNotification(heroText.heroPurchased, 'success', { title: localizedHero.name, persist: true });
 }
 
 function upgradeHero(heroInstanceId, userId = '__current__') {
@@ -3534,7 +3565,7 @@ function upgradeHero(heroInstanceId, userId = '__current__') {
     renderShop();
     renderMyHeroes();
     renderUserDetailModal();
-    showNotification(heroText.heroUpgraded, 'success', { title: result.hero?.name || heroText.upgrade });
+    showNotification(heroText.heroUpgraded, 'success', { title: result.hero?.name || heroText.upgrade, persist: true });
 }
 
 function sellHero(heroInstanceId, userId = '__current__') {
@@ -3548,7 +3579,7 @@ function sellHero(heroInstanceId, userId = '__current__') {
     renderApp();
     renderShop();
     renderMyHeroes();
-    showNotification(heroText.heroSold, 'success', { title: result.hero?.name || heroText.sell });
+    showNotification(heroText.heroSold, 'success', { title: result.hero?.name || heroText.sell, persist: true });
 }
 
 function reissueHero(heroInstanceId, userId = '__current__') {
@@ -3561,7 +3592,7 @@ function reissueHero(heroInstanceId, userId = '__current__') {
     renderApp();
     renderMyHeroes();
     renderHeroDetailModal();
-    showNotification(heroText.heroReissued, 'success', { title: result.hero?.name || heroText.reissue });
+    showNotification(heroText.heroReissued, 'success', { title: result.hero?.name || heroText.reissue, persist: true });
 }
 
 function openHeroDetailModal(heroInstanceId) {
