@@ -1243,30 +1243,66 @@ body.telegram-webapp .identity-chip {
 }
 
 .menu-hub-card {
-    padding: 16px;
-    border-radius: 20px;
-    background: linear-gradient(180deg, rgba(18, 29, 47, 0.96), rgba(10, 18, 30, 0.9));
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 18px 34px rgba(0, 0, 0, 0.2);
+    padding: 18px 16px;
+    border-radius: 22px;
+    background: linear-gradient(145deg, rgba(18, 29, 47, 0.98), rgba(10, 18, 30, 0.95));
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.24);
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
     cursor: pointer;
     text-align: left;
     transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
     animation: menuCardIn 0.4s var(--transition-smooth) both;
+    position: relative;
+    overflow: hidden;
+}
+
+.menu-hub-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(ellipse at top right, rgba(255,255,255,0.05), transparent 60%);
+}
+
+.menu-hub-accent-cyan { border-color: rgba(103, 232, 249, 0.12); }
+.menu-hub-accent-amber { border-color: rgba(245, 158, 11, 0.12); }
+.menu-hub-accent-purple { border-color: rgba(139, 92, 246, 0.12); }
+.menu-hub-accent-green { border-color: rgba(52, 211, 153, 0.12); }
+
+.menu-hub-accent-cyan:hover,
+.menu-hub-accent-cyan:focus-visible {
+    transform: translateY(-4px);
+    border-color: rgba(103, 232, 249, 0.3);
+    box-shadow: 0 4px 18px rgba(103,232,249,0.12), 0 18px 36px rgba(0,0,0,0.28);
+}
+
+.menu-hub-accent-amber:hover,
+.menu-hub-accent-amber:focus-visible {
+    transform: translateY(-4px);
+    border-color: rgba(245, 158, 11, 0.32);
+    box-shadow: 0 4px 18px rgba(245,158,11,0.12), 0 18px 36px rgba(0,0,0,0.28);
+}
+
+.menu-hub-accent-purple:hover,
+.menu-hub-accent-purple:focus-visible {
+    transform: translateY(-4px);
+    border-color: rgba(139, 92, 246, 0.32);
+    box-shadow: 0 4px 18px rgba(139,92,246,0.12), 0 18px 36px rgba(0,0,0,0.28);
+}
+
+.menu-hub-accent-green:hover,
+.menu-hub-accent-green:focus-visible {
+    transform: translateY(-4px);
+    border-color: rgba(52, 211, 153, 0.32);
+    box-shadow: 0 4px 18px rgba(52,211,153,0.12), 0 18px 36px rgba(0,0,0,0.28);
 }
 
 @keyframes menuCardIn {
     from { opacity: 0; transform: translateY(12px) scale(0.96); }
     to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-.menu-hub-card:hover,
-.menu-hub-card:focus-visible {
-    transform: translateY(-4px);
-    border-color: rgba(103, 232, 249, 0.25);
-    box-shadow: 0 22px 40px rgba(0, 0, 0, 0.26);
 }
 
 .menu-hub-card:active {
@@ -1281,13 +1317,15 @@ body.telegram-webapp .identity-chip {
 }
 
 .menu-hub-icon {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     display: grid;
     place-items: center;
-    border-radius: 12px;
-    font-size: 16px;
+    border-radius: 14px;
+    flex-shrink: 0;
 }
+
+.menu-hub-icon svg { display: block; }
 
 .menu-hub-icon-cyan { background: rgba(103, 232, 249, 0.12); color: var(--accent); }
 .menu-hub-icon-amber { background: rgba(245, 158, 11, 0.12); color: var(--accent-2); }
@@ -1312,8 +1350,9 @@ body.telegram-webapp .identity-chip {
 }
 
 .menu-hub-value {
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 800;
+    line-height: 1.1;
 }
 
 .menu-hub-action {
@@ -2552,15 +2591,19 @@ body.telegram-webapp .admin-actions-wrap {
 
 .hero-card {
     position: relative;
-    padding: 14px;
+    padding: 0;
     border-radius: 22px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
+    background: linear-gradient(160deg, rgba(18,28,46,0.98), rgba(8,14,24,0.98));
     border: 1px solid rgba(255,255,255,0.07);
     display: flex;
     flex-direction: column;
-    gap: 12px;
     overflow: hidden;
-    box-shadow: 0 20px 38px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.hero-card:hover {
+    transform: translateY(-2px);
 }
 
 .hero-card,
@@ -2571,33 +2614,62 @@ body.telegram-webapp .admin-actions-wrap {
     animation: heroFloatIn 0.46s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.hero-card::before,
+.hero-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(ellipse at top right, rgba(255,255,255,0.07), transparent 55%);
+    z-index: 0;
+}
+
 .my-hero-item::before {
     content: '';
     position: absolute;
     inset: 0;
     pointer-events: none;
-    background: radial-gradient(circle at top right, rgba(255,255,255,0.14), transparent 34%);
+    background: radial-gradient(circle at top right, rgba(255,255,255,0.08), transparent 50%);
 }
 
 .rarity-common {
-    border-color: rgba(103, 232, 249, 0.16);
+    border-color: rgba(103, 232, 249, 0.22);
+    box-shadow: 0 4px 20px rgba(103,232,249,0.08), 0 12px 32px rgba(0,0,0,0.3);
+}
+
+.rarity-common.hero-card {
+    background: linear-gradient(160deg, rgba(13,32,44,0.98), rgba(8,14,24,0.98));
 }
 
 .rarity-rare {
-    border-color: rgba(59, 130, 246, 0.28);
+    border-color: rgba(59, 130, 246, 0.32);
+    box-shadow: 0 4px 20px rgba(59,130,246,0.12), 0 12px 32px rgba(0,0,0,0.3);
+}
+
+.rarity-rare.hero-card {
+    background: linear-gradient(160deg, rgba(10,20,48,0.98), rgba(8,14,24,0.98));
 }
 
 .rarity-epic {
-    border-color: rgba(168, 85, 247, 0.3);
+    border-color: rgba(168, 85, 247, 0.35);
+    box-shadow: 0 4px 24px rgba(168,85,247,0.15), 0 12px 32px rgba(0,0,0,0.3);
+}
+
+.rarity-epic.hero-card {
+    background: linear-gradient(160deg, rgba(20,10,46,0.98), rgba(8,14,24,0.98));
 }
 
 .rarity-legendary {
-    border-color: rgba(251, 191, 36, 0.34);
+    border-color: rgba(251, 191, 36, 0.4);
+    box-shadow: 0 4px 28px rgba(251,191,36,0.18), 0 12px 36px rgba(0,0,0,0.35);
+}
+
+.rarity-legendary.hero-card {
+    background: linear-gradient(160deg, rgba(30,20,6,0.98), rgba(8,14,24,0.98));
 }
 
 .hero-card-media {
     position: relative;
+    overflow: hidden;
 }
 
 body.telegram-webapp .shop-grid {
@@ -2607,14 +2679,15 @@ body.telegram-webapp .shop-grid {
 
 .hero-img {
     width: 100%;
-    height: 180px;
-    border-radius: 18px;
+    height: 160px;
+    display: block;
+    border-radius: 0;
     object-fit: cover;
     background: linear-gradient(135deg, rgba(103,232,249,0.06), rgba(139,92,246,0.04));
 }
 
 body.telegram-webapp .hero-img {
-    height: 152px;
+    height: 138px;
 }
 
 .hero-rarity-chip,
@@ -3099,29 +3172,41 @@ body.telegram-webapp .hero-summary-label {
 
 .hero-rarity-chip {
     position: absolute;
-    top: 12px;
-    left: 12px;
-    padding: 8px 10px;
+    top: 10px;
+    left: 10px;
+    padding: 6px 10px;
     color: #ffffff;
-    background: rgba(7, 17, 29, 0.48);
-    backdrop-filter: blur(10px);
+    background: rgba(4, 10, 20, 0.72);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.12);
 }
+
+.rarity-common .hero-rarity-chip { color: #67e8f9; border-color: rgba(103,232,249,0.25); }
+.rarity-rare .hero-rarity-chip { color: #93c5fd; border-color: rgba(59,130,246,0.3); }
+.rarity-epic .hero-rarity-chip { color: #d8b4fe; border-color: rgba(168,85,247,0.3); }
+.rarity-legendary .hero-rarity-chip { color: #fde68a; border-color: rgba(251,191,36,0.35); }
 
 .hero-owned-chip {
     position: absolute;
-    top: 12px;
-    right: 12px;
-    min-width: 40px;
-    padding: 8px 10px;
+    top: 10px;
+    right: 10px;
+    min-width: 36px;
+    padding: 6px 10px;
     color: #dff9ff;
-    background: rgba(7, 17, 29, 0.56);
-    backdrop-filter: blur(10px);
+    background: rgba(4, 10, 20, 0.72);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.1);
 }
 
 .hero-card-body {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    padding: 14px;
+    position: relative;
+    z-index: 1;
 }
 
 .hero-meta {
@@ -3136,16 +3221,27 @@ body.telegram-webapp .hero-summary-label {
 }
 
 .hero-price-block {
-    padding: 10px 12px;
-    border-radius: 16px;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.08);
+    padding: 8px 14px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.1);
+    text-align: center;
 }
 
+.rarity-common .hero-price-block { border-color: rgba(103,232,249,0.18); background: rgba(103,232,249,0.06); }
+.rarity-rare .hero-price-block { border-color: rgba(59,130,246,0.22); background: rgba(59,130,246,0.07); }
+.rarity-epic .hero-price-block { border-color: rgba(168,85,247,0.22); background: rgba(168,85,247,0.07); }
+.rarity-legendary .hero-price-block { border-color: rgba(251,191,36,0.28); background: rgba(251,191,36,0.07); }
+
 .hero-price-value {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 800;
 }
+
+.rarity-common .hero-price-value { color: #67e8f9; }
+.rarity-rare .hero-price-value { color: #60a5fa; }
+.rarity-epic .hero-price-value { color: #c084fc; }
+.rarity-legendary .hero-price-value { color: #fbbf24; }
 
 .hero-title {
     font-weight: 800;
@@ -3166,29 +3262,34 @@ body.telegram-webapp .hero-summary-label {
 .hero-stats-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
+    gap: 8px;
 }
 
 .hero-stat-tile {
-    padding: 12px;
-    border-radius: 16px;
-    background: rgba(255,255,255,0.05);
+    padding: 10px 12px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.04);
     border: 1px solid rgba(255,255,255,0.06);
 }
 
 .hero-stat-tile span {
     display: block;
     color: var(--muted);
-    font-size: 11px;
+    font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.08em;
 }
 
 .hero-stat-tile strong {
     display: block;
-    margin-top: 7px;
-    font-size: 17px;
+    margin-top: 5px;
+    font-size: 15px;
 }
+
+.rarity-common .hero-stat-tile strong { color: #67e8f9; }
+.rarity-rare .hero-stat-tile strong { color: #60a5fa; }
+.rarity-epic .hero-stat-tile strong { color: #c084fc; }
+.rarity-legendary .hero-stat-tile strong { color: #fbbf24; }
 
 .hero-actions-row {
     display: flex;
@@ -3235,14 +3336,34 @@ body.telegram-webapp .hero-summary-label {
 
 .buy-btn {
     flex: 1 1 140px;
-    padding: 10px 12px;
+    padding: 12px 14px;
     border-radius: 14px;
     background: linear-gradient(135deg, var(--accent), #b9f8ff);
     color: #04111f;
     font-weight: 800;
     cursor: pointer;
     border: 0;
-    box-shadow: 0 14px 28px rgba(103, 232, 249, 0.18);
+    box-shadow: 0 8px 20px rgba(103, 232, 249, 0.22);
+    transition: opacity 0.18s, transform 0.18s;
+}
+
+.buy-btn:active { opacity: 0.82; transform: scale(0.97); }
+
+.rarity-rare .buy-btn {
+    background: linear-gradient(135deg, #60a5fa, #3b82f6);
+    box-shadow: 0 8px 20px rgba(59,130,246,0.26);
+}
+
+.rarity-epic .buy-btn {
+    background: linear-gradient(135deg, #c084fc, #a855f7);
+    box-shadow: 0 8px 20px rgba(168,85,247,0.28);
+    color: #fff;
+}
+
+.rarity-legendary .buy-btn {
+    background: linear-gradient(135deg, #fde68a, #f59e0b);
+    box-shadow: 0 8px 22px rgba(251,191,36,0.3);
+    color: #07111d;
 }
 
 .my-heroes {

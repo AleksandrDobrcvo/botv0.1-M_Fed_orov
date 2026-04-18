@@ -1209,8 +1209,9 @@ function renderApp() {
     renderSupportCenter();
     renderHeroDetailModal();
     renderReferralSection();
-    renderPromoSection();
     renderRatingSection();
+    renderShop();
+    renderMyHeroes();
 
     populateAdminModal();
     renderAdminTabState();
@@ -1830,14 +1831,23 @@ function renderMenuDashboard() {
     const heroOps = window.gameDB.getHeroOperations().filter((item) => String(item.userId) === String(user.id || '') || (!user.id && !item.userId)).length;
 
     const menuT = getTranslations();
+    const menuIcons = {
+        notifications: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>`,
+        support: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`,
+        heroes: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`,
+        synergy: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+        referral: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
+        rating: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>`,
+        promo: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>`
+    };
     const cards = [
-        { icon: '◔', title: heroText.menuNotifications, value: unread, accent: 'cyan', badge: unread > 0, action: () => openNotificationsModal() },
-        { icon: '✦', title: heroText.menuSupport, value: pendingTickets, accent: 'amber', badge: pendingTickets > 0, action: () => openSupportModal() },
-        { icon: '◇', title: heroText.menuHeroLedger, value: heroOps, accent: 'purple', action: () => { APP_STATE.historyFilter = 'completed'; renderHistorySection(); } },
-        { icon: '▣', title: heroText.synergy, value: `${Math.round(synergy.totalBonus * 100)}%`, accent: 'green', action: () => handleNavigation('mines') },
-        { icon: '●', title: menuT.referralTitle, value: user.stats?.referrals || 0, accent: 'cyan', action: () => { setActiveNavButton('tasks'); handleNavigation('referral'); } },
-        { icon: '⚔', title: menuT.ratingTitle || 'Рейтинг', value: `#${user.rating?.position || 0}`, accent: 'purple', action: () => { setActiveNavButton('tasks'); handleNavigation('rating'); } },
-        { icon: '◆', title: menuT.promoTitle, value: '→', accent: 'amber', action: () => openPromoCodeModal() }
+        { icon: menuIcons.notifications, title: heroText.menuNotifications, value: unread, accent: 'cyan', badge: unread > 0, action: () => openNotificationsModal() },
+        { icon: menuIcons.support, title: heroText.menuSupport, value: pendingTickets, accent: 'amber', badge: pendingTickets > 0, action: () => openSupportModal() },
+        { icon: menuIcons.heroes, title: heroText.menuHeroLedger, value: heroOps, accent: 'purple', action: () => { APP_STATE.historyFilter = 'completed'; renderHistorySection(); } },
+        { icon: menuIcons.synergy, title: heroText.synergy, value: `${Math.round(synergy.totalBonus * 100)}%`, accent: 'green', action: () => handleNavigation('mines') },
+        { icon: menuIcons.referral, title: menuT.referralTitle, value: user.stats?.referrals || 0, accent: 'cyan', action: () => { setActiveNavButton('tasks'); handleNavigation('referral'); } },
+        { icon: menuIcons.rating, title: menuT.ratingTitle || 'Рейтинг', value: `#${user.rating?.position || 0}`, accent: 'purple', action: () => { setActiveNavButton('tasks'); handleNavigation('rating'); } },
+        { icon: menuIcons.promo, title: menuT.promoTitle, value: '→', accent: 'amber', action: () => openPromoCodeModal() }
     ];
 
     container.innerHTML = `
@@ -1854,7 +1864,7 @@ function renderMenuDashboard() {
     cards.forEach((item, i) => {
         const card = document.createElement('button');
         card.type = 'button';
-        card.className = 'menu-hub-card';
+        card.className = `menu-hub-card menu-hub-accent-${item.accent}`;
         card.style.animationDelay = `${i * 0.06}s`;
         card.innerHTML = `
             <div class="menu-hub-head">
@@ -3271,7 +3281,6 @@ function handleNavigation(type) {
         if (referralSection) {
             showAppView(referralSection);
             renderReferralSection();
-            renderPromoSection();
         }
         return;
     }
