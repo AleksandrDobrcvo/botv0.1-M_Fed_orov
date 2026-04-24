@@ -1,7 +1,7 @@
 const LOCALES = {
     ru: {
         eyebrow: 'Профиль Telegram WebApp',
-        gameTitle: 'TEST @PALMARON',
+        gameTitle: 'RoboNexus',
         heroSubtitle: 'Чистый профиль игрока с нулевым стартом, мягкой анимацией и нормальной локализацией.',
         balance: 'Баланс',
         balanceHint: 'Двойной тап обнуляет',
@@ -12,7 +12,7 @@ const LOCALES = {
         statusNovice: 'Новичок шахты',
         profileCardTitle: 'Профиль игрока',
         profileCardSubtitle: 'Минималистичный экран с корректными данными и подготовкой под Telegram.',
-        minedOre: 'Добыто руды',
+        minedOre: 'Добыто токенов $RNX',
         level: 'Уровень',
         purchased: 'Куплено',
         invited: 'Приглашено',
@@ -55,7 +55,7 @@ const LOCALES = {
         resetConfirm: 'Сбросить весь прогресс профиля?',
         accessAdmin: 'Админ',
         accessUser: 'Пользователь',
-        kgShort: 'кг'
+        kgShort: '$RNX'
         ,
         grantLocalAdmin: 'Выдать админку (локально)',
         grantLocalAdminConfirm: 'Выдать себе права администратора локально?',
@@ -279,11 +279,14 @@ const LOCALES = {
         methodTon: 'TON',
         methodUsdtBep20: 'USDT BEP-20',
         methodUsdtTrc20: 'USDT TRC-20',
-        methodTronTrx: 'TRON-TRX'
+        methodTronTrx: 'TRON-TRX',
+        walletAddressLabel: 'Адрес кошелька для перевода',
+        copiedText: 'Адрес скопирован',
+        tapToCopyHint: 'Нажмите на адрес чтобы скопировать'
     },
     ua: {
         eyebrow: 'Профіль Telegram WebApp',
-        gameTitle: 'TEST @PALMARON',
+        gameTitle: 'RoboNexus',
         heroSubtitle: 'Чистий профіль гравця з нульовим стартом, мʼякою анімацією та нормальною локалізацією.',
         balance: 'Баланс',
         balanceHint: 'Подвійний тап скидає',
@@ -294,7 +297,7 @@ const LOCALES = {
         statusNovice: 'Новачок шахти',
         profileCardTitle: 'Профіль гравця',
         profileCardSubtitle: 'Мінімалістичний екран з коректними даними та підготовкою під Telegram.',
-        minedOre: 'Видобуто руди',
+        minedOre: 'Видобуто токенів $RNX',
         level: 'Рівень',
         purchased: 'Куплено',
         invited: 'Запрошено',
@@ -337,7 +340,7 @@ const LOCALES = {
         resetConfirm: 'Скинути весь прогрес профілю?',
         accessAdmin: 'Адмін',
         accessUser: 'Користувач',
-        kgShort: 'кг'
+        kgShort: '$RNX'
         ,
         grantLocalAdmin: 'Видати адмінку (локально)',
         grantLocalAdminConfirm: 'Видати собі права адміністратора локально?',
@@ -561,7 +564,10 @@ const LOCALES = {
         methodTon: 'TON',
         methodUsdtBep20: 'USDT BEP-20',
         methodUsdtTrc20: 'USDT TRC-20',
-        methodTronTrx: 'TRON-TRX'
+        methodTronTrx: 'TRON-TRX',
+        walletAddressLabel: 'Реквізити для переказу',
+        copiedText: 'Адресу скопійовано',
+        tapToCopyHint: 'Натисніть на адресу щоб скопіювати'
     },
     };
 
@@ -574,6 +580,8 @@ const APP_STATE = {
     historyFilter: 'all',
     auditFilter: 'all',
     adminUserSearch: '',
+    adminRequestFilter: 'pending',
+    adminSupportFilter: 'all',
     selectedUserId: '',
     selectedUserTab: 'finance',
     selectedSupportTicketId: '',
@@ -581,8 +589,11 @@ const APP_STATE = {
     heroShopFilter: 'all',
     selectedShopHeroId: '',
     selectedHeroInstanceId: '',
-    adminTab: 'overview'
+    adminTab: 'overview',
+    activeNavIndex: 2 // profile is default (index 2)
 };
+
+const NAV_ORDER = ['shop', 'mines', 'profile', 'tasks', 'menu'];
 
 document.addEventListener('DOMContentLoaded', async () => {
     createBackgroundScene();
@@ -592,11 +603,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         await window.gameDB.initFirebase();
         await normalizeUserData();
         window.gameDB.updateLastSeen(window.gameDB.getUser().id);
+
+        // ── Обробка реферального коду з start_param ──────────────────
+        const tgWa = window.Telegram?.WebApp;
+        const startParam = tgWa?.initDataUnsafe?.start_param || '';
+        if (startParam.startsWith('ref_') && window.gameDB) {
+            const currentUser = window.gameDB.getUser();
+            if (currentUser.id && !currentUser.referredBy) {
+                window.gameDB.applyReferral(currentUser.id, startParam);
+            }
+        }
     }
 
     initializeLanguageSystem();
     initializeInteractions();
     renderApp();
+    // Position nav indicator after DOM is laid out
+    requestAnimationFrame(() => requestAnimationFrame(updateNavIndicator));
 
     document.addEventListener('visibilitychange', () => {
         if (!window.gameDB) return;
@@ -611,8 +634,49 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (window.gameDB) window.gameDB.setUserOffline(window.gameDB.getUser().id);
     });
 
+    // Animate splash status messages
+    const splashStatus = document.getElementById('splash-status');
+    const statusMessages = ['Connecting...', 'Loading heroes...', 'Ready!'];
+    let msgIdx = 0;
+    const msgInterval = setInterval(() => {
+        msgIdx++;
+        if (splashStatus && statusMessages[msgIdx]) {
+            splashStatus.style.opacity = '0';
+            splashStatus.style.transform = 'translateY(4px)';
+            setTimeout(() => {
+                if (splashStatus) {
+                    splashStatus.textContent = statusMessages[msgIdx];
+                    splashStatus.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                    splashStatus.style.opacity = '1';
+                    splashStatus.style.transform = 'translateY(0)';
+                }
+            }, 200);
+        }
+    }, 600);
+
+    // Generate splash particles
+    const particlesContainer = document.getElementById('splash-particles');
+    if (particlesContainer) {
+        for (let i = 0; i < 28; i++) {
+            const p = document.createElement('div');
+            p.className = 'splash-particle';
+            const colors = ['#67e8f9', '#8b5cf6', '#f59e0b', '#34d399', '#fff'];
+            p.style.cssText = `
+                left: ${Math.random() * 100}%;
+                bottom: ${Math.random() * 30}%;
+                background: ${colors[Math.floor(Math.random() * colors.length)]};
+                width: ${1 + Math.random() * 2.5}px;
+                height: ${1 + Math.random() * 2.5}px;
+                animation-duration: ${2.5 + Math.random() * 4}s;
+                animation-delay: ${Math.random() * 1.5}s;
+            `;
+            particlesContainer.appendChild(p);
+        }
+    }
+
     requestAnimationFrame(() => {
         setTimeout(() => {
+            clearInterval(msgInterval);
             const splash = document.getElementById('splash-screen');
             if (splash) {
                 splash.classList.add('splash-exit');
@@ -622,7 +686,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
             const shell = document.getElementById('app-shell');
             if (shell) shell.classList.add('app-revealed');
-        }, 1200);
+        }, 1600);
     });
 
     window.addEventListener('storage', (event) => {
@@ -637,6 +701,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
         renderHeroTimersOnly();
     }, 1000);
+
+    // ─── Version Check System ───
+    initVersionChecker();
 });
 
 function createBackgroundScene() {
@@ -826,8 +893,36 @@ function initializeInteractions() {
                 return;
             }
 
-            populateAdminModal();
-            openModal('admin-modal');
+            const inlinePanel = document.getElementById('admin-inline-panel');
+            const arrow = document.getElementById('admin-toggle-arrow');
+            if (!inlinePanel) return;
+
+            const isOpen = !inlinePanel.classList.contains('hidden');
+            if (isOpen) {
+                inlinePanel.classList.add('hidden');
+                if (arrow) arrow.textContent = '▾';
+            } else {
+                // Move admin modal content into the inline panel on first open
+                if (!inlinePanel.dataset.inited) {
+                    const adminModal = document.getElementById('admin-modal');
+                    if (adminModal) {
+                        const card = adminModal.querySelector('.modal-card, .admin-modal-card');
+                        if (card) {
+                            // Remove close button and modal-head from cloned content
+                            const clone = card.cloneNode(true);
+                            const modalHead = clone.querySelector('.modal-head');
+                            if (modalHead) modalHead.remove();
+                            inlinePanel.innerHTML = clone.innerHTML;
+                        }
+                    }
+                    inlinePanel.dataset.inited = '1';
+                    // Re-bind admin tabs inside inline panel
+                    initAdminInlineTabs(inlinePanel);
+                }
+                populateAdminModal();
+                inlinePanel.classList.remove('hidden');
+                if (arrow) arrow.textContent = '▴';
+            }
             triggerHaptic('medium');
         });
     }
@@ -979,6 +1074,9 @@ function initializeInteractions() {
         });
     }
 
+    const adminTasksAddBtn = document.getElementById('admin-tasks-add-btn');
+    if (adminTasksAddBtn) adminTasksAddBtn.addEventListener('click', () => openAddTaskModal());
+
     window.openFormModal = function openFormModal({ title = 'Form', sectionLabel, fields = [], confirmText, cancelText, onConfirm = () => {} }) {
         const modal = document.getElementById('form-modal');
         const body = document.getElementById('form-modal-body');
@@ -1005,7 +1103,12 @@ function initializeInteractions() {
             wrap.appendChild(label);
 
             let input;
-            if (field.type === 'select') {
+            if (field.type === 'readonly') {
+                wrap.className = 'form-field form-section-divider';
+                label.className = 'form-section-label';
+                body.appendChild(wrap);
+                return;
+            } else if (field.type === 'select') {
                 input = document.createElement('select');
                 (field.options || []).forEach((option) => {
                     const optionEl = document.createElement('option');
@@ -1035,6 +1138,7 @@ function initializeInteractions() {
             let valid = true;
 
             fields.forEach((field) => {
+                if (field.type === 'readonly') return;
                 const el = document.getElementById(`form-field-${field.name}`);
                 let value = el ? el.value : '';
                 if (field.type === 'number') value = Number(value);
@@ -1123,11 +1227,11 @@ function renderApp() {
     setText('balance-withdraw-value', `${Number(user.balanceWithdraw || 0).toFixed(2)} TON`);
     setText('rnx-balance-value', `${formatNumber(user.rnxBalance, locale)} $RNX`);
     setText('user-name', name);
-    setText('hero-header-name', username);
+    setText('hero-header-name', '@RoboNexusBot');
     setText('username-data', username);
     setText('telegram-id', `${t.telegramIdLabel}: ${telegramUserId || '-'}`);
     setText('registration-data', formatRegistrationDate(user.registrationDate, locale));
-    setText('mined-data', `${formatNumber(user.stats.minedOre, locale)} ${t.kgShort}`);
+    setText('mined-data', `${formatNumber(user.stats.totalRnxEarned || 0, locale)} ${t.kgShort}`);
     setText('level-data', formatNumber(user.stats.level, locale));
     setText('purchased-data', formatNumber(user.stats.purchased, locale));
     setText('invited-data', formatNumber(user.stats.invited, locale));
@@ -1199,6 +1303,27 @@ function renderApp() {
         const stats = window.gameDB.getDatabaseStats();
         if (onlineEl) onlineEl.textContent = String(stats.realOnlineCount || 0);
     }
+
+    // --- Level progress bar ---
+    // 1 рівень = кожні 1000 $RNX зароблено
+    const rnxPerLevel = 1000;
+    const totalRnxEarned = user.stats.totalRnxEarned || 0;
+    const level = Math.floor(totalRnxEarned / rnxPerLevel) + 1;
+    const currentXP = Math.round((totalRnxEarned % rnxPerLevel) / 10); // показуємо 0-100
+    const progressPct = Math.min(100, Math.round((totalRnxEarned % rnxPerLevel) / rnxPerLevel * 100));
+    setText('level-progress-current', String(level));
+    setText('level-data', String(level));
+    setText('level-progress-xp', `${currentXP} / 100 XP`);
+    const progressFill = document.getElementById('level-progress-fill');
+    if (progressFill) progressFill.style.width = progressPct + '%';
+
+    // --- Quick stats ticker ---
+    const onlineCount = window.gameDB.getOnlineCount ? window.gameDB.getOnlineCount() : 0;
+    setText('profile-online-count', String(onlineCount));
+    const ownedHeroes = (user.heroes || []).filter(h => h.owned);
+    setText('profile-active-heroes', String(ownedHeroes.length));
+    const todayEarned = ownedHeroes.reduce((sum, h) => sum + (h.dailyIncome || 0), 0);
+    setText('profile-today-earned', todayEarned.toFixed(2) + ' TON');
 
     renderUserRequests();
     renderTasks();
@@ -1279,15 +1404,24 @@ function renderNotificationsCenter() {
         const isRead = (Array.isArray(item.readBy) ? item.readBy : []).includes(actorId);
         const card = document.createElement('div');
         card.className = `notification-card${isRead ? '' : ' unread'}`;
+
+        // Icon per type
+        const icons = { success: '✅', error: '❌', info: 'ℹ️', support: '💬' };
+        const icon = icons[item.type] || '🔔';
+        const timeLabel = formatRegistrationDate(item.createdAt, LANGUAGE_TO_LOCALE[getCurrentLanguage()] || 'ru-RU');
+
         card.innerHTML = `
             <div class="notification-head">
-                <div>
-                    <div class="notification-title">${item.title || t.notificationsTitle}</div>
-                    <div class="notification-meta">${item.message || '-'}</div>
+                <div style="display:flex;gap:10px;align-items:flex-start;flex:1;min-width:0;">
+                    <span style="font-size:20px;flex-shrink:0;line-height:1.2;">${icon}</span>
+                    <div style="min-width:0;flex:1;">
+                        <div class="notification-title">${item.title || t.notificationsTitle}</div>
+                        <div class="notification-meta">${item.message || '-'}</div>
+                    </div>
                 </div>
-                <span class="status-chip ${item.type === 'error' ? 'rejected' : item.type === 'success' ? 'approved' : 'pending'}">${getNotificationIcon(item.type)}</span>
+                <span class="status-chip ${item.type === 'error' ? 'rejected' : item.type === 'success' ? 'approved' : 'pending'}" style="flex-shrink:0;">${getNotificationIcon(item.type)}</span>
             </div>
-            <div class="notification-meta">${formatRegistrationDate(item.createdAt, LANGUAGE_TO_LOCALE[getCurrentLanguage()] || 'ru-RU')}</div>
+            <div class="notification-meta" style="margin-top:10px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.05);">🕐 ${timeLabel}</div>
         `;
 
         card.addEventListener('click', () => {
@@ -1404,9 +1538,41 @@ function renderSupportCenter() {
 
 function renderAdminSupportList() {
     const container = document.getElementById('admin-support-list');
+    const filterBar = document.getElementById('admin-support-filter');
+    const countEl = document.getElementById('admin-support-count');
     if (!container || !window.gameDB) return;
     const t = getTranslations();
-    const tickets = window.gameDB.getSupportTickets();
+    const allTickets = window.gameDB.getSupportTickets();
+    const filter = APP_STATE.adminSupportFilter || 'all';
+
+    if (filterBar) {
+        const filters = [
+            { key: 'all', label: 'Все', count: allTickets.length },
+            { key: 'open', label: '🔴 Открытые', count: allTickets.filter((tk) => tk.status === 'open').length },
+            { key: 'in-progress', label: '🟡 В работе', count: allTickets.filter((tk) => tk.status === 'in-progress').length },
+            { key: 'closed', label: '✅ Закрытые', count: allTickets.filter((tk) => tk.status === 'closed' || tk.status === 'resolved').length }
+        ];
+        filterBar.innerHTML = '';
+        filters.forEach((f) => {
+            const btn = document.createElement('button');
+            btn.className = `admin-filter-btn${filter === f.key ? ' active' : ''}`;
+            btn.type = 'button';
+            btn.innerHTML = `${f.label}<span class="admin-filter-count">${f.count}</span>`;
+            btn.addEventListener('click', () => {
+                APP_STATE.adminSupportFilter = f.key;
+                renderAdminSupportList();
+            });
+            filterBar.appendChild(btn);
+        });
+    }
+
+    let tickets = allTickets;
+    if (filter === 'open') tickets = allTickets.filter((tk) => tk.status === 'open');
+    else if (filter === 'in-progress') tickets = allTickets.filter((tk) => tk.status === 'in-progress');
+    else if (filter === 'closed') tickets = allTickets.filter((tk) => tk.status === 'closed' || tk.status === 'resolved');
+
+    if (countEl) countEl.textContent = tickets.length;
+
     container.innerHTML = '';
     if (!tickets.length) {
         const empty = document.createElement('div');
@@ -1635,7 +1801,8 @@ function getHeroRarityLabel(rarityKey) {
         common: text.common,
         rare: text.rare,
         epic: text.epic,
-        legendary: text.legendary
+        legendary: text.legendary,
+        starter: getCurrentLanguage() === 'ua' ? 'Тестовий' : 'Тестовый'
     };
     return map[rarityKey] || text.common;
 }
@@ -1681,7 +1848,7 @@ function getLocalizedHeroData(hero) {
         name: typeof template.name === 'object' ? (template.name[language] || template.name.ru || hero.name) : (template.name || hero.name),
         description: typeof template.description === 'object' ? (template.description[language] || template.description.ru || hero.description) : (template.description || hero.description),
         role: typeof template.role === 'object' ? (template.role[language] || template.role.ru || hero.role) : (template.role || hero.role),
-        image: createHeroArtwork(template),
+        image: template.image || createHeroArtwork(template),
         palette: template.palette || hero.palette
     };
 }
@@ -1832,13 +1999,13 @@ function renderMenuDashboard() {
 
     const menuT = getTranslations();
     const menuIcons = {
-        notifications: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>`,
-        support: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`,
-        heroes: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`,
-        synergy: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
-        referral: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
-        rating: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>`,
-        promo: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>`
+        notifications: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>`,
+        support: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`,
+        heroes: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`,
+        synergy: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+        referral: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
+        rating: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>`,
+        promo: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>`
     };
     const cards = [
         { icon: menuIcons.notifications, title: heroText.menuNotifications, value: unread, accent: 'cyan', badge: unread > 0, action: () => openNotificationsModal() },
@@ -1881,6 +2048,27 @@ function renderMenuDashboard() {
     container.appendChild(grid);
 }
 
+function initAdminInlineTabs(container) {
+    const tabBtns = container.querySelectorAll('.admin-tabs [data-admin-tab], .tab-chip[data-admin-tab]');
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            APP_STATE.adminTab = btn.dataset.adminTab;
+            renderAdminTabState();
+        });
+    });
+
+    // Re-bind quick action buttons inside inline panel
+    const bindClick = (id, handler) => {
+        const el = container.querySelector('#' + id) || document.getElementById(id);
+        if (el) el.addEventListener('click', handler);
+    };
+    bindClick('admin-add-balance', () => openAdminBalanceModal('add'));
+    bindClick('admin-subtract-balance', () => openAdminBalanceModal('subtract'));
+    bindClick('admin-open-audit', () => { handleNavigation('audit'); });
+    bindClick('admin-grant-access', openAdminAccessModal);
+    bindClick('admin-finance-settings', openFinanceSettingsModal);
+}
+
 function renderAdminTabState() {
     document.querySelectorAll('#admin-tabs [data-admin-tab]').forEach((button) => {
         button.classList.toggle('active', button.dataset.adminTab === APP_STATE.adminTab);
@@ -1898,29 +2086,51 @@ function createRequestCard(request, options = {}) {
     const t = getTranslations();
     const locale = LANGUAGE_TO_LOCALE[getCurrentLanguage()] || 'ru-RU';
     const card = document.createElement('div');
-    card.className = 'request-card';
+    const statusClass = `status-${request.status}-card`;
+    card.className = `request-card ${statusClass}`;
 
     const title = request.type === 'deposit' ? t.depositRequestTitle : t.withdrawRequestTitle;
     const statusLabel = getRequestStatusLabel(request.status, t);
     const usernameLine = request.username ? ` · ${request.username}` : '';
 
+    // Status icons
+    const statusIcons = { pending: '⏳', approved: '✅', rejected: '❌' };
+    const statusIcon = statusIcons[request.status] || '◔';
+
+    // Finance info: min/max from config
+    const finance = window.gameDB ? window.gameDB.getFinanceConfig() : null;
+    const finConfig = finance && request.type === 'deposit' ? finance.deposit : (finance ? finance.withdraw : null);
+    const minAmount = finConfig ? finConfig.min : null;
+    const maxAmount = finConfig ? finConfig.max : null;
+
     card.innerHTML = `
         <div class="request-card-head">
             <div>
-                <div class="request-card-title">${title} · ${formatCurrency(request.amount, locale)}</div>
+                <div class="request-card-title">${statusIcon} ${title}</div>
                 <div class="request-card-sub">ID ${request.userId || '-'}${usernameLine}</div>
             </div>
             <span class="status-chip ${request.status}">${statusLabel}</span>
         </div>
-        <div class="request-card-meta">${t.methodLabel}: ${getMethodLabel(request.method, t)}${request.requisites ? ` · ${request.requisites}` : ''}</div>
-        <div class="request-card-meta">${formatRegistrationDate(request.createdAt, locale)}${request.comment ? ` · ${request.comment}` : ''}</div>
+        <div class="request-card-stats">
+            <span class="request-stat-pill request-stat-pill-accent">💰 ${formatCurrency(request.amount, locale)}</span>
+            <span class="request-stat-pill">${getMethodLabel(request.method, t)}</span>
+            ${request.paymentCode ? `<span class="request-stat-pill">🔑 ${request.paymentCode}</span>` : ''}
+            ${minAmount != null ? `<span class="request-stat-pill">Min: ${minAmount} TON</span>` : ''}
+        </div>
+        ${request.comment ? `<div class="request-card-meta">${request.comment}</div>` : ''}
+        <div class="request-card-meta">${formatRegistrationDate(request.createdAt, locale)}</div>
     `;
 
     if (request.resolutionComment) {
-        const resolution = document.createElement('div');
-        resolution.className = 'request-card-meta';
-        resolution.textContent = request.resolutionComment;
-        card.appendChild(resolution);
+        const rejection = document.createElement('div');
+        if (request.status === 'rejected') {
+            rejection.className = 'request-card-rejection';
+            rejection.innerHTML = `<span class="request-card-rejection-icon">⚠️</span><span class="request-card-rejection-text"><strong>Причина отклонения:</strong> ${request.resolutionComment}</span>`;
+        } else {
+            rejection.className = 'request-card-meta';
+            rejection.innerHTML = `✓ ${request.resolutionComment}`;
+        }
+        card.appendChild(rejection);
     }
 
     if (options.showAdminActions && request.status === 'pending') {
@@ -1971,12 +2181,40 @@ function renderUserRequests() {
 
 function renderAdminRequestList() {
     const container = document.getElementById('admin-request-list');
+    const filterBar = document.getElementById('admin-requests-filter');
+    const countEl = document.getElementById('admin-requests-count');
     if (!container || !window.gameDB) return;
 
-    const requests = window.gameDB.getRequests().filter((item) => item.status === 'pending');
+    const allRequests = window.gameDB.getRequests();
     const t = getTranslations();
-    container.innerHTML = '';
+    const filter = APP_STATE.adminRequestFilter || 'pending';
 
+    // Build filter bar
+    if (filterBar) {
+        const filters = [
+            { key: 'all', label: 'Все', count: allRequests.length },
+            { key: 'pending', label: '⏳ Ожидание', count: allRequests.filter((r) => r.status === 'pending').length },
+            { key: 'approved', label: '✅ Одобрено', count: allRequests.filter((r) => r.status === 'approved').length },
+            { key: 'rejected', label: '❌ Отклонено', count: allRequests.filter((r) => r.status === 'rejected').length }
+        ];
+        filterBar.innerHTML = '';
+        filters.forEach((f) => {
+            const btn = document.createElement('button');
+            btn.className = `admin-filter-btn${filter === f.key ? ' active' : ''}`;
+            btn.type = 'button';
+            btn.innerHTML = `${f.label}<span class="admin-filter-count">${f.count}</span>`;
+            btn.addEventListener('click', () => {
+                APP_STATE.adminRequestFilter = f.key;
+                renderAdminRequestList();
+            });
+            filterBar.appendChild(btn);
+        });
+    }
+
+    const requests = filter === 'all' ? allRequests : allRequests.filter((r) => r.status === filter);
+    if (countEl) countEl.textContent = requests.length;
+
+    container.innerHTML = '';
     if (!requests.length) {
         const empty = document.createElement('div');
         empty.className = 'request-card';
@@ -1992,12 +2230,15 @@ function renderAdminRequestList() {
 
 function renderAdminLogList() {
     const container = document.getElementById('admin-log-list');
+    const countEl = document.getElementById('admin-logs-count');
     if (!container || !window.gameDB) return;
 
     const entries = window.gameDB.getAdminLog();
     const t = getTranslations();
     const locale = LANGUAGE_TO_LOCALE[getCurrentLanguage()] || 'ru-RU';
     container.innerHTML = '';
+
+    if (countEl) countEl.textContent = entries.length;
 
     if (!entries.length) {
         const empty = document.createElement('div');
@@ -2007,13 +2248,35 @@ function renderAdminLogList() {
         return;
     }
 
-    entries.slice(0, 8).forEach((entry) => {
+    const LOG_COLORS = {
+        'balance-adjustment': 'log-amber',
+        'hero-granted': 'log-purple',
+        'hero-upgraded': 'log-purple',
+        'admin-access-granted': 'log-cyan',
+        'admin-access-revoked': 'log-red',
+        'request-approved': 'log-green',
+        'request-rejected': 'log-red',
+        'profile-updated': 'log-blue',
+        'task-created': 'log-green',
+        'task-updated': 'log-amber',
+        'task-status-updated': 'log-amber',
+        'finance-settings-updated': 'log-cyan',
+        'support-ticket-replied': 'log-blue',
+        'support-ticket-status': 'log-blue'
+    };
+
+    entries.slice(0, 30).forEach((entry) => {
+        const colorClass = LOG_COLORS[entry.type] || 'log-default';
+        const actor = resolveAuditActor(entry.adminId);
         const card = document.createElement('div');
-        card.className = 'request-card';
+        card.className = 'request-card admin-log-entry';
         card.innerHTML = `
-            <div class="request-card-title">${getAuditTypeLabel(entry.type, t)}</div>
-            <div class="request-card-meta">${describeAuditEntry(entry, locale) || '-'}</div>
-            <div class="request-card-meta">${formatRegistrationDate(entry.createdAt, locale)}</div>
+            <div class="admin-log-entry-head">
+                <span class="admin-log-type-badge ${colorClass}">${getAuditTypeLabel(entry.type, t)}</span>
+                <span class="admin-log-time">${formatRegistrationDate(entry.createdAt, locale)}</span>
+            </div>
+            ${actor ? `<div class="admin-log-actor">👤 ${actor}</div>` : ''}
+            <div class="request-card-meta">${describeAuditEntry(entry, locale) || '—'}</div>
         `;
         container.appendChild(card);
     });
@@ -2560,10 +2823,235 @@ function getEnabledMethods(type) {
         .map(([key]) => ({ value: key, label: map[key] || key }));
 }
 
+const DEPOSIT_WALLETS = {
+    ton: 'UQAxhjJ6HBCUALh78SG2-sOAOX1KI0EkRtOJAmnM15WBHdhS',
+    usdt_bep20: '0xD87bd5E8dc1EDd317A1e6FB36E155267DFfbD056',
+    usdt_trc20: 'TJyUoyLdk7g88aibFZAQmUfBsNRNKrKzPT',
+    tron_trx: 'TJyUoyLdk7g88aibFZAQmUfBsNRNKrKzPT'
+};
+
+const DEPOSIT_TIMER_SECONDS = 15 * 60; // 15 minutes
+
+let _depositTimerInterval = null;
+
+function generatePaymentCode() {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let code = 'PAY-';
+    for (let i = 0; i < 8; i++) code += chars[Math.floor(Math.random() * chars.length)];
+    return code;
+}
+
+function openDepositModal() {
+    const t = getTranslations();
+    const finance = window.gameDB.getFinanceConfig().deposit;
+    const methods = getEnabledMethods('deposit');
+
+    if (!methods.length) return showNotification(t.disabledLabel, 'error');
+
+    const modal = document.getElementById('deposit-flow-modal');
+    if (!modal) return openFinanceRequestModal('deposit');
+
+    // Reset to step 1
+    ['deposit-step-1','deposit-step-2','deposit-step-3'].forEach((id, i) => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.classList.toggle('hidden', i !== 0);
+        }
+    });
+
+    // Update label
+    const labelEl = document.getElementById('deposit-modal-label');
+    if (labelEl) labelEl.textContent = t.modalSectionFinance || 'ФІНАНСОВА ОПЕРАЦІЯ';
+    const titleEl = document.getElementById('deposit-modal-title');
+    if (titleEl) titleEl.textContent = t.depositPrompt || 'Нова заявка на поповнення';
+
+    // Amount label
+    const amountLabel = document.getElementById('deposit-amount-label');
+    if (amountLabel) amountLabel.textContent = `${t.amountLabel || 'СУМА'} (${finance.min}-${finance.max} TON)`;
+    const amountInput = document.getElementById('deposit-amount-input');
+    if (amountInput) { amountInput.value = ''; amountInput.placeholder = String(finance.min); amountInput.min = String(finance.min); amountInput.max = String(finance.max); }
+
+    // Build method buttons
+    const grid = document.getElementById('deposit-method-grid');
+    if (grid) {
+        grid.innerHTML = '';
+        methods.forEach((m, idx) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'deposit-method-btn' + (idx === 0 ? ' selected' : '');
+            btn.dataset.method = m.value;
+            btn.textContent = m.label;
+            btn.addEventListener('click', () => {
+                grid.querySelectorAll('.deposit-method-btn').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+            });
+            grid.appendChild(btn);
+        });
+    }
+
+    // Step 1 → Step 2
+    const nextBtn = document.getElementById('deposit-step1-next');
+    if (nextBtn) {
+        nextBtn.onclick = () => {
+            const amount = Number(amountInput?.value || 0);
+            if (!Number.isFinite(amount) || amount < finance.min || amount > finance.max) {
+                return showNotification(`${t.amountLabel}: ${finance.min}-${finance.max} TON`, 'error');
+            }
+            const selectedBtn = grid.querySelector('.deposit-method-btn.selected');
+            const method = selectedBtn ? selectedBtn.dataset.method : methods[0].value;
+            const methodLabel = selectedBtn ? selectedBtn.textContent : methods[0].label;
+            const wallet = DEPOSIT_WALLETS[method] || '';
+            const payCode = generatePaymentCode();
+
+            // Fill step 2
+            const el = (id) => document.getElementById(id);
+            if (el('deposit-amount-badge-value')) el('deposit-amount-badge-value').textContent = `${amount} TON`;
+            if (el('deposit-payment-method')) el('deposit-payment-method').textContent = methodLabel;
+            if (el('deposit-payment-code')) el('deposit-payment-code').textContent = payCode;
+            if (el('deposit-wallet-addr')) el('deposit-wallet-addr').textContent = wallet;
+
+            // QR
+            const qrImg = el('deposit-qr-img');
+            if (qrImg && wallet) {
+                qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(wallet + '?amount=' + amount + '&comment=' + payCode)}&bgcolor=ffffff&color=000000&margin=10`;
+                qrImg.alt = wallet;
+            }
+
+            // Copy buttons
+            el('deposit-code-copy').onclick = () => {
+                navigator.clipboard.writeText(payCode).then(() => showNotification(t.copiedText || 'Скопійовано', 'success'));
+            };
+            el('deposit-wallet-copy').onclick = () => {
+                navigator.clipboard.writeText(wallet).then(() => showNotification(t.copiedText || 'Скопійовано', 'success'));
+            };
+
+            // Switch step
+            el('deposit-step-1').classList.add('hidden');
+            el('deposit-step-2').classList.remove('hidden');
+
+            // Start timer
+            startDepositTimer(DEPOSIT_TIMER_SECONDS, () => {
+                // Timer expired — go back to step 1
+                el('deposit-step-2').classList.add('hidden');
+                el('deposit-step-1').classList.remove('hidden');
+                showNotification('Час вийшов. Спробуйте ще раз.', 'error');
+            });
+
+            // Step 2 → Step 3
+            el('deposit-step2-next').onclick = () => {
+                stopDepositTimer();
+                const user = window.gameDB.getUser();
+                window.gameDB.createRequest({
+                    type: 'deposit',
+                    userId: user.id,
+                    username: user.username,
+                    amount,
+                    method,
+                    requisites: wallet,
+                    comment: payCode
+                });
+                window.gameDB.applyReferralDepositBonus(user.id, amount);
+
+                // Fill step 3
+                if (el('deposit-success-amount')) el('deposit-success-amount').textContent = `${amount} TON`;
+                if (el('deposit-success-method')) el('deposit-success-method').textContent = methodLabel;
+                if (el('deposit-success-code')) el('deposit-success-code').textContent = payCode;
+
+                el('deposit-step-2').classList.add('hidden');
+                el('deposit-step-3').classList.remove('hidden');
+
+                triggerHaptic('medium');
+                renderApp();
+
+                // User notification
+                showNotification(t.requestCreated, 'success', {
+                    persist: true,
+                    title: t.depositRequestTitle || 'Пополнение',
+                    audience: 'user',
+                    userId: user.id
+                });
+
+                // Admin notification — separate entry so it's clearly marked
+                if (window.gameDB) {
+                    window.gameDB.createNotification({
+                        type: 'info',
+                        title: `🔔 [Администратор] Новая заявка на пополнение`,
+                        message: `Пользователь ${user.username || user.id} · ${amount} TON · ${methodLabel} · Код: ${payCode}`,
+                        audience: 'admin',
+                        userId: user.id
+                    });
+                    renderNotificationsCenter();
+                }
+            };
+
+            // Back
+            el('deposit-step2-back').onclick = () => {
+                stopDepositTimer();
+                el('deposit-step-2').classList.add('hidden');
+                el('deposit-step-1').classList.remove('hidden');
+            };
+        };
+    }
+
+    // Close buttons
+    const closeFn = () => {
+        stopDepositTimer();
+        modal.classList.remove('modal-active');
+        document.body.classList.remove('modal-open');
+    };
+    document.getElementById('deposit-modal-close').onclick = closeFn;
+    document.getElementById('deposit-step3-close').onclick = () => { closeFn(); showNotification(t.requestCreated, 'success', { persist: true }); };
+    modal.onclick = (e) => { if (e.target === modal) closeFn(); };
+
+    modal.classList.add('modal-active');
+    document.body.classList.add('modal-open');
+}
+
+function startDepositTimer(totalSeconds, onExpire) {
+    stopDepositTimer();
+    let remaining = totalSeconds;
+    const arcEl = document.getElementById('deposit-timer-arc');
+    const textEl = document.getElementById('deposit-timer-text');
+    const circumference = 163.4;
+
+    const update = () => {
+        const mins = String(Math.floor(remaining / 60)).padStart(2, '0');
+        const secs = String(remaining % 60).padStart(2, '0');
+        if (textEl) textEl.textContent = `${mins}:${secs}`;
+        if (arcEl) {
+            const offset = circumference * (1 - remaining / totalSeconds);
+            arcEl.style.strokeDashoffset = offset;
+            arcEl.classList.remove('warning', 'danger');
+            if (remaining <= 60) arcEl.classList.add('danger');
+            else if (remaining <= 180) arcEl.classList.add('warning');
+        }
+        if (remaining <= 0) {
+            stopDepositTimer();
+            onExpire();
+            return;
+        }
+        remaining--;
+    };
+
+    update();
+    _depositTimerInterval = setInterval(update, 1000);
+}
+
+function stopDepositTimer() {
+    if (_depositTimerInterval) {
+        clearInterval(_depositTimerInterval);
+        _depositTimerInterval = null;
+    }
+}
+
 function openFinanceRequestModal(type) {
+    if (type === 'deposit') {
+        openDepositModal();
+        return;
+    }
     const t = getTranslations();
     const user = window.gameDB.getUser();
-    const title = type === 'deposit' ? t.depositPrompt : t.withdrawPrompt;
+    const title = t.withdrawPrompt;
     const finance = window.gameDB.getFinanceConfig()[type];
     const methods = getEnabledMethods(type);
     const networkFee = window.gameDB.getNetworkFee();
@@ -2572,7 +3060,7 @@ function openFinanceRequestModal(type) {
         return showNotification(t.disabledLabel, 'error');
     }
 
-    const feeNote = type === 'withdraw' ? `\n${t.networkFeeLabel}: ${networkFee} TON` : '';
+    const feeNote = `\n${t.networkFeeLabel}: ${networkFee} TON`;
 
     window.openFormModal({
         title,
@@ -2586,7 +3074,7 @@ function openFinanceRequestModal(type) {
                 value: methods[0].value,
                 options: methods
             },
-            { name: 'requisites', label: t.detailsLabel, type: 'text', placeholder: type === 'withdraw' ? 'TON wallet address' : '' },
+            { name: 'requisites', label: t.detailsLabel, type: 'text', placeholder: 'TON wallet address', required: true },
             { name: 'comment', label: t.commentLabel, type: 'textarea', placeholder: '' }
         ],
         onConfirm: (values) => {
@@ -2597,11 +3085,9 @@ function openFinanceRequestModal(type) {
             if (amount < finance.min || amount > finance.max) {
                 return showNotification(`${t.amountLabel}: ${finance.min}-${finance.max} TON`, 'error');
             }
-            if (type === 'withdraw') {
-                const totalNeeded = amount + networkFee;
-                if (Number(user.balanceWithdraw || 0) < totalNeeded) {
-                    return showNotification(t.notEnough, 'error');
-                }
+            const totalNeeded = amount + networkFee;
+            if (Number(user.balanceWithdraw || 0) < totalNeeded) {
+                return showNotification(t.notEnough, 'error');
             }
 
             window.gameDB.createRequest({
@@ -2614,12 +3100,23 @@ function openFinanceRequestModal(type) {
                 comment: values.comment
             });
 
-            if (type === 'deposit') {
-                window.gameDB.applyReferralDepositBonus(user.id, amount);
-            }
-
             renderApp();
-            showNotification(t.requestCreated, 'success', { persist: true });
+            showNotification(t.requestCreated, 'success', {
+                persist: true,
+                title: t.withdrawRequestTitle || 'Вывод',
+                audience: 'user',
+                userId: user.id
+            });
+            if (window.gameDB) {
+                window.gameDB.createNotification({
+                    type: 'info',
+                    title: `🔔 [Администратор] Новая заявка на вывод`,
+                    message: `Пользователь ${user.username || user.id} · ${values.amount} TON · ${values.method} · ${values.requisites}`,
+                    audience: 'admin',
+                    userId: user.id
+                });
+                renderNotificationsCenter();
+            }
         }
     });
 }
@@ -2792,16 +3289,47 @@ function openOnlineEditModal() {
 
 function resolveRequest(requestId, action) {
     const t = getTranslations();
+    const isReject = action === 'reject';
+
+    const fields = [];
+    if (isReject) {
+        fields.push({
+            name: 'reason',
+            label: 'Причина отклонения',
+            type: 'select',
+            value: '',
+            options: [
+                { value: '', label: '— Выберите причину —' },
+                { value: 'Транзакция не найдена', label: 'Транзакция не найдена' },
+                { value: 'Неверный код платежа', label: 'Неверный код платежа' },
+                { value: 'Неверная сумма перевода', label: 'Неверная сумма перевода' },
+                { value: 'Дубликат заявки', label: 'Дубликат заявки' },
+                { value: 'Подозрительная активность', label: 'Подозрительная активность' },
+                { value: 'Неверный адрес кошелька', label: 'Неверный адрес кошелька' },
+                { value: 'Истёк срок действия', label: 'Истёк срок действия' },
+                { value: 'Другое', label: 'Другое (см. комментарий)' }
+            ]
+        });
+    }
+    fields.push({
+        name: 'comment',
+        label: isReject ? 'Доп. комментарий (необязательно)' : t.commentLabel,
+        type: 'textarea',
+        placeholder: ''
+    });
+
     window.openFormModal({
-        title: action === 'approve' ? t.statusApproved : t.statusRejected,
+        title: isReject ? '❌ Отклонить заявку' : '✅ Одобрить заявку',
         sectionLabel: t.modalSectionAdmin,
-        fields: [
-            { name: 'comment', label: t.commentLabel, type: 'textarea', placeholder: '' }
-        ],
+        fields,
         onConfirm: (values) => {
+            const finalComment = isReject
+                ? [values.reason, values.comment].filter(Boolean).join(' — ')
+                : values.comment;
+
             const result = action === 'approve'
-                ? window.gameDB.approveRequest(requestId, window.gameDB.getUser().id, values.comment)
-                : window.gameDB.rejectRequest(requestId, window.gameDB.getUser().id, values.comment);
+                ? window.gameDB.approveRequest(requestId, window.gameDB.getUser().id, finalComment)
+                : window.gameDB.rejectRequest(requestId, window.gameDB.getUser().id, finalComment);
 
             if (!result.success) {
                 return showNotification(t.notEnough, 'error');
@@ -2816,26 +3344,51 @@ function resolveRequest(requestId, action) {
 function openFinanceSettingsModal() {
     const t = getTranslations();
     const finance = window.gameDB.getFinanceConfig();
+    const referral = window.gameDB.getReferralConfig();
     window.openFormModal({
         title: t.manageFinanceTitle,
         sectionLabel: t.modalSectionAdmin,
         fields: [
-            { name: 'rnxRate', label: 'Курс $RNX за 1 TON', type: 'number', value: finance.rnxRate || 10000, required: true },
+            // ── Обмен ──
+            { name: '_sec_exchange', label: '─── Обмен $RNX → TON ───', type: 'readonly' },
+            { name: 'rnxRate', label: 'Курс: сколько $RNX = 1 TON', type: 'number', value: finance.rnxRate || 10000, required: true },
+            { name: 'exchangeWithdrawRatio', label: 'Доля вывода при обмене (0–10 = 0–100%)', type: 'number', value: Math.round((finance.exchangeWithdrawRatio ?? 0.3) * 100), required: true },
             { name: 'networkFee', label: `${t.networkFeeLabel} (TON)`, type: 'number', value: finance.networkFee != null ? finance.networkFee : 0.1, required: true },
+            // ── Пополнение ──
+            { name: '_sec_deposit', label: '─── Пополнение ───', type: 'readonly' },
             { name: 'depositMin', label: `${t.depositLimitsTitle} · ${t.minAmountLabel} (TON)`, type: 'number', value: finance.deposit.min, required: true },
             { name: 'depositMax', label: `${t.depositLimitsTitle} · ${t.maxAmountLabel} (TON)`, type: 'number', value: finance.deposit.max, required: true },
-            { name: 'depositTon', label: `${t.depositLimitsTitle} · TON`, type: 'select', value: finance.deposit.methods.ton ? 'enabled' : 'disabled', options: [{ value: 'enabled', label: t.enabledLabel }, { value: 'disabled', label: t.disabledLabel }] },
-            { name: 'depositUsdtBep20', label: `${t.depositLimitsTitle} · USDT BEP-20`, type: 'select', value: finance.deposit.methods.usdt_bep20 ? 'enabled' : 'disabled', options: [{ value: 'enabled', label: t.enabledLabel }, { value: 'disabled', label: t.disabledLabel }] },
-            { name: 'depositUsdtTrc20', label: `${t.depositLimitsTitle} · USDT TRC-20`, type: 'select', value: finance.deposit.methods.usdt_trc20 ? 'enabled' : 'disabled', options: [{ value: 'enabled', label: t.enabledLabel }, { value: 'disabled', label: t.disabledLabel }] },
-            { name: 'depositTronTrx', label: `${t.depositLimitsTitle} · TRON-TRX`, type: 'select', value: finance.deposit.methods.tron_trx ? 'enabled' : 'disabled', options: [{ value: 'enabled', label: t.enabledLabel }, { value: 'disabled', label: t.disabledLabel }] },
+            { name: 'depositTon', label: `Депозит · TON`, type: 'select', value: finance.deposit.methods.ton ? 'enabled' : 'disabled', options: [{ value: 'enabled', label: t.enabledLabel }, { value: 'disabled', label: t.disabledLabel }] },
+            { name: 'depositUsdtBep20', label: `Депозит · USDT BEP-20`, type: 'select', value: finance.deposit.methods.usdt_bep20 ? 'enabled' : 'disabled', options: [{ value: 'enabled', label: t.enabledLabel }, { value: 'disabled', label: t.disabledLabel }] },
+            { name: 'depositUsdtTrc20', label: `Депозит · USDT TRC-20`, type: 'select', value: finance.deposit.methods.usdt_trc20 ? 'enabled' : 'disabled', options: [{ value: 'enabled', label: t.enabledLabel }, { value: 'disabled', label: t.disabledLabel }] },
+            { name: 'depositTronTrx', label: `Депозит · TRON-TRX`, type: 'select', value: finance.deposit.methods.tron_trx ? 'enabled' : 'disabled', options: [{ value: 'enabled', label: t.enabledLabel }, { value: 'disabled', label: t.disabledLabel }] },
+            // ── Вывод ──
+            { name: '_sec_withdraw', label: '─── Вывод ───', type: 'readonly' },
             { name: 'withdrawMin', label: `${t.withdrawLimitsTitle} · ${t.minAmountLabel} (TON)`, type: 'number', value: finance.withdraw.min, required: true },
             { name: 'withdrawMax', label: `${t.withdrawLimitsTitle} · ${t.maxAmountLabel} (TON)`, type: 'number', value: finance.withdraw.max, required: true },
-            { name: 'withdrawTon', label: `${t.withdrawLimitsTitle} · TON`, type: 'select', value: finance.withdraw.methods.ton ? 'enabled' : 'disabled', options: [{ value: 'enabled', label: t.enabledLabel }, { value: 'disabled', label: t.disabledLabel }] }
+            { name: 'withdrawTon', label: `Вывод · TON`, type: 'select', value: finance.withdraw.methods.ton ? 'enabled' : 'disabled', options: [{ value: 'enabled', label: t.enabledLabel }, { value: 'disabled', label: t.disabledLabel }] },
+            // ── Рефералка ──
+            { name: '_sec_referral', label: '─── Реферальная программа ───', type: 'readonly' },
+            { name: 'refFixed', label: 'Фикс. награда за реферала ($RNX)', type: 'number', value: referral.fixedReward || 500, required: true },
+            { name: 'refLvl1', label: 'Уровень 1 — % от покупки', type: 'number', value: (referral.levels[0] && referral.levels[0].percentage) || 5, required: true },
+            { name: 'refLvl2', label: 'Уровень 2 — % от покупки', type: 'number', value: (referral.levels[1] && referral.levels[1].percentage) || 3, required: true },
+            { name: 'refLvl3', label: 'Уровень 3 — % от покупки', type: 'number', value: (referral.levels[2] && referral.levels[2].percentage) || 1, required: true },
+            // ── Экономика героев ──
+            { name: '_sec_heroes', label: '─── Экономика героев ───', type: 'readonly' },
+            { name: 'sellCoef', label: 'Коэф. продажи (0–10 = 0–100% от цены)', type: 'number', value: Math.round((finance.heroConfig?.sellCoef ?? 0.5) * 100), required: true },
+            { name: 'upgradeMultiplier', label: 'Множитель стоимости апгрейда (1.24 = +24%/ур)', type: 'number', value: finance.heroConfig?.upgradeCostMultiplier ?? 1.24, required: true }
         ],
         onConfirm: (values) => {
+            const withdrawRatioPct = Math.min(100, Math.max(0, Number(values.exchangeWithdrawRatio || 30)));
+            const sellCoefPct = Math.min(100, Math.max(1, Number(values.sellCoef || 50)));
             window.gameDB.updateFinanceConfig({
                 rnxRate: Number(values.rnxRate || 10000),
                 networkFee: Number(values.networkFee || 0.1),
+                exchangeWithdrawRatio: withdrawRatioPct / 100,
+                heroConfig: {
+                    sellCoef: sellCoefPct / 100,
+                    upgradeCostMultiplier: Math.max(1, Number(values.upgradeMultiplier || 1.24))
+                },
                 deposit: {
                     min: Number(values.depositMin),
                     max: Number(values.depositMax),
@@ -2854,10 +3407,18 @@ function openFinanceSettingsModal() {
                     }
                 }
             });
+            window.gameDB.updateReferralConfig({
+                fixedReward: Number(values.refFixed || 500),
+                levels: [
+                    { level: 1, percentage: Number(values.refLvl1 || 5) },
+                    { level: 2, percentage: Number(values.refLvl2 || 3) },
+                    { level: 3, percentage: Number(values.refLvl3 || 1) }
+                ]
+            });
             window.gameDB.createAdminLog({
                 type: 'finance-settings-updated',
                 adminId: String(window.gameDB.getUser().id || ''),
-                reason: 'deposit/withdraw settings changed'
+                reason: 'full economy settings changed'
             });
             renderApp();
             showNotification(t.settingsSaved, 'success');
@@ -3012,7 +3573,7 @@ function openExchangeModal() {
                 return showNotification(t.insufficientRnx, 'error');
             }
             renderApp();
-            showNotification(`${t.exchangeSuccess}: +${result.halfTon.toFixed(4)} TON ${t.balanceBuyLabel}, +${result.halfTon.toFixed(4)} TON ${t.balanceWithdrawLabel}`, 'success', { persist: true });
+            showNotification(`${t.exchangeSuccess}: +${result.buyTon.toFixed(4)} TON ${t.balanceBuyLabel}, +${result.withdrawTon.toFixed(4)} TON ${t.balanceWithdrawLabel}`, 'success', { persist: true });
         }
     });
 }
@@ -3239,6 +3800,12 @@ function handleNavigation(type) {
     const referralSection = document.getElementById('referral-section');
     const ratingSection = document.getElementById('rating-section');
 
+    // Determine slide direction
+    const newIndex = NAV_ORDER.indexOf(type);
+    const direction = newIndex === -1
+        ? 'right'
+        : (newIndex > APP_STATE.activeNavIndex ? 'right' : newIndex < APP_STATE.activeNavIndex ? 'left' : undefined);
+
     if (shopSection) shopSection.classList.add('hidden');
     if (profileSection) profileSection.classList.add('hidden');
     if (myHeroesSection) myHeroesSection.classList.add('hidden');
@@ -3249,13 +3816,13 @@ function handleNavigation(type) {
     if (ratingSection) ratingSection.classList.add('hidden');
 
     if (type === 'profile') {
-        if (profileSection) showAppView(profileSection);
+        if (profileSection) showAppView(profileSection, direction);
         return;
     }
 
     if (type === 'shop') {
         if (shopSection) {
-            showAppView(shopSection);
+            showAppView(shopSection, direction);
             renderShop();
         }
         return;
@@ -3263,7 +3830,7 @@ function handleNavigation(type) {
 
     if (type === 'mines') {
         if (myHeroesSection) {
-            showAppView(myHeroesSection);
+            showAppView(myHeroesSection, direction);
             renderMyHeroes();
         }
         return;
@@ -3271,7 +3838,7 @@ function handleNavigation(type) {
 
     if (type === 'tasks') {
         if (tasksSection) {
-            showAppView(tasksSection);
+            showAppView(tasksSection, direction);
             renderTasks();
         }
         return;
@@ -3279,7 +3846,7 @@ function handleNavigation(type) {
 
     if (type === 'referral') {
         if (referralSection) {
-            showAppView(referralSection);
+            showAppView(referralSection, direction);
             renderReferralSection();
         }
         return;
@@ -3287,7 +3854,7 @@ function handleNavigation(type) {
 
     if (type === 'rating') {
         if (ratingSection) {
-            showAppView(ratingSection);
+            showAppView(ratingSection, direction);
             renderRatingSection();
         }
         return;
@@ -3295,7 +3862,7 @@ function handleNavigation(type) {
 
     if (type === 'menu') {
         if (historySection) {
-            showAppView(historySection);
+            showAppView(historySection, direction);
             renderHistorySection();
         }
         return;
@@ -3304,14 +3871,26 @@ function handleNavigation(type) {
     showNotification(getTranslations().comingSoon, 'info');
 }
 
+function updateNavIndicator() {
+    const indicator = document.getElementById('nav-indicator');
+    if (!indicator) return;
+    const activeBtn = document.querySelector('.nav-btn.active');
+    if (!activeBtn) return;
+    const nav = document.querySelector('.bottom-nav');
+    if (!nav) return;
+    const navRect = nav.getBoundingClientRect();
+    const btnRect = activeBtn.getBoundingClientRect();
+    indicator.style.left = (btnRect.left - navRect.left) + 'px';
+    indicator.style.width = btnRect.width + 'px';
+}
+
 function setActiveNavButton(type) {
     const navButtons = document.querySelectorAll('.nav-btn');
+    const newIndex = NAV_ORDER.indexOf(type);
 
     navButtons.forEach((button) => {
         const isActive = button.dataset.nav === type;
-
         button.classList.toggle('active', isActive);
-
         if (isActive) {
             button.classList.remove('nav-switch');
             void button.offsetWidth;
@@ -3320,14 +3899,22 @@ function setActiveNavButton(type) {
             button.classList.remove('nav-switch');
         }
     });
+
+    if (newIndex !== -1) {
+        APP_STATE.activeNavIndex = newIndex;
+    }
+    requestAnimationFrame(updateNavIndicator);
 }
 
-function showAppView(element) {
+function showAppView(element, direction) {
     if (!element) return;
     element.classList.remove('hidden');
-    element.classList.remove('section-enter');
+    element.classList.remove('section-enter', 'slide-enter-right', 'slide-enter-left');
     void element.offsetWidth;
-    element.classList.add('section-enter');
+    let cls = 'section-enter';
+    if (direction === 'right') cls = 'slide-enter-right';
+    else if (direction === 'left') cls = 'slide-enter-left';
+    element.classList.add(cls);
 }
 
 function openAuditScreen() {
@@ -3341,6 +3928,22 @@ function openAuditScreen() {
     renderAuditSection();
 }
 
+function updateAdminTabBadges() {
+    if (!window.gameDB) return;
+    const pendingCount = window.gameDB.getRequests().filter((r) => r.status === 'pending').length;
+    const requestsBadge = document.getElementById('admin-requests-tab-badge');
+    if (requestsBadge) {
+        requestsBadge.textContent = pendingCount;
+        requestsBadge.style.display = pendingCount > 0 ? 'inline-flex' : 'none';
+    }
+    const openTickets = window.gameDB.getSupportTickets().filter((tk) => tk.status === 'open').length;
+    const supportBadge = document.getElementById('admin-support-tab-badge');
+    if (supportBadge) {
+        supportBadge.textContent = openTickets;
+        supportBadge.style.display = openTickets > 0 ? 'inline-flex' : 'none';
+    }
+}
+
 function populateAdminModal() {
     const stats = window.gameDB.getDatabaseStats();
     const t = getTranslations();
@@ -3348,7 +3951,10 @@ function populateAdminModal() {
 
     setText('admin-total-users', formatNumber(stats.totalUsers, locale));
     setText('admin-last-updated', new Date(stats.lastUpdated).toLocaleString(locale));
-    setText('admin-version', stats.version);
+    // Show version from version.json if available, otherwise from DB
+    fetchVersionJson().then(vData => {
+        setText('admin-version', vData ? vData.version : stats.version);
+    });
     setText('admin-access', stats.isAdmin ? t.accessAdmin : t.accessUser);
     setText('admin-online-count', formatNumber(stats.realOnlineCount, locale));
     setText('admin-total-balance', `${stats.totalBalance} TON`);
@@ -3364,6 +3970,7 @@ function populateAdminModal() {
     renderAdminLogList();
     renderAdminTasksList();
     renderAdminSupportList();
+    updateAdminTabBadges();
 }
 
 function closeAdminModal() {
@@ -3426,7 +4033,7 @@ function showNotification(message, type = 'info', options = {}) {
                 <div class="toast-title">${title}</div>
                 <div class="toast-message">${message}</div>
             </div>
-            <button class="toast-close" onclick="this.closest('.toast').remove()">×</button>
+            <button class="toast-close" type="button">×</button>
         </div>
         <div class="toast-progress"><div class="toast-progress-bar toast-progress-${type}"></div></div>
     `;
@@ -3434,10 +4041,24 @@ function showNotification(message, type = 'info', options = {}) {
 
     triggerHaptic(type === 'error' ? 'heavy' : type === 'success' ? 'medium' : 'light');
 
-    window.setTimeout(() => {
+    // Use rAF double-tick so the transition from opacity:0 → 1 actually plays
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            toast.classList.add('toast-visible');
+        });
+    });
+
+    const removeToast = () => {
+        if (!toast.isConnected) return;
         toast.classList.add('toast-exit');
-        window.setTimeout(() => toast.remove(), 350);
-    }, 3500);
+        window.setTimeout(() => { if (toast.isConnected) toast.remove(); }, 400);
+    };
+
+    // Close button
+    const closeBtn = toast.querySelector('.toast-close');
+    if (closeBtn) closeBtn.onclick = removeToast;
+
+    window.setTimeout(removeToast, 5000);
 }
 
 function getCurrentLanguage() {
@@ -3612,12 +4233,128 @@ function createHeroTemplate(hero) {
 }
 
 const HEROES = [
-    createHeroTemplate({ id: 'h1', name: { ru: 'Бастион Пепла', ua: 'Бастіон Попелу' }, role: { ru: 'Авангард', ua: 'Авангард' }, rarityKey: 'common', price: 80, baseProfitPerHour: 6, durationHours: 24, growthRate: 0.18, baseUpgradePrice: 40, description: { ru: 'Стартовый герой для стабильного фарма. Невысокая цена входа и быстрый возврат инвестиций.', ua: 'Стартовий герой для стабільного фарму. Невисока ціна входу і швидке повернення інвестицій.' }, palette: ['#1d3557', '#457b9d', '#f4a261'] }),
-    createHeroTemplate({ id: 'h2', name: { ru: 'Ледяной Следопыт', ua: 'Крижаний Слідопит' }, role: { ru: 'Контроль', ua: 'Контроль' }, rarityKey: 'rare', price: 180, baseProfitPerHour: 14, durationHours: 36, growthRate: 0.21, baseUpgradePrice: 78, description: { ru: 'Редкий герой с усиленным ростом дохода. Лучше раскрывается после первых улучшений.', ua: 'Рідкісний герой із посиленим ростом доходу. Краще розкривається після перших покращень.' }, palette: ['#14213d', '#3a86ff', '#90e0ef'] }),
-    createHeroTemplate({ id: 'h3', name: { ru: 'Арканный Кузнец', ua: 'Арканний Коваль' }, role: { ru: 'Ремесло', ua: 'Ремесло' }, rarityKey: 'rare', price: 260, baseProfitPerHour: 21, durationHours: 42, growthRate: 0.23, baseUpgradePrice: 112, description: { ru: 'Сильный средний тир для тех, кто хочет быстро набрать общий power level аккаунта.', ua: 'Сильний середній тир для тих, хто хоче швидко набрати загальний power level акаунта.' }, palette: ['#2b2d42', '#5a189a', '#ffb703'] }),
-    createHeroTemplate({ id: 'h4', name: { ru: 'Фантом Штольни', ua: 'Фантом Штольні' }, role: { ru: 'Штурм', ua: 'Штурм' }, rarityKey: 'epic', price: 420, baseProfitPerHour: 34, durationHours: 48, growthRate: 0.27, baseUpgradePrice: 176, description: { ru: 'Эпический герой под агрессивную прокачку. Каждый уровень ощутимо поднимает доход.', ua: 'Епічний герой під агресивну прокачку. Кожен рівень помітно піднімає дохід.' }, palette: ['#0b132b', '#6d28d9', '#f472b6'] }),
-    createHeroTemplate({ id: 'h5', name: { ru: 'Король Жил', ua: 'Король Жил' }, role: { ru: 'Командир', ua: 'Командир' }, rarityKey: 'epic', price: 690, baseProfitPerHour: 56, durationHours: 60, growthRate: 0.3, baseUpgradePrice: 288, description: { ru: 'Топовый командир для мидгейма с дорогим, но очень эффективным апгрейдом.', ua: 'Топовий командир для мідгейму з дорогим, але дуже ефективним апгрейдом.' }, palette: ['#111827', '#9a3412', '#fbbf24'] }),
-    createHeroTemplate({ id: 'h6', name: { ru: 'Солнечный Архонт', ua: 'Сонячний Архонт' }, role: { ru: 'Легенда', ua: 'Легенда' }, rarityKey: 'legendary', price: 1100, baseProfitPerHour: 92, durationHours: 72, growthRate: 0.34, baseUpgradePrice: 470, description: { ru: 'Легендарный лейтгейм актив, на котором строится сильная экономика аккаунта.', ua: 'Легендарний лейтгейм актив, на якому будується сильна економіка акаунта.' }, palette: ['#1f2937', '#b91c1c', '#fde68a'] })
+    // ─── ТЕСТОВИЙ ГЕРОЙ (безкоштовно, 1 раз) ─────────────────────────────────
+    createHeroTemplate({
+        id: 'h_starter',
+        name: { ru: 'Starter Bot', ua: 'Starter Bot' },
+        role: { ru: 'Тестовый', ua: 'Тестовий' },
+        rarityKey: 'starter',
+        price: 0,
+        baseProfitPerHour: 12.5,   // 300 RNX/день ÷ 24 г
+        durationHours: 360,        // 15 днів × 24 г
+        growthRate: 0,
+        baseUpgradePrice: 0,
+        isTestHero: true,
+        description: {
+            ru: 'Базовый стартовый робот для первого знакомства с RoboNexus. Помогает быстро войти в систему и начать зарабатывать. Доступен один раз. Прибыль только на баланс покупок.',
+            ua: 'Базовий стартовий робот для першого знайомства з RoboNexus. Допомагає швидко увійти в систему та почати заробляти. Доступний один раз. Прибуток лише на баланс покупок.'
+        },
+        palette: ['#0a1f15', '#10b981', '#34d399'],
+        image: 'images/hero_starter.png'
+    }),
+    // ─── ОСНОВНІ 6 ГЕРОЇВ ──────────────────────────────────────────────────────
+    createHeroTemplate({
+        id: 'h1',
+        name: { ru: 'Flux Rover', ua: 'Flux Rover' },
+        role: { ru: 'Разведчик', ua: 'Розвідник' },
+        rarityKey: 'common',
+        price: 5,
+        baseProfitPerHour: 37.5,   // 900 RNX/день ÷ 24 г
+        durationHours: 2400,       // 100 днів × 24 г
+        growthRate: 0,
+        baseUpgradePrice: 2,
+        description: {
+            ru: 'Манёвренный робот-разведчик с высокой стабильностью. Идеальный выбор для старта и постепенного развития.',
+            ua: 'Маневрений робот-розвідник із високою стабільністю. Ідеальний вибір для старту та поступового розвитку.'
+        },
+        palette: ['#1d3557', '#457b9d', '#f4a261'],
+        image: 'images/hero_flux_rover.png'
+    }),
+    createHeroTemplate({
+        id: 'h2',
+        name: { ru: 'Iron Pulse', ua: 'Iron Pulse' },
+        role: { ru: 'Боец', ua: 'Боєць' },
+        rarityKey: 'common',
+        price: 8,
+        baseProfitPerHour: 62.5,   // 1500 RNX/день ÷ 24 г
+        durationHours: 2400,       // 100 днів × 24 г
+        growthRate: 0,
+        baseUpgradePrice: 4,
+        description: {
+            ru: 'Энергетический боец с мощным ядром. Генерирует повышенный доход благодаря стабильному потоку энергии.',
+            ua: 'Енергетичний боєць із потужним ядром. Генерує підвищений дохід завдяки стабільному потоку енергії.'
+        },
+        palette: ['#14213d', '#3a86ff', '#e63946'],
+        image: 'images/hero_iron_pulse.png'
+    }),
+    createHeroTemplate({
+        id: 'h3',
+        name: { ru: 'Core Digger', ua: 'Core Digger' },
+        role: { ru: 'Шахтёр', ua: 'Шахтар' },
+        rarityKey: 'rare',
+        price: 12,
+        baseProfitPerHour: 100,    // 2400 RNX/день ÷ 24 г
+        durationHours: 2280,       // 95 днів × 24 г
+        growthRate: 0,
+        baseUpgradePrice: 6,
+        description: {
+            ru: 'Шахтёрский робот нового поколения. Обеспечивает стабильный доход и эффективную добычу ресурсов.',
+            ua: 'Шахтарський робот нового покоління. Забезпечує стабільний дохід та ефективний видобуток ресурсів.'
+        },
+        palette: ['#2b2d42', '#5a189a', '#ffb703'],
+        image: 'images/hero_core_digger.png'
+    }),
+    createHeroTemplate({
+        id: 'h4',
+        name: { ru: 'Neon Crusher', ua: 'Neon Crusher' },
+        role: { ru: 'Тяжёлый мех', ua: 'Важкий мех' },
+        rarityKey: 'epic',
+        price: 20,
+        baseProfitPerHour: 195.83, // 4700 RNX/день ÷ 24 г
+        durationHours: 2160,       // 90 днів × 24 г
+        growthRate: 0,
+        baseUpgradePrice: 10,
+        description: {
+            ru: 'Тяжёлый мех с неоновым ядром. Сочетает силу и прибыльность, идеален для среднего уровня.',
+            ua: 'Важкий мех із неоновим ядром. Поєднує силу та прибутковість, ідеальний для середнього рівня.'
+        },
+        palette: ['#0b132b', '#6d28d9', '#f472b6'],
+        image: 'images/hero_neon_crusher.png'
+    }),
+    createHeroTemplate({
+        id: 'h5',
+        name: { ru: 'Omega Titan', ua: 'Omega Titan' },
+        role: { ru: 'Титан', ua: 'Титан' },
+        rarityKey: 'epic',
+        price: 50,
+        baseProfitPerHour: 541.67, // 13000 RNX/день ÷ 24 г
+        durationHours: 1920,       // 80 днів × 24 г
+        growthRate: 0,
+        baseUpgradePrice: 25,
+        description: {
+            ru: 'Гигантский элитный робот с максимальной мощностью. Создан для крупных инвестиций и стабильного дохода.',
+            ua: 'Гігантський елітний робот із максимальною потужністю. Створений для великих інвестицій і стабільного доходу.'
+        },
+        palette: ['#111827', '#9a3412', '#fbbf24'],
+        image: 'images/hero_omega_titan.png'
+    }),
+    createHeroTemplate({
+        id: 'h6',
+        name: { ru: 'Stellar Prime', ua: 'Stellar Prime' },
+        role: { ru: 'Легенда', ua: 'Легенда' },
+        rarityKey: 'legendary',
+        price: 120,
+        baseProfitPerHour: 1291.67, // 31000 RNX/день ÷ 24 г
+        durationHours: 1680,        // 70 днів × 24 г
+        growthRate: 0,
+        baseUpgradePrice: 60,
+        description: {
+            ru: 'Легендарный космический герой с наивысшим уровнем силы. Генерирует максимальный доход во всей системе RoboNexus.',
+            ua: 'Легендарний космічний герой із найвищим рівнем сили. Генерує максимальний прибуток у всій системі RoboNexus.'
+        },
+        palette: ['#1f2937', '#b91c1c', '#fde68a'],
+        image: 'images/hero_stellar_prime.png'
+    })
 ];
 
 function getHeroById(heroId) {
@@ -3752,9 +4489,19 @@ function buyHero(heroId) {
         return showNotification(heroText.heroNotFound, 'error');
     }
 
+    // Обмеження: тестовий герой можна отримати лише один раз
+    if (hero.isTestHero) {
+        const ownedHeroes = getPurchasedHeroes();
+        const alreadyHasTest = ownedHeroes.some(h => h.heroId === hero.id || h.id === hero.id);
+        if (alreadyHasTest) {
+            const msg = getCurrentLanguage() === 'ua' ? 'Тестовий герой вже отримано' : 'Тестовый герой уже получен';
+            return showNotification(msg, 'error');
+        }
+    }
+
     const user = window.gameDB.getUser();
     const localizedHero = getLocalizedHeroData(hero);
-    const result = window.gameDB.buyHeroForUser(user.id || '__current__', localizedHero, { source: 'shop' });
+    const result = window.gameDB.buyHeroForUser(user.id || '__current__', localizedHero, { source: 'shop', skipCharge: hero.isTestHero });
     if (!result.success) {
         return showNotification(getTranslations().notEnough, 'error');
     }
@@ -3873,48 +4620,75 @@ function createOwnedHeroCard(hero, options = {}) {
     const displayHero = enrichHeroWithEconomy(hero, allHeroes);
     const card = document.createElement('article');
     const interactive = options.interactive !== false;
+
+    const rarityColors = {
+        starter: { from: '#0f2b1e', to: '#0a1a12', accent: '#34d399', border: 'rgba(52,211,153,0.25)' },
+        common:  { from: '#1a2540', to: '#0e1625', accent: '#67e8f9', border: 'rgba(103,232,249,0.22)' },
+        rare:    { from: '#1e1a40', to: '#120f2a', accent: '#a78bfa', border: 'rgba(167,139,250,0.28)' },
+        epic:    { from: '#2a1040', to: '#1a0828', accent: '#e879f9', border: 'rgba(232,121,249,0.30)' },
+        legendary: { from: '#2a1f00', to: '#1a1300', accent: '#fbbf24', border: 'rgba(251,191,36,0.32)' }
+    };
+    const rc = rarityColors[displayHero.rarityKey] || rarityColors.common;
+
+    // Cycle progress
+    const now = Date.now();
+    const cycleStart = new Date(displayHero.cycleStartedAt).getTime();
+    const cycleEnd = new Date(displayHero.cycleEndsAt).getTime();
+    const cycleTotal = cycleEnd - cycleStart;
+    const cycleElapsed = Math.min(now - cycleStart, cycleTotal);
+    const cyclePct = cycleTotal > 0 ? Math.min(100, Math.round((cycleElapsed / cycleTotal) * 100)) : 0;
+
     card.className = `my-hero-item rarity-${displayHero.rarityKey}`;
+    card.style.cssText = `
+        background: linear-gradient(135deg, ${rc.from} 0%, ${rc.to} 100%);
+        border-color: ${rc.border};
+    `;
     card.innerHTML = `
         <div class="my-hero-media">
-            <img src="${displayHero.image}" alt="${displayHero.name}">
+            <img src="${displayHero.image}" alt="${displayHero.name}" loading="lazy">
             <span class="hero-rarity-chip rarity-${displayHero.rarityKey}">${getHeroRarityLabel(displayHero.rarityKey)}</span>
         </div>
         <div class="hero-stats-col">
             <div class="my-hero-topline">
-                <div>
-                    <strong>${displayHero.name}</strong>
-                    <span class="hero-sub">${heroText.role}: ${displayHero.role || '-'} · ${heroText.level}: ${displayHero.level || 1}</span>
+                <div class="my-hero-name-block">
+                    <strong class="my-hero-name">${displayHero.name}</strong>
+                    <span class="my-hero-role">${displayHero.role || '-'}</span>
                 </div>
-                <span class="hero-level-badge">LVL ${displayHero.level || 1}</span>
+                <span class="hero-level-badge" style="background: linear-gradient(135deg, ${rc.accent}cc, ${rc.accent}88); color: #fff;">LVL ${displayHero.level || 1}</span>
             </div>
-            <div class="hero-inline-stats">
-                <span>${heroText.currentIncome}: ${formatRnx(displayHero.boostedProfitPerHour, locale)}</span>
-                <span>${heroText.totalIncome}: ${formatRnx(displayHero.boostedTotalProfit, locale)}</span>
-                <span>${heroText.duration}: ${displayHero.durationHours}h</span>
+            <div class="hero-income-row">
+                <div class="hero-income-block">
+                    <span class="hero-income-label">${heroText.currentIncome}</span>
+                    <span class="hero-income-value" style="color:${rc.accent}">${formatRnx(displayHero.boostedProfitPerHour, locale)}<span class="hero-income-unit">/ч</span></span>
+                </div>
+                <div class="hero-income-block">
+                    <span class="hero-income-label">За цикл</span>
+                    <span class="hero-income-value">${formatRnx(displayHero.boostedTotalProfit, locale)}</span>
+                </div>
             </div>
-            <div class="hero-inline-stats">
-                <span>${heroText.nextUpgrade}: ${formatCurrency(displayHero.nextUpgradeCost, locale)}</span>
-                <span>${heroText.growth}: +${Math.round((displayHero.growthRate || 0) * 100)}%</span>
-                <span data-hero-countdown="${displayHero.cycleEndsAt}">${displayHero.countdown}</span>
+            <div class="hero-cycle-wrap">
+                <div class="hero-cycle-header">
+                    <span class="hero-cycle-label">Прогресс цикла</span>
+                    <span class="hero-cycle-timer" data-hero-countdown="${displayHero.cycleEndsAt}">${displayHero.countdown}</span>
+                </div>
+                <div class="hero-cycle-track">
+                    <div class="hero-cycle-bar" style="width:${cyclePct}%; background: linear-gradient(90deg, ${rc.accent}99, ${rc.accent});"></div>
+                </div>
             </div>
-            <div class="hero-inline-stats">
-                <span>${heroText.lifetime}: ${formatRnx(displayHero.lifetimeEarnings || 0, locale)}</span>
-                <span>${heroText.synergy}: +${Math.round(displayHero.synergyBonus * 100)}%</span>
-                <span>${heroText.nextPayout}: ${formatRnx(displayHero.boostedTotalProfit, locale)}</span>
+            <div class="hero-meta-row">
+                <span class="hero-meta-chip">${heroText.lifetime}: ${formatRnx(displayHero.lifetimeEarnings || 0, locale)}</span>
+                <span class="hero-meta-chip">${heroText.synergy}: +${Math.round(displayHero.synergyBonus * 100)}%</span>
+                <span class="hero-meta-chip">Апгрейд: ${formatCurrency(displayHero.nextUpgradeCost, locale)}</span>
             </div>
-            ${interactive ? `<div class="hero-actions-row"><button class="hero-secondary-btn hero-view-btn" type="button">${heroText.details}</button><button class="buy-btn hero-upgrade-btn" type="button">${heroText.upgrade}</button></div>` : ''}
+            ${interactive ? `<div class="hero-actions-row"><button class="hero-secondary-btn hero-view-btn" type="button">${heroText.details}</button><button class="buy-btn hero-upgrade-btn" type="button" style="background: linear-gradient(135deg, ${rc.accent}cc, ${rc.accent}88);">${heroText.upgrade}</button></div>` : ''}
         </div>
     `;
 
     if (interactive) {
         const upgradeButton = card.querySelector('.hero-upgrade-btn');
-        if (upgradeButton) {
-            upgradeButton.addEventListener('click', () => upgradeHero(displayHero.instanceId));
-        }
+        if (upgradeButton) upgradeButton.addEventListener('click', () => upgradeHero(displayHero.instanceId));
         const viewButton = card.querySelector('.hero-view-btn');
-        if (viewButton) {
-            viewButton.addEventListener('click', () => openHeroDetailModal(displayHero.instanceId));
-        }
+        if (viewButton) viewButton.addEventListener('click', () => openHeroDetailModal(displayHero.instanceId));
     }
 
     return card;
@@ -3944,7 +4718,7 @@ function renderMyHeroes() {
     heroes.forEach((hero) => list.appendChild(createOwnedHeroCard(hero, { allHeroes: heroes })));
 
     if (countEl) countEl.textContent = String(heroes.length || 0);
-    if (incomeEl) incomeEl.textContent = `$${projectedIncome}`;
+    if (incomeEl) incomeEl.textContent = `${projectedIncome.toLocaleString('ru-RU')} $RNX`;
     setText('my-heroes-bonus', `${Math.round(synergy.totalBonus * 100)}%`);
     const nextPayoutEl = document.getElementById('my-heroes-next-payout');
     if (nextPayoutEl) {
@@ -3959,3 +4733,130 @@ window.GameProfile = {
     exportData,
     closeAdminModal
 };
+
+/* ═══════════════════════════════════════════════════════ */
+/*  VERSION CHECK SYSTEM — Auto-detect new deploys        */
+/* ═══════════════════════════════════════════════════════ */
+
+const APP_VERSION_KEY = 'rnx_app_version';
+const VERSION_CHECK_INTERVAL = 30000; // check every 30 seconds
+const VERSION_DISMISSED_KEY = 'rnx_update_dismissed';
+
+function initVersionChecker() {
+    // Load initial version
+    fetchVersionJson().then(data => {
+        if (!data) return;
+        const storedVersion = localStorage.getItem(APP_VERSION_KEY);
+        if (!storedVersion) {
+            // First visit — just save current version
+            localStorage.setItem(APP_VERSION_KEY, data.version);
+            return;
+        }
+        // Check if update available right away
+        if (storedVersion !== data.version) {
+            const dismissed = localStorage.getItem(VERSION_DISMISSED_KEY);
+            if (dismissed !== data.version) {
+                showUpdateOverlay(storedVersion, data);
+            }
+        }
+    });
+
+    // Periodic check
+    setInterval(async () => {
+        const data = await fetchVersionJson();
+        if (!data) return;
+        const storedVersion = localStorage.getItem(APP_VERSION_KEY);
+        if (storedVersion && storedVersion !== data.version) {
+            const dismissed = localStorage.getItem(VERSION_DISMISSED_KEY);
+            if (dismissed !== data.version) {
+                showUpdateOverlay(storedVersion, data);
+            }
+        }
+    }, VERSION_CHECK_INTERVAL);
+
+    // Wire up buttons
+    const reloadBtn = document.getElementById('update-btn-reload');
+    const laterBtn = document.getElementById('update-btn-later');
+
+    if (reloadBtn) {
+        reloadBtn.addEventListener('click', () => {
+            // Save new version so it won't show again
+            const newVer = document.getElementById('update-version-new');
+            if (newVer) {
+                localStorage.setItem(APP_VERSION_KEY, newVer.textContent.replace('v', ''));
+                localStorage.removeItem(VERSION_DISMISSED_KEY);
+            }
+            location.reload();
+        });
+    }
+
+    if (laterBtn) {
+        laterBtn.addEventListener('click', () => {
+            const newVer = document.getElementById('update-version-new');
+            if (newVer) {
+                localStorage.setItem(VERSION_DISMISSED_KEY, newVer.textContent.replace('v', ''));
+            }
+            hideUpdateOverlay();
+        });
+    }
+}
+
+async function fetchVersionJson() {
+    try {
+        const resp = await fetch('/version.json?t=' + Date.now(), { cache: 'no-store' });
+        if (!resp.ok) return null;
+        return await resp.json();
+    } catch (e) {
+        return null;
+    }
+}
+
+function showUpdateOverlay(oldVersion, data) {
+    const overlay = document.getElementById('update-overlay');
+    if (!overlay || !overlay.classList.contains('hidden')) return;
+
+    // Fill version numbers
+    const oldEl = document.getElementById('update-version-old');
+    const newEl = document.getElementById('update-version-new');
+    if (oldEl) oldEl.textContent = 'v' + oldVersion;
+    if (newEl) newEl.textContent = 'v' + data.version;
+
+    // Fill changelog
+    const changelogEl = document.getElementById('update-changelog');
+    if (changelogEl && data.changelog && data.changelog.length > 0) {
+        changelogEl.innerHTML = data.changelog.map((item, i) =>
+            `<div class="update-changelog-item" style="animation-delay: ${0.8 + i * 0.08}s">
+                <span class="update-changelog-dot"></span>
+                <span>${escapeHTML(item)}</span>
+            </div>`
+        ).join('');
+    }
+
+    // Fill build date
+    const buildEl = document.getElementById('update-build-info');
+    if (buildEl && data.buildDate) {
+        const d = new Date(data.buildDate);
+        buildEl.textContent = `Build ${d.toLocaleDateString('ru-RU')} · v${data.version}`;
+    }
+
+    // Show
+    overlay.classList.remove('hidden');
+    overlay.classList.remove('update-exit');
+    triggerHaptic('medium');
+}
+
+function hideUpdateOverlay() {
+    const overlay = document.getElementById('update-overlay');
+    if (!overlay) return;
+    overlay.classList.add('update-exit');
+    setTimeout(() => {
+        overlay.classList.add('hidden');
+        overlay.classList.remove('update-exit');
+    }, 450);
+}
+
+function escapeHTML(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+}

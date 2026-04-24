@@ -24,6 +24,11 @@ class GameDatabase {
             finance: {
                 rnxRate: 10000,
                 networkFee: 0.1,
+                exchangeWithdrawRatio: 0.3,
+                heroConfig: {
+                    sellCoef: 0.50,
+                    upgradeCostMultiplier: 1.24
+                },
                 deposit: {
                     min: 5,
                     max: 10000,
@@ -107,6 +112,7 @@ class GameDatabase {
 
     getHeroRarityMultiplier(rarityKey = 'common') {
         const map = {
+            starter: 1,
             common: 1,
             rare: 1.22,
             epic: 1.52,
@@ -125,14 +131,16 @@ class GameDatabase {
     calculateHeroUpgradeCost(hero = {}) {
         const safeLevel = Math.max(1, Number(hero.level || 1));
         const baseUpgradePrice = Math.max(10, Number(hero.baseUpgradePrice || hero.price || 10));
-        return Math.round(baseUpgradePrice * Math.pow(1.24, safeLevel - 1) * this.getHeroRarityMultiplier(hero.rarityKey));
+        const multiplier = Number(this.data?.finance?.heroConfig?.upgradeCostMultiplier ?? this.defaultData.finance.heroConfig.upgradeCostMultiplier);
+        return Math.round(baseUpgradePrice * Math.pow(multiplier, safeLevel - 1) * this.getHeroRarityMultiplier(hero.rarityKey));
     }
 
     calculateHeroSellValue(hero = {}) {
         const level = Math.max(1, Number(hero.level || 1));
         const price = Math.max(0, Number(hero.price || 0));
         const upgradesInvested = Math.max(0, Number(hero.totalUpgradeSpent || 0));
-        return Math.round(price * 0.62 + upgradesInvested * 0.4 + (level - 1) * 8);
+        const coef = Number(this.data?.finance?.heroConfig?.sellCoef ?? this.defaultData.finance.heroConfig.sellCoef);
+        return Math.round(price * coef + upgradesInvested * (coef * 0.65) + (level - 1) * 8);
     }
 
     calculateHeroReissueCost(hero = {}) {
@@ -250,6 +258,11 @@ class GameDatabase {
             finance: {
                 rnxRate: Number((source.finance && source.finance.rnxRate) || this.defaultData.finance.rnxRate),
                 networkFee: Number((source.finance && source.finance.networkFee) != null ? source.finance.networkFee : this.defaultData.finance.networkFee),
+                exchangeWithdrawRatio: Number((source.finance && source.finance.exchangeWithdrawRatio != null) ? source.finance.exchangeWithdrawRatio : this.defaultData.finance.exchangeWithdrawRatio),
+                heroConfig: {
+                    sellCoef: Number((source.finance && source.finance.heroConfig && source.finance.heroConfig.sellCoef != null) ? source.finance.heroConfig.sellCoef : this.defaultData.finance.heroConfig.sellCoef),
+                    upgradeCostMultiplier: Number((source.finance && source.finance.heroConfig && source.finance.heroConfig.upgradeCostMultiplier != null) ? source.finance.heroConfig.upgradeCostMultiplier : this.defaultData.finance.heroConfig.upgradeCostMultiplier)
+                },
                 deposit: {
                     ...this.defaultData.finance.deposit,
                     ...((source.finance && source.finance.deposit) || {}),
@@ -354,7 +367,18 @@ class GameDatabase {
             const mergedData = {
                 user: currentUserFromFb
                     ? { ...this.data.user, ...currentUserFromFb, id: currentUserId }
-                    : this.data.user,
+                    : {
+                        // Новий користувач не знайдений у Firebase — стартуємо з нуля,
+                        // беремо тільки дані з Telegram (id/name/username),
+                        // щоб не показувати баланс попереднього акаунту
+                        ...this.createBaseUser(),
+                        id: currentUserId,
+                        username: this.data.user.username,
+                        name: this.data.user.name,
+                        photoUrl: this.data.user.photoUrl,
+                        isAdmin: this.isAdmin(currentUserId),
+                        registrationDate: new Date().toISOString()
+                    },
                 otherUsers,
                 settings: raw.settings || this.data.settings,
                 onlineCount: raw.onlineCount != null ? raw.onlineCount : this.data.onlineCount,
@@ -567,15 +591,19 @@ class GameDatabase {
 
         const rate = this.getRnxRate();
         const tonAmount = rnxAmount / rate;
-        const halfTon = tonAmount / 2;
+        const withdrawRatio = Number(this.data?.finance?.exchangeWithdrawRatio ?? 0.3);
+        const withdrawTon = tonAmount * withdrawRatio;
+        const buyTon = tonAmount * (1 - withdrawRatio);
 
         const updated = this.updateUserById(userId, {
             rnxBalance: Math.max(0, available - rnxAmount),
-            balanceBuy: Number(user.balanceBuy || 0) + halfTon,
-            balanceWithdraw: Number(user.balanceWithdraw || 0) + halfTon,
+            balanceBuy: Number(user.balanceBuy || 0) + buyTon,
+            balanceWithdraw: Number(user.balanceWithdraw || 0) + withdrawTon,
             stats: { ...user.stats, totalExchanged: Number(user.stats?.totalExchanged || 0) + rnxAmount }
         });
 
+        const withdrawPct = Math.round(withdrawRatio * 100);
+        const buyPct = 100 - withdrawPct;
         this.createFinanceOperation({
             type: 'exchange',
             status: 'completed',
@@ -583,12 +611,12 @@ class GameDatabase {
             username: updated.username,
             amount: tonAmount,
             method: 'rnx-exchange',
-            details: `${rnxAmount} $RNX → ${tonAmount.toFixed(4)} TON (50/50)`,
+            details: `${rnxAmount} $RNX → ${tonAmount.toFixed(4)} TON (${buyPct}% покупка / ${withdrawPct}% вывод)`,
             comment: '',
             resolvedAt: new Date().toISOString()
         });
 
-        return { success: true, user: updated, tonAmount, halfTon };
+        return { success: true, user: updated, tonAmount, withdrawTon, buyTon };
     }
 
     generateReferralCode(userId) {
@@ -620,7 +648,11 @@ class GameDatabase {
         this.updateUserById(referrer.id, {
             rnxBalance: Number(referrer.rnxBalance || 0) + rnxReward,
             referralEarnings: Number(referrer.referralEarnings || 0) + rnxReward,
-            stats: { ...referrer.stats, referrals: Number(referrer.stats?.referrals || 0) + 1 }
+            stats: {
+                ...referrer.stats,
+                referrals: Number(referrer.stats?.referrals || 0) + 1,
+                invited: Number(referrer.stats?.invited || 0) + 1
+            }
         });
 
         this.createNotification({
@@ -749,6 +781,11 @@ class GameDatabase {
         this.data.finance = {
             rnxRate: Number((partial && partial.rnxRate) || this.data.finance.rnxRate || 10000),
             networkFee: (partial && partial.networkFee != null) ? Number(partial.networkFee) : Number(this.data.finance.networkFee != null ? this.data.finance.networkFee : 0.1),
+            exchangeWithdrawRatio: (partial && partial.exchangeWithdrawRatio != null) ? Math.min(1, Math.max(0, Number(partial.exchangeWithdrawRatio))) : Number(this.data.finance.exchangeWithdrawRatio ?? 0.3),
+            heroConfig: {
+                sellCoef: (partial && partial.heroConfig && partial.heroConfig.sellCoef != null) ? Math.min(1, Math.max(0.1, Number(partial.heroConfig.sellCoef))) : Number(this.data.finance.heroConfig?.sellCoef ?? 0.50),
+                upgradeCostMultiplier: (partial && partial.heroConfig && partial.heroConfig.upgradeCostMultiplier != null) ? Math.max(1, Number(partial.heroConfig.upgradeCostMultiplier)) : Number(this.data.finance.heroConfig?.upgradeCostMultiplier ?? 1.24)
+            },
             deposit: {
                 ...this.data.finance.deposit,
                 ...((partial && partial.deposit) || {}),
