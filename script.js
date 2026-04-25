@@ -2034,6 +2034,7 @@ function renderMenuDashboard() {
     const unread = window.gameDB.getNotificationsForUser(getActorId(), Boolean(user.isAdmin)).filter((item) => !(item.readBy || []).includes(getActorId())).length;
     const pendingTickets = window.gameDB.getSupportTickets().filter((item) => Boolean(user.isAdmin) || String(item.userId) === getActorId()).filter((item) => item.status !== 'closed').length;
     const heroOps = window.gameDB.getHeroOperations().filter((item) => String(item.userId) === String(user.id || '') || (!user.id && !item.userId)).length;
+    const heroCount = heroes.length;
 
     const menuT = getTranslations();
     const menuIcons = {
@@ -2057,11 +2058,21 @@ function renderMenuDashboard() {
         { icon: menuIcons.history, title: menuT.historyTitle || 'История', value: '→', accent: 'green', action: () => { setActiveNavButton('menu'); handleNavigation('history'); } }
     ];
 
+    const menuSummary = [
+        { label: 'Героев', value: heroCount },
+        { label: 'Новых', value: unread },
+        { label: 'Синергия', value: `${Math.round(synergy.totalBonus * 100)}%` }
+    ];
+
     container.innerHTML = `
         <div class="menu-dashboard-head">
-            <div>
+            <div class="menu-dashboard-topline">
                 <p class="section-label">${heroText.actionHub}</p>
-                <h3 class="menu-dashboard-title">${heroText.actionHubSubtitle}</h3>
+                <span class="menu-dashboard-pill">Control Hub</span>
+            </div>
+            <h3 class="menu-dashboard-title">${heroText.actionHubSubtitle}</h3>
+            <div class="menu-dashboard-mini">
+                ${menuSummary.map((item) => `<div class="menu-dashboard-mini-chip"><span>${item.label}</span><strong>${item.value}</strong></div>`).join('')}
             </div>
         </div>
         <a href="https://t.me/RoboNexus_team" target="_blank" rel="noopener noreferrer" class="menu-support-banner">
@@ -2088,9 +2099,11 @@ function renderMenuDashboard() {
                 <span class="menu-hub-icon menu-hub-icon-${item.accent}">${item.icon}</span>
                 ${item.badge ? '<span class="menu-hub-badge"></span>' : ''}
             </div>
-            <span class="menu-hub-label">${item.title}</span>
-            <strong class="menu-hub-value">${item.value}</strong>
-            <span class="menu-hub-action">${heroText.menuOpen} →</span>
+            <div class="menu-hub-body">
+                <span class="menu-hub-label">${item.title}</span>
+                <strong class="menu-hub-value">${item.value}</strong>
+            </div>
+            <span class="menu-hub-action">${heroText.menuOpen} <span class="menu-hub-arrow">→</span></span>
         `;
         card.addEventListener('click', item.action);
         grid.appendChild(card);
@@ -4716,34 +4729,75 @@ function renderHeroDetailModal() {
     }
 
     const displayHero = enrichHeroWithEconomy(hero, heroes);
+    const synergy = getHeroSynergySummary(heroes);
+    const cyclePct = Math.min(100, Math.round(Number(displayHero.cycleProgress || 0) * 100));
+    const synergyBonusPct = Math.round(displayHero.synergyBonus * 100);
+    const synergyPct = Math.round(synergy.totalBonus * 100);
+    const rarityColors = {
+        starter: { accent: '#34d399', border: 'rgba(52,211,153,0.25)', glow: 'rgba(52,211,153,0.26)' },
+        common:  { accent: '#67e8f9', border: 'rgba(103,232,249,0.24)', glow: 'rgba(103,232,249,0.24)' },
+        rare:    { accent: '#a78bfa', border: 'rgba(167,139,250,0.28)', glow: 'rgba(167,139,250,0.26)' },
+        epic:    { accent: '#e879f9', border: 'rgba(232,121,249,0.3)', glow: 'rgba(232,121,249,0.24)' },
+        legendary: { accent: '#fbbf24', border: 'rgba(251,191,36,0.32)', glow: 'rgba(251,191,36,0.24)' }
+    };
+    const rc = rarityColors[displayHero.rarityKey] || rarityColors.common;
     title.textContent = displayHero.name;
     label.textContent = `${getHeroRarityLabel(displayHero.rarityKey)} · ${heroText.level} ${displayHero.level}`;
     upgradeButton.textContent = `${heroText.upgrade} · ${formatCurrency(displayHero.nextUpgradeCost, locale)}`;
     sellButton.textContent = `${heroText.sell} · ${formatCurrency(displayHero.sellValue || 0, locale)}`;
     reissueButton.textContent = `${heroText.reissue} · ${formatCurrency(displayHero.reissueCost || 0, locale)}`;
-
-    const synergy = getHeroSynergySummary(heroes);
     body.innerHTML = `
-        <div class="hero-profile-visual rarity-${displayHero.rarityKey}">
-            <img src="${displayHero.image}" alt="${displayHero.name}">
-            <div class="hero-profile-badges">
-                <span class="hero-rarity-chip rarity-${displayHero.rarityKey}">${getHeroRarityLabel(displayHero.rarityKey)}</span>
-                <span class="hero-level-badge">LVL ${displayHero.level}</span>
+        <div class="hero-profile-layout premium-hero-profile rarity-${displayHero.rarityKey}">
+            <div class="hero-profile-visual rarity-${displayHero.rarityKey}" style="--hero-accent:${rc.accent}; --hero-border:${rc.border}; --hero-glow:${rc.glow};">
+                <div class="hero-profile-glow"></div>
+                <img src="${displayHero.image}" alt="${displayHero.name}">
+                <div class="hero-profile-badges">
+                    <span class="hero-rarity-chip rarity-${displayHero.rarityKey}">${getHeroRarityLabel(displayHero.rarityKey)}</span>
+                    <span class="hero-level-badge" style="background: linear-gradient(135deg, ${rc.accent}cc, ${rc.accent}88); color:#fff;">LVL ${displayHero.level}</span>
+                </div>
+                <div class="hero-visual-caption">
+                    <strong class="hero-visual-role">${displayHero.role || '-'}</strong>
+                    <span class="hero-visual-source">${heroText.source}: ${getHeroSourceLabel(displayHero.source)}</span>
+                </div>
             </div>
-        </div>
-        <div class="hero-profile-info">
-            <p class="hero-description">${displayHero.description}</p>
-            <div class="hero-stats-grid hero-profile-stats">
-                <div class="hero-stat-tile"><span>${heroText.currentIncome}</span><strong>${formatRnx(displayHero.boostedProfitPerHour, locale)}</strong></div>
-                <div class="hero-stat-tile"><span>${heroText.cycleIncome}</span><strong>${formatRnx(displayHero.boostedTotalProfit, locale)}</strong></div>
-                <div class="hero-stat-tile"><span>${heroText.timer}</span><strong data-hero-countdown="${displayHero.cycleEndsAt}">${displayHero.countdown}</strong></div>
-                <div class="hero-stat-tile"><span>${heroText.lifetime}</span><strong>${formatRnx(displayHero.lifetimeEarnings || 0, locale)}</strong></div>
-            </div>
-            <div class="hero-detail-panel hero-profile-panel">
-                <div class="hero-detail-line"><span>${heroText.rarityCombo}</span><strong>+${Math.round(synergy.rarityBonus * 100)}%</strong></div>
-                <div class="hero-detail-line"><span>${heroText.classCombo}</span><strong>+${Math.round(synergy.classBonus * 100)}%</strong></div>
-                <div class="hero-detail-line"><span>${heroText.synergy}</span><strong>+${Math.round(synergy.totalBonus * 100)}%</strong></div>
-                <div class="hero-detail-line"><span>${heroText.nextPayout}</span><strong>${formatRnx(displayHero.boostedTotalProfit, locale)}</strong></div>
+            <div class="hero-profile-info premium-hero-info">
+                <div class="hero-detail-summary-card">
+                    <div class="hero-detail-summary-topline">
+                        <span class="hero-detail-summary-kicker">${heroText.heroProfile}</span>
+                        <span class="hero-detail-summary-flare">+${synergyBonusPct}% sync</span>
+                    </div>
+                    <p class="hero-description">${displayHero.description}</p>
+                    <div class="hero-stats-grid hero-profile-stats premium-hero-stats">
+                        <div class="hero-stat-tile"><span>${heroText.currentIncome}</span><strong style="color:${rc.accent}">${formatRnx(displayHero.boostedProfitPerHour, locale)}</strong></div>
+                        <div class="hero-stat-tile"><span>${heroText.cycleIncome}</span><strong>${formatRnx(displayHero.boostedTotalProfit, locale)}</strong></div>
+                        <div class="hero-stat-tile"><span>${heroText.accruedNow}</span><strong>${formatRnx(displayHero.accruedCurrentCycle || 0, locale)}</strong></div>
+                        <div class="hero-stat-tile"><span>${heroText.lifetime}</span><strong>${formatRnx(displayHero.lifetimeEarnings || 0, locale)}</strong></div>
+                    </div>
+                </div>
+                <div class="hero-detail-progress-card">
+                    <div class="hero-detail-progress-head">
+                        <span class="hero-detail-progress-label">${cyclePct >= 100 ? heroText.cycleReady : heroText.timer}</span>
+                        <strong class="hero-detail-progress-value" style="color:${rc.accent}">${cyclePct}%</strong>
+                    </div>
+                    <div class="hero-cycle-track hero-detail-track">
+                        <div class="hero-cycle-bar hero-detail-progress-bar" style="width:${cyclePct}%; background: linear-gradient(90deg, ${rc.accent}55, ${rc.accent}); color:${rc.accent};"></div>
+                    </div>
+                    <div class="hero-detail-progress-meta">
+                        <strong class="hero-detail-progress-timer${cyclePct >= 100 ? ' cycle-ready' : ''}" data-hero-countdown="${displayHero.cycleEndsAt}">${displayHero.countdown}</strong>
+                        <span class="hero-detail-progress-payout">${heroText.nextPayout}: ${formatRnx(displayHero.boostedTotalProfit, locale)}</span>
+                    </div>
+                </div>
+                <div class="hero-detail-panel hero-profile-panel premium-hero-panel">
+                    <div class="hero-detail-line"><span>${heroText.rarityCombo}</span><strong>+${Math.round(synergy.rarityBonus * 100)}%</strong></div>
+                    <div class="hero-detail-line"><span>${heroText.classCombo}</span><strong>+${Math.round(synergy.classBonus * 100)}%</strong></div>
+                    <div class="hero-detail-line"><span>${heroText.synergy}</span><strong>+${synergyPct}%</strong></div>
+                    <div class="hero-detail-line"><span>${heroText.duration}</span><strong>${displayHero.durationHours || 24}h</strong></div>
+                </div>
+                <div class="hero-detail-chip-row">
+                    <span class="hero-detail-chip">${heroText.nextUpgrade}: ${formatCurrency(displayHero.nextUpgradeCost, locale)}</span>
+                    <span class="hero-detail-chip">${heroText.reissue}: ${formatCurrency(displayHero.reissueCost || 0, locale)}</span>
+                    <span class="hero-detail-chip">${heroText.sell}: ${formatCurrency(displayHero.sellValue || 0, locale)}</span>
+                </div>
             </div>
         </div>
     `;
