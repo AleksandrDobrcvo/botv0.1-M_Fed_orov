@@ -2756,11 +2756,13 @@ function renderAdminUsersList() {
         return;
     }
 
+    const ONLINE_THRESHOLD_MS = 5 * 60 * 1000;
     users.forEach((user) => {
         const effectiveId = user.id || '__current__';
         const isCurrentUser = String(effectiveId) === String(window.gameDB.getUser().id || '');
-        const onlineStatus = formatLastSeen(user.lastSeen, user.isOnline);
-        const onlineDot = user.isOnline ? '<span class="online-dot online-dot-active"></span>' : '<span class="online-dot"></span>';
+        const isUserOnline = user.lastSeen && (Date.now() - new Date(user.lastSeen).getTime()) < ONLINE_THRESHOLD_MS;
+        const onlineStatus = formatLastSeen(user.lastSeen, isUserOnline);
+        const onlineDot = isUserOnline ? '<span class="online-dot online-dot-active"></span>' : '<span class="online-dot"></span>';
         const card = document.createElement('div');
         card.className = 'user-card';
         card.innerHTML = `
@@ -3823,8 +3825,10 @@ function renderRatingSection() {
 
     leaderboard.forEach((entry) => {
         const isYou = String(entry.id) === currentUserId;
-        const onlineStatus = formatLastSeen(entry.lastSeen, entry.isOnline);
-        const onlineDot = entry.isOnline ? '<span class="online-dot online-dot-active"></span>' : '<span class="online-dot"></span>';
+        const _onlineMs = 5 * 60 * 1000;
+        const _isOnline = entry.lastSeen && (Date.now() - new Date(entry.lastSeen).getTime()) < _onlineMs;
+        const onlineStatus = formatLastSeen(entry.lastSeen, _isOnline);
+        const onlineDot = _isOnline ? '<span class="online-dot online-dot-active"></span>' : '<span class="online-dot"></span>';
         const positionClass = entry.position <= 3 ? `rating-top-${entry.position}` : '';
         const youBadge = isYou ? `<span class="rating-you-badge">${t.ratingYou || 'Вы'}</span>` : '';
 
