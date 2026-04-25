@@ -563,9 +563,13 @@ class GameDatabase {
         this.createNotification({
             type: Boolean(isAdmin) ? 'success' : 'info',
             title: Boolean(isAdmin) ? 'Доступ администратора выдан' : 'Доступ администратора снят',
-            message: meta.reason || (Boolean(isAdmin) ? 'Вам открыт доступ к панели управления.' : 'Ваш доступ к панели управления отключён.'),
+            message: meta.reason || (Boolean(isAdmin) ? 'Вам открыт доступ к панели управления RoboNexus.' : 'Ваш доступ к панели управления RoboNexus отключён.'),
             audience: 'user',
-            userId: targetId
+            userId: targetId,
+            meta: {
+                category: 'admin-access',
+                enabled: Boolean(isAdmin)
+            }
         });
 
         return { success: true, user: updated };
@@ -688,18 +692,28 @@ class GameDatabase {
         this.createNotification({
             type: 'success',
             title: 'Новый реферал',
-            message: `+${rnxReward} $RNX за приглашение пользователя`,
+            message: `На RNX-баланс начислено +${rnxReward} $RNX за нового партнёра по вашей ссылке.`,
             audience: 'user',
-            userId: String(referrer.id)
+            userId: String(referrer.id),
+            meta: {
+                category: 'referral',
+                reward: rnxReward,
+                currency: '$RNX'
+            }
         });
 
         // Welcome notification for new user
         this.createNotification({
             type: 'info',
             title: '🎉 Добро пожаловать!',
-            message: `Ты зашёл по реферальной ссылке и получаешь +${Math.round(rnxReward * 0.1)} $RNX приветственного бонуса`,
+            message: `Вы вошли по реферальной ссылке. Приветственный бонус +${Math.round(rnxReward * 0.1)} $RNX уже начислен на ваш RNX-баланс.`,
             audience: 'user',
-            userId: String(newUserId)
+            userId: String(newUserId),
+            meta: {
+                category: 'welcome-bonus',
+                reward: Math.round(rnxReward * 0.1),
+                currency: '$RNX'
+            }
         });
 
         // Add welcome bonus for the new user too
@@ -736,9 +750,15 @@ class GameDatabase {
                 this.createNotification({
                     type: 'success',
                     title: `Реферальный бонус (ур.${level + 1})`,
-                    message: `+${bonus.toFixed(4)} TON`,
+                    message: `Партнёр пополнил баланс. Вам начислено +${bonus.toFixed(4)} TON по реферальному уровню ${level + 1}.`,
                     audience: 'user',
-                    userId: String(referrer.id)
+                    userId: String(referrer.id),
+                    meta: {
+                        category: 'referral-deposit',
+                        reward: Number(bonus.toFixed(4)),
+                        currency: 'TON',
+                        level: level + 1
+                    }
                 });
             }
 
@@ -784,9 +804,14 @@ class GameDatabase {
         this.createNotification({
             type: 'success',
             title: 'Промокод активирован',
-            message: `${promo.rewardRnx ? promo.rewardRnx + ' $RNX' : ''}${promo.rewardRnx && promo.rewardTon ? ' + ' : ''}${promo.rewardTon ? promo.rewardTon + ' TON' : ''}`,
+            message: `Награда за промокод зачислена: ${promo.rewardRnx ? promo.rewardRnx + ' $RNX' : ''}${promo.rewardRnx && promo.rewardTon ? ' + ' : ''}${promo.rewardTon ? promo.rewardTon + ' TON' : ''}`,
             audience: 'user',
-            userId: String(userId)
+            userId: String(userId),
+            meta: {
+                category: 'promo',
+                rewardRnx: Number(promo.rewardRnx || 0),
+                rewardTon: Number(promo.rewardTon || 0)
+            }
         });
 
         this.saveData();
@@ -928,6 +953,18 @@ class GameDatabase {
     }
 
     createNotification(payload) {
+        const shouldQueueTelegram = payload.telegram === false
+            ? false
+            : payload.audience === 'user' && Boolean(payload.userId);
+        const baseTelegramState = {
+            enabled: shouldQueueTelegram,
+            status: shouldQueueTelegram ? 'pending' : 'disabled',
+            sentAt: '',
+            attempts: 0,
+            lastError: '',
+            chatId: payload.userId ? String(payload.userId) : '',
+            template: payload.telegramTemplate || ''
+        };
         const notification = {
             id: `note_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
             type: payload.type || 'info',
@@ -937,7 +974,11 @@ class GameDatabase {
             userId: payload.userId ? String(payload.userId) : '',
             ticketId: payload.ticketId || '',
             createdAt: payload.createdAt || new Date().toISOString(),
-            readBy: Array.isArray(payload.readBy) ? payload.readBy : []
+            readBy: Array.isArray(payload.readBy) ? payload.readBy : [],
+            meta: payload.meta && typeof payload.meta === 'object' ? { ...payload.meta } : {},
+            telegram: payload.telegram && typeof payload.telegram === 'object'
+                ? { ...baseTelegramState, ...payload.telegram }
+                : baseTelegramState
         };
 
         this.data.notifications.unshift(notification);
@@ -1654,9 +1695,18 @@ class GameDatabase {
         this.createNotification({
             type: 'success',
             title: request.type === 'deposit' ? 'Пополнение подтверждено' : 'Вывод подтвержден',
-            message: `${request.amount}`,
+            message: request.type === 'deposit'
+                ? `На баланс покупки зачислено +${request.amount} TON.${resolutionComment ? ` Комментарий: ${resolutionComment}` : ' Средства уже доступны в приложении.'}`
+                : `${request.amount} TON подтверждены к отправке.${networkFee ? ` Сетевой сбор: ${networkFee.toFixed(4)} TON.` : ''}${resolutionComment ? ` Комментарий: ${resolutionComment}` : ''}`,
             audience: 'user',
-            userId: request.userId
+            userId: request.userId,
+            meta: {
+                category: 'finance-approved',
+                requestType: request.type,
+                amount: Number(request.amount || 0),
+                currency: 'TON',
+                networkFee: Number(networkFee || 0)
+            }
         });
 
         return { success: true, request: updated };
@@ -1698,9 +1748,18 @@ class GameDatabase {
         this.createNotification({
             type: 'error',
             title: request.type === 'deposit' ? 'Пополнение отклонено' : 'Вывод отклонён',
-            message: resolutionComment || `${request.amount}`,
+            message: resolutionComment
+                ? `Заявка на ${request.type === 'deposit' ? 'пополнение' : 'вывод'} ${request.amount} TON отклонена. Причина: ${resolutionComment}`
+                : `Заявка на ${request.type === 'deposit' ? 'пополнение' : 'вывод'} ${request.amount} TON отклонена. Проверьте детали и попробуйте ещё раз.`,
             audience: 'user',
-            userId: request.userId
+            userId: request.userId,
+            meta: {
+                category: 'finance-rejected',
+                requestType: request.type,
+                amount: Number(request.amount || 0),
+                currency: 'TON',
+                reason: resolutionComment || ''
+            }
         });
 
         return { success: true, request: updated };

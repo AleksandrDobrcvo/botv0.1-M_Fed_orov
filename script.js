@@ -919,36 +919,8 @@ function initializeInteractions() {
                 return;
             }
 
-            const inlinePanel = document.getElementById('admin-inline-panel');
-            const arrow = document.getElementById('admin-toggle-arrow');
-            if (!inlinePanel) return;
-
-            const isOpen = !inlinePanel.classList.contains('hidden');
-            if (isOpen) {
-                inlinePanel.classList.add('hidden');
-                if (arrow) arrow.textContent = '▾';
-            } else {
-                // Move admin modal content into the inline panel on first open
-                if (!inlinePanel.dataset.inited) {
-                    const adminModal = document.getElementById('admin-modal');
-                    if (adminModal) {
-                        const card = adminModal.querySelector('.modal-card, .admin-modal-card');
-                        if (card) {
-                            // Remove close button and modal-head from cloned content
-                            const clone = card.cloneNode(true);
-                            const modalHead = clone.querySelector('.modal-head');
-                            if (modalHead) modalHead.remove();
-                            inlinePanel.innerHTML = clone.innerHTML;
-                        }
-                    }
-                    inlinePanel.dataset.inited = '1';
-                    // Re-bind admin tabs inside inline panel
-                    initAdminInlineTabs(inlinePanel);
-                }
-                populateAdminModal();
-                inlinePanel.classList.remove('hidden');
-                if (arrow) arrow.textContent = '▴';
-            }
+            populateAdminModal();
+            openAdminModal();
             triggerHaptic('medium');
         });
     }
@@ -1970,6 +1942,8 @@ function processHeroEconomy() {
     const synergy = getHeroSynergySummary(heroes);
     const now = Date.now();
     let totalPayout = 0;
+    let completedHeroesCount = 0;
+    let completedCyclesCount = 0;
     let changed = false;
 
     const nextHeroes = heroes.map((hero) => {
@@ -1984,6 +1958,8 @@ function processHeroEconomy() {
         const payoutPerCycle = Math.round(Number(normalizedHero.totalProfit || 0) * synergy.multiplier);
         const payout = payoutPerCycle * completedCycles;
         totalPayout += payout;
+        completedHeroesCount += 1;
+        completedCyclesCount += completedCycles;
         changed = true;
 
         window.gameDB.createHeroOperation({
@@ -2016,6 +1992,22 @@ function processHeroEconomy() {
             rnxBalance: Number(user.rnxBalance || 0) + totalPayout,
             heroes: nextHeroes,
             stats: { ...user.stats, totalRnxEarned: Number(user.stats?.totalRnxEarned || 0) + totalPayout }
+        });
+
+        window.gameDB.createNotification({
+            type: 'success',
+            title: 'Доход успешно начислен',
+            message: `На ваш RNX-баланс зачислено +${totalPayout.toLocaleString('ru-RU')} $RNX от героев.${completedHeroesCount > 0 ? ` Сработало героев: ${completedHeroesCount}.` : ''}`,
+            audience: 'user',
+            userId: String(user.id || ''),
+            telegramTemplate: 'hero-income',
+            meta: {
+                category: 'hero-income',
+                amount: totalPayout,
+                currency: '$RNX',
+                heroesCount: completedHeroesCount,
+                cyclesCount: completedCyclesCount
+            }
         });
     }
 
@@ -4045,6 +4037,10 @@ function populateAdminModal() {
     updateAdminTabBadges();
 }
 
+function openAdminModal() {
+    openModal('admin-modal');
+}
+
 function closeAdminModal() {
     const el = document.getElementById('admin-modal');
     if (el) el.classList.remove('modal-active');
@@ -4082,7 +4078,11 @@ function showNotification(message, type = 'info', options = {}) {
             title: title,
             message: message,
             audience: options.audience || 'user',
-            userId: options.userId || getActorId()
+            userId: options.userId || getActorId(),
+            ticketId: options.ticketId || '',
+            telegram: options.telegram,
+            telegramTemplate: options.telegramTemplate,
+            meta: options.meta
         });
         renderNotificationsCenter();
     }

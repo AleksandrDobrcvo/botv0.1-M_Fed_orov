@@ -7987,37 +7987,26 @@ body.telegram-webapp .profile-name {
 
 /* Make admin-modal backdrop let the modal fill nicely */
 #admin-modal {
-    align-items: flex-end;
-    padding: 0;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
 }
 
-/* Admin bottom-sheet card */
+/* Admin centered modal card */
 .admin-modal-card {
-    width: min(100%, 600px) !important;
-    max-height: 92vh !important;
+    width: min(100%, 1080px) !important;
+    max-height: min(88vh, 860px) !important;
     display: flex !important;
     flex-direction: column !important;
     overflow: hidden !important;
     padding: 0 !important;
     background: linear-gradient(180deg, #0c1828 0%, #07101e 100%) !important;
     border: 1px solid rgba(103, 232, 249, 0.12) !important;
-    border-bottom: none !important;
-    border-radius: 28px 28px 0 0 !important;
-    box-shadow: 0 -20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04) !important;
-    animation: depositModalUp 0.42s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+    border-radius: 28px !important;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.62), 0 0 0 1px rgba(255,255,255,0.04) !important;
+    animation: cardShow 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
 }
 
-/* Drag handle */
 .admin-modal-card::after {
-    content: '';
-    position: absolute;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 36px;
-    height: 4px;
-    border-radius: 999px;
-    background: rgba(255,255,255,0.15);
-    z-index: 10;
-    pointer-events: none;
+    content: none;
 }
