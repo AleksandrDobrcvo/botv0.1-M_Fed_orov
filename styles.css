@@ -7347,18 +7347,6 @@ body.telegram-webapp .profile-name {
    ADMIN MODAL — Fixed height, no-scroll shell
 ───────────────────────────────────────────── */
 
-.admin-modal-card {
-    width: min(100%, 600px) !important;
-    max-height: 92vh !important;
-    display: flex !important;
-    flex-direction: column !important;
-    overflow: hidden !important;
-    padding: 0 !important;
-    background: linear-gradient(180deg, #0c1828 0%, #07101e 100%) !important;
-    border: 1px solid rgba(103, 232, 249, 0.12) !important;
-    box-shadow: 0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04) !important;
-}
-
 /* Animated top accent bar on admin */
 .admin-modal-card::before {
     content: '';
@@ -7620,169 +7608,206 @@ body.telegram-webapp .profile-name {
 .my-hero-list {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 14px;
 }
 
-/* Hero card full redesign */
+/* ── Hero game card ── */
 .my-hero-item {
     position: relative;
-    border-radius: 26px;
+    border-radius: 24px;
     border: 1px solid;
     overflow: hidden;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 0;
     padding: 0;
     transition: box-shadow 0.3s ease, transform 0.25s ease;
+    align-items: stretch;
 }
 
 .my-hero-item:hover {
-    transform: translateY(-3px);
+    transform: translateY(-2px);
 }
 
-/* Rarity-specific glow on hover */
-.my-hero-item.rarity-legendary:hover { box-shadow: 0 16px 40px rgba(251,191,36,0.25), 0 0 0 1px rgba(251,191,36,0.2); }
-.my-hero-item.rarity-epic:hover      { box-shadow: 0 16px 40px rgba(232,121,249,0.25), 0 0 0 1px rgba(232,121,249,0.2); }
-.my-hero-item.rarity-rare:hover      { box-shadow: 0 16px 40px rgba(167,139,250,0.22), 0 0 0 1px rgba(167,139,250,0.18); }
-.my-hero-item.rarity-common:hover    { box-shadow: 0 16px 40px rgba(103,232,249,0.2),  0 0 0 1px rgba(103,232,249,0.15); }
-.my-hero-item.rarity-starter:hover   { box-shadow: 0 16px 40px rgba(52,211,153,0.2),   0 0 0 1px rgba(52,211,153,0.15); }
+/* Rarity glow on hover */
+.my-hero-item.rarity-legendary:hover { box-shadow: 0 12px 36px rgba(251,191,36,0.22); }
+.my-hero-item.rarity-epic:hover      { box-shadow: 0 12px 36px rgba(232,121,249,0.22); }
+.my-hero-item.rarity-rare:hover      { box-shadow: 0 12px 36px rgba(167,139,250,0.20); }
+.my-hero-item.rarity-common:hover    { box-shadow: 0 12px 36px rgba(103,232,249,0.18); }
+.my-hero-item.rarity-starter:hover   { box-shadow: 0 12px 36px rgba(52,211,153,0.18); }
 
-/* Hero card top — image banner */
+/* Left strip accent by rarity */
+.my-hero-item::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    z-index: 3;
+    border-radius: 24px 0 0 24px;
+}
+.my-hero-item.rarity-starter::before  { background: #34d399; box-shadow: 0 0 12px rgba(52,211,153,0.6); }
+.my-hero-item.rarity-common::before   { background: #67e8f9; box-shadow: 0 0 12px rgba(103,232,249,0.6); }
+.my-hero-item.rarity-rare::before     { background: #a78bfa; box-shadow: 0 0 12px rgba(167,139,250,0.6); }
+.my-hero-item.rarity-epic::before     { background: #e879f9; box-shadow: 0 0 12px rgba(232,121,249,0.6); }
+.my-hero-item.rarity-legendary::before { background: linear-gradient(180deg, #fbbf24, #f59e0b, #ef4444); box-shadow: 0 0 16px rgba(251,191,36,0.7); }
+
+/* Left thumbnail column */
 .my-hero-media {
+    flex: 0 0 110px;
     position: relative;
-    width: 100%;
-    height: 160px;
     overflow: hidden;
-    flex-direction: row;
-    align-items: stretch;
-    gap: 0;
+    display: block;
+    height: auto;
 }
 
 .my-hero-media img {
-    width: 100%;
+    width: 110px;
     height: 100%;
     object-fit: cover;
     object-position: top center;
     border-radius: 0;
     display: block;
-    transition: transform 0.4s ease;
+    min-height: 140px;
+    filter: brightness(0.92) saturate(1.1);
 }
 
-.my-hero-item:hover .my-hero-media img {
-    transform: scale(1.05);
-}
-
-/* Gradient overlay on image bottom */
+/* Subtle right-edge fade into body */
 .my-hero-media::after {
     content: '';
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 80px;
-    background: linear-gradient(to top, var(--card-bg-from, #0a1a12), transparent);
+    top: 0; right: 0; bottom: 0;
+    width: 40px;
+    background: linear-gradient(to right, transparent, var(--card-bg-body, #0a1525));
     pointer-events: none;
 }
 
-/* Rarity chip — top-right corner */
+/* Rarity chip — top-left on image */
 .my-hero-media .hero-rarity-chip {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    bottom: auto;
-    left: auto;
+    bottom: 8px;
+    left: 8px;
+    top: auto;
+    right: auto;
     width: auto;
-    padding: 5px 10px;
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 0.06em;
+    padding: 4px 8px;
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
     border-radius: 999px;
     z-index: 2;
+    white-space: nowrap;
 }
 
-/* Hero body — below image */
+/* Body — right of thumbnail */
 .hero-stats-col {
-    padding: 16px 18px 20px;
-    gap: 14px;
-    flex: unset;
+    flex: 1 1 auto;
+    padding: 14px 16px 14px 12px;
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
 }
 
 .my-hero-topline {
-    align-items: center;
+    align-items: flex-start;
 }
 
 .my-hero-name {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 900;
     font-family: 'Space Grotesk', sans-serif;
-    letter-spacing: -0.03em;
-    white-space: normal;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--text);
 }
 
 .my-hero-role {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 600;
+    color: var(--muted);
+    margin-top: 2px;
 }
 
 .hero-level-badge {
-    padding: 6px 14px;
+    padding: 4px 10px;
     border-radius: 999px;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 900;
     letter-spacing: 0.04em;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
-/* Income stats — 2 cols */
+/* Income stats — compact 2 cols */
 .hero-income-row {
-    gap: 10px;
+    gap: 8px;
 }
 
 .hero-income-block {
     flex: 1;
-    padding: 12px 14px;
-    border-radius: 16px;
-    background: rgba(0,0,0,0.3);
-    border: 1px solid rgba(255,255,255,0.06);
+    padding: 9px 11px;
+    border-radius: 13px;
+    background: rgba(0,0,0,0.25);
+    border: 1px solid rgba(255,255,255,0.05);
 }
 
 .hero-income-label {
-    font-size: 10px;
+    font-size: 9px;
     letter-spacing: 0.08em;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--muted);
 }
 
 .hero-income-value {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 800;
-    margin-top: 4px;
+    margin-top: 3px;
     font-family: 'Space Grotesk', sans-serif;
+    color: var(--text);
 }
 
 .hero-income-unit {
-    font-size: 12px;
+    font-size: 11px;
+    font-weight: 500;
+    opacity: 0.65;
 }
 
 /* Cycle progress */
 .hero-cycle-wrap {
-    padding: 12px 14px;
-    border-radius: 16px;
-    gap: 8px;
-    background: rgba(0,0,0,0.25);
-    border: 1px solid rgba(255,255,255,0.06);
+    padding: 10px 12px;
+    border-radius: 14px;
+    gap: 7px;
+    background: rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+.hero-cycle-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .hero-cycle-label {
-    font-size: 11px;
+    font-size: 10px;
     letter-spacing: 0.07em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--muted);
 }
 
 .hero-cycle-pct {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 900;
     font-family: 'Space Grotesk', sans-serif;
 }
 
 .hero-cycle-track {
-    height: 8px;
+    height: 7px;
     border-radius: 999px;
     background: rgba(255,255,255,0.06);
     overflow: hidden;
@@ -7793,21 +7818,21 @@ body.telegram-webapp .profile-name {
     border-radius: 999px;
     transition: width 0.6s cubic-bezier(0.22,1,0.36,1);
     position: relative;
+    overflow: hidden;
 }
 
-/* Shimmer on cycle bar */
+@keyframes heroBarShimmer {
+    0%   { left: -50%; }
+    100% { left: 150%; }
+}
+
 .hero-cycle-bar::after {
     content: '';
     position: absolute;
     top: 0; bottom: 0;
     width: 40%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-    animation: heroBarShimmer 2s ease-in-out infinite;
-}
-
-@keyframes heroBarShimmer {
-    0%   { left: -50%; }
-    100% { left: 140%; }
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+    animation: heroBarShimmer 2.2s ease-in-out infinite;
 }
 
 .hero-cycle-footer {
@@ -7817,7 +7842,7 @@ body.telegram-webapp .profile-name {
 }
 
 .hero-cycle-countdown {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
     font-family: 'Space Grotesk', sans-serif;
     color: var(--muted);
@@ -7825,27 +7850,27 @@ body.telegram-webapp .profile-name {
 
 .cycle-ready {
     color: #34d399;
-    animation: v4GlowPulse 1.5s ease-in-out infinite;
+    font-weight: 900;
 }
 
 .hero-cycle-accrued {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
 }
 
 /* Meta chips row */
 .hero-meta-row {
     display: flex;
-    gap: 7px;
+    gap: 6px;
     flex-wrap: wrap;
 }
 
 .hero-meta-chip {
-    padding: 5px 10px;
+    padding: 4px 9px;
     border-radius: 999px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.08);
-    font-size: 11px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
+    font-size: 10px;
     font-weight: 700;
     color: var(--muted);
 }
@@ -7854,18 +7879,20 @@ body.telegram-webapp .profile-name {
 .hero-actions-row {
     display: grid;
     grid-template-columns: 1fr 2fr;
-    gap: 10px;
+    gap: 8px;
+    margin-top: 2px;
 }
 
 .hero-secondary-btn {
-    min-height: 42px;
-    border-radius: 14px;
-    font-size: 13px;
+    min-height: 38px;
+    border-radius: 12px;
+    font-size: 12px;
     font-weight: 700;
     background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.09);
+    border: 1px solid rgba(255,255,255,0.08);
     color: var(--muted);
     transition: background 0.2s, color 0.2s;
+    cursor: pointer;
 }
 
 .hero-secondary-btn:hover {
@@ -7874,28 +7901,29 @@ body.telegram-webapp .profile-name {
 }
 
 .hero-upgrade-btn {
-    min-height: 42px;
-    border-radius: 14px;
+    min-height: 38px;
+    border-radius: 12px;
     font-size: 13px;
     font-weight: 900;
     border: none;
     color: #fff;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.3);
     transition: opacity 0.2s, box-shadow 0.2s, transform 0.2s;
 }
 
 .hero-upgrade-btn:hover {
     opacity: 0.88;
-    box-shadow: 0 10px 28px rgba(0,0,0,0.4);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.4);
     transform: translateY(-1px);
 }
 
-/* Rarity CSS custom properties for media gradient overlay */
-.my-hero-item.rarity-starter { --card-bg-from: #0a1a12; }
-.my-hero-item.rarity-common  { --card-bg-from: #0a1525; }
-.my-hero-item.rarity-rare    { --card-bg-from: #0d0a1f; }
-.my-hero-item.rarity-epic    { --card-bg-from: #16051e; }
-.my-hero-item.rarity-legendary { --card-bg-from: #1a1000; }
+/* Rarity background tints for media right-edge fade */
+.my-hero-item.rarity-starter { --card-bg-body: #081510; }
+.my-hero-item.rarity-common  { --card-bg-body: #080f1c; }
+.my-hero-item.rarity-rare    { --card-bg-body: #090815; }
+.my-hero-item.rarity-epic    { --card-bg-body: #0e0416; }
+.my-hero-item.rarity-legendary { --card-bg-body: #110900; }
 
 /* Heroes section head */
 #my-heroes-section .shop-head {
@@ -7959,5 +7987,37 @@ body.telegram-webapp .profile-name {
 
 /* Make admin-modal backdrop let the modal fill nicely */
 #admin-modal {
-    align-items: center;
+    align-items: flex-end;
+    padding: 0;
+}
+
+/* Admin bottom-sheet card */
+.admin-modal-card {
+    width: min(100%, 600px) !important;
+    max-height: 92vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    background: linear-gradient(180deg, #0c1828 0%, #07101e 100%) !important;
+    border: 1px solid rgba(103, 232, 249, 0.12) !important;
+    border-bottom: none !important;
+    border-radius: 28px 28px 0 0 !important;
+    box-shadow: 0 -20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04) !important;
+    animation: depositModalUp 0.42s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+}
+
+/* Drag handle */
+.admin-modal-card::after {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 36px;
+    height: 4px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.15);
+    z-index: 10;
+    pointer-events: none;
 }
