@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=20260425">
 </head>
 <body>
     <!-- SVG defs for gradients -->
@@ -239,16 +239,19 @@
             <!-- Quick Stats Ticker -->
             <div class="quick-stats-ticker">
                 <div class="ticker-item">
+                    <strong class="ticker-value" id="profile-online-count">0</strong>
                     <span class="ticker-dot ticker-dot-green"></span>
-                    <span>Онлайн: <strong id="profile-online-count">0</strong></span>
+                    <span class="ticker-label">Онлайн</span>
                 </div>
                 <div class="ticker-item">
+                    <strong class="ticker-value" id="profile-today-earned">0 RNX</strong>
                     <span class="ticker-dot ticker-dot-cyan"></span>
-                    <span>Сегодня: <strong id="profile-today-earned">0 TON</strong></span>
+                    <span class="ticker-label">Добыто</span>
                 </div>
                 <div class="ticker-item">
+                    <strong class="ticker-value" id="profile-active-heroes">0</strong>
                     <span class="ticker-dot ticker-dot-purple"></span>
-                    <span>Активных героев: <strong id="profile-active-heroes">0</strong></span>
+                    <span class="ticker-label">Героев</span>
                 </div>
             </div>
 
@@ -362,7 +365,6 @@
                     <h3 class="modal-title" data-translate="historySubtitle">Финансовые операции и их статусы</h3>
                 </div>
             </div>
-            <div class="menu-dashboard" id="menu-dashboard"></div>
             <div class="history-filters" id="history-filters"></div>
             <div id="history-list" class="request-list"></div>
         </section>
@@ -378,42 +380,54 @@
             <div id="audit-list" class="request-list"></div>
         </section>
 
-        <section class="admin-section" id="admin-section">
-            <button class="admin-toggle-btn" id="admin-btn" type="button">
-                <span class="admin-toggle-icon">◆</span>
-                <span class="admin-toggle-text">
-                    <strong data-translate="admin">Админ-панель</strong>
-                    <small data-translate="adminHint">Только для ID из конфигурации</small>
-                </span>
-                <span class="admin-toggle-arrow" id="admin-toggle-arrow">▾</span>
-            </button>
-            <div class="admin-inline-panel hidden" id="admin-inline-panel"></div>
-        </section>
+        <!-- ─── Menu Section ─── -->
+        <section class="shop-section panel app-view hidden" id="menu-section">
+            <div class="menu-dashboard" id="menu-dashboard"></div>
 
-        <!-- Footer -->
-        <footer class="app-footer">
-            <div class="app-footer-glow"></div>
-            <div class="app-footer-inner">
-                <div class="app-footer-brand">
-                    <div class="app-footer-logo-wrap">
-                        <span class="app-footer-logo">◆</span>
-                        <div class="app-footer-logo-ring"></div>
+            <!-- Admin Panel (shown only for admins) -->
+            <div class="menu-admin-block hidden" id="menu-admin-block">
+                <div class="menu-admin-header">
+                    <span class="menu-admin-icon">⚡</span>
+                    <div>
+                        <p class="section-label" data-translate="admin">Админ-панель</p>
+                        <h3 class="modal-title" data-translate="adminHint">Только для ID из конфигурации</h3>
                     </div>
-                    <div class="app-footer-brand-text">
-                        <div class="app-footer-name">RNX</div>
-                        <div class="app-footer-tagline">Mining Universe</div>
-                    </div>
+                    <button class="menu-admin-toggle" id="admin-btn" type="button">
+                        <span id="admin-toggle-arrow">▾</span>
+                    </button>
                 </div>
-                <div class="app-footer-divider"></div>
-                <div class="app-footer-links">
-                    <a class="app-footer-link" href="https://t.me/palmaron" target="_blank" rel="noopener noreferrer">
-                        <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.94 8.19l-2.03 9.57c-.15.67-.54.84-1.09.52l-3-2.21-1.45 1.4c-.16.16-.3.3-.6.3l.21-3.06 5.5-4.97c.24-.21-.05-.33-.37-.12L7.06 14.5l-2.96-.93c-.64-.2-.65-.64.14-.95l11.57-4.46c.53-.19 1 .13.13.03z"/></svg>
-                        Dev @palmaron
-                    </a>
-                </div>
-                <div class="app-footer-copy">© 2026 RNX · All rights reserved</div>
+                <div class="admin-inline-panel hidden" id="admin-inline-panel"></div>
             </div>
-        </footer>
+
+            <!-- Footer inside menu -->
+            <footer class="app-footer">
+                <div class="app-footer-glow"></div>
+                <div class="app-footer-inner">
+                    <div class="app-footer-brand">
+                        <div class="app-footer-logo-wrap">
+                            <span class="app-footer-logo">◆</span>
+                            <div class="app-footer-logo-ring"></div>
+                        </div>
+                        <div class="app-footer-brand-text">
+                            <div class="app-footer-name">RoboNexus</div>
+                            <div class="app-footer-tagline">Mining Universe · v1.3</div>
+                        </div>
+                    </div>
+                    <div class="app-footer-divider"></div>
+                    <div class="app-footer-links">
+                        <a class="app-footer-link app-footer-link-support" href="https://t.me/RoboNexus_team" target="_blank" rel="noopener noreferrer">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.94 8.19l-2.03 9.57c-.15.67-.54.84-1.09.52l-3-2.21-1.45 1.4c-.16.16-.3.3-.6.3l.21-3.06 5.5-4.97c.24-.21-.05-.33-.37-.12L7.06 14.5l-2.96-.93c-.64-.2-.65-.64.14-.95l11.57-4.46c.53-.19 1 .13.13.03z"/></svg>
+                            Поддержка @RoboNexus_team
+                        </a>
+                        <a class="app-footer-link" href="https://t.me/palmaron" target="_blank" rel="noopener noreferrer">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.94 8.19l-2.03 9.57c-.15.67-.54.84-1.09.52l-3-2.21-1.45 1.4c-.16.16-.3.3-.6.3l.21-3.06 5.5-4.97c.24-.21-.05-.33-.37-.12L7.06 14.5l-2.96-.93c-.64-.2-.65-.64.14-.95l11.57-4.46c.53-.19 1 .13.13.03z"/></svg>
+                            Dev @palmaron
+                        </a>
+                    </div>
+                    <div class="app-footer-copy">© 2026 RoboNexus · All rights reserved</div>
+                </div>
+            </footer>
+        </section>
 
     </main>
 
@@ -858,6 +872,6 @@
 
     <script src="db_config.js"></script>
     <script src="database.js"></script>
-    <script src="script.js"></script>
+    <script src="script.js?v=20260425"></script>
 </body>
 </html>
