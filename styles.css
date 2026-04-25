@@ -7192,3 +7192,149 @@ body.telegram-webapp .profile-name {
     transform: scale(0.97);
     box-shadow: 0 4px 14px rgba(6, 182, 212, 0.3);
 }
+
+/* ─── V4b: Animated stripe + extra glow polish ─── */
+
+@keyframes v4StripeShift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes v4GlowPulse {
+    0%, 100% { box-shadow: 0 0 28px rgba(52,211,153,0.18), 0 0 0 4px rgba(52,211,153,0.1); }
+    50%       { box-shadow: 0 0 42px rgba(52,211,153,0.32), 0 0 0 6px rgba(52,211,153,0.18); }
+}
+
+@keyframes v4CyanPulse {
+    0%, 100% { box-shadow: 0 0 22px rgba(6,182,212,0.22); }
+    50%       { box-shadow: 0 0 38px rgba(6,182,212,0.42); }
+}
+
+/* Animated gradient stripe on deposit modal */
+.deposit-modal-card::before {
+    background: linear-gradient(90deg, #34d399, #06b6d4, #8b5cf6, #f59e0b, #34d399);
+    background-size: 300% 100%;
+    animation: v4StripeShift 4s ease infinite;
+}
+
+/* Animated gradient stripe on form modal */
+#form-modal .modal-card::before {
+    background: linear-gradient(90deg, #fb7185, #a78bfa, #67e8f9, #fb7185);
+    background-size: 300% 100%;
+    animation: v4StripeShift 5s ease infinite;
+}
+
+/* Deposit card — glass highlight shimmer */
+.deposit-modal-card::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.035) 0%, transparent 100%);
+    pointer-events: none;
+    border-radius: 32px 32px 0 0;
+}
+
+/* Brighter step dot active */
+.deposit-step-dot.active {
+    background: linear-gradient(135deg, #22d3ee, #0ea5e9);
+    box-shadow: 0 0 0 5px rgba(6,182,212,0.2), 0 0 24px rgba(6,182,212,0.6);
+    animation: v4CyanPulse 2s ease-in-out infinite;
+}
+
+.deposit-step-dot.done {
+    background: linear-gradient(135deg, #34d399, #059669);
+    box-shadow: 0 0 20px rgba(52,211,153,0.5);
+}
+
+/* Next btn brighter */
+.deposit-next-btn {
+    background: linear-gradient(135deg, #4ade80, #34d399, #10b981) !important;
+    background-size: 200% 100% !important;
+    animation: v4StripeShift 3s ease infinite !important;
+    box-shadow: 0 10px 28px rgba(52,211,153,0.5) !important;
+}
+
+/* Amount badge pulsing cyan */
+.deposit-amount-badge {
+    border-color: rgba(6, 182, 212, 0.4);
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
+    animation: v4CyanPulse 3s ease-in-out infinite;
+}
+
+.deposit-amount-badge-value {
+    text-shadow: 0 0 30px rgba(103, 232, 249, 0.6), 0 0 60px rgba(103, 232, 249, 0.25);
+}
+
+/* Success icon — brighter pulse */
+.deposit-success-icon {
+    animation: depositSuccessPop 0.6s cubic-bezier(0.16,1,0.3,1), v4GlowPulse 2.5s ease-in-out 0.6s infinite;
+}
+
+.deposit-success-title {
+    text-shadow: 0 0 24px rgba(52,211,153,0.45);
+}
+
+/* Deposit confirm sent btn */
+.deposit-confirm-sent-btn {
+    background: linear-gradient(135deg, #4ade80, #10b981) !important;
+    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.5) !important;
+}
+
+/* Payment card — border glow */
+.deposit-payment-card {
+    border-color: rgba(103, 232, 249, 0.12);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+/* QR image brighter frame */
+.deposit-qr-img {
+    border: 1.5px solid rgba(103, 232, 249, 0.2);
+    box-shadow: 0 0 28px rgba(103, 232, 249, 0.18), 0 12px 32px rgba(0,0,0,0.4);
+}
+
+/* Form modal card — glass highlight shimmer */
+#form-modal .modal-card::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 100%);
+    pointer-events: none;
+    border-radius: 28px 28px 0 0;
+}
+
+/* Form modal confirm btn — pulsing */
+.modal-actions .action-btn:not(.action-cancel) {
+    background: linear-gradient(135deg, #22d3ee, #06b6d4, #0369a1);
+    background-size: 200% 100%;
+    animation: v4StripeShift 4s ease infinite;
+    box-shadow: 0 8px 26px rgba(6, 182, 212, 0.45);
+}
+
+.modal-actions .action-btn:not(.action-cancel):hover {
+    box-shadow: 0 14px 36px rgba(6, 182, 212, 0.6);
+}
+
+/* Method btn selected — pulse */
+.deposit-method-btn.selected {
+    animation: v4CyanPulse 2.5s ease-in-out infinite;
+}
+
+/* Profile action btn hover — stronger glow */
+#deposit-btn:hover:not(:disabled) {
+    box-shadow: 0 8px 28px rgba(52, 211, 153, 0.4), 0 0 0 1px rgba(52,211,153,0.2);
+}
+
+#withdraw-btn:hover:not(:disabled) {
+    box-shadow: 0 8px 28px rgba(251, 113, 133, 0.4), 0 0 0 1px rgba(251,113,133,0.2);
+}
+
+#exchange-btn:hover:not(:disabled) {
+    box-shadow: 0 8px 28px rgba(139, 92, 246, 0.4), 0 0 0 1px rgba(139,92,246,0.2);
+}

@@ -151,15 +151,44 @@ class GameDatabase {
         const source = hero || {};
         const price = Math.max(0, Number(source.price || 0));
         const level = Math.max(1, Number(source.level || 1));
-        const durationHours = Math.max(1, Number(source.durationHours || 24));
+            const heroKey = String(source.heroId || source.id || '');
+            const isTestHero = Boolean(source.isTestHero || heroKey === 'h_starter');
+            const canonicalDurationHours = isTestHero ? 1 : 24;
+            const sourceDurationHours = Math.max(1, Number(source.durationHours || canonicalDurationHours));
+            const durationHours = canonicalDurationHours;
         const rarityKey = source.rarityKey || 'common';
         const baseProfitPerHour = Math.max(1, Number(source.baseProfitPerHour ?? source.profitPerHour ?? 1));
         const growthRate = Number(source.growthRate ?? 0.18);
         const baseUpgradePrice = Math.max(10, Number(source.baseUpgradePrice || Math.round(Math.max(price, baseProfitPerHour * durationHours) * 0.45) || 10));
         const profitPerHour = this.calculateHeroProfit(baseProfitPerHour, level, growthRate);
         const acquiredAt = source.acquiredAt || source.purchasedAt || new Date().toISOString();
-        const cycleStartedAt = source.cycleStartedAt || acquiredAt;
-        const cycleEndsAt = source.cycleEndsAt || new Date(new Date(cycleStartedAt).getTime() + durationHours * 60 * 60 * 1000).toISOString();
+            const rawCycleStartedAt = source.cycleStartedAt || acquiredAt;
+            const rawCycleEndsAt = source.cycleEndsAt || new Date(new Date(rawCycleStartedAt).getTime() + sourceDurationHours * 60 * 60 * 1000).toISOString();
+            let cycleStartedAt = rawCycleStartedAt;
+            let cycleEndsAt = rawCycleEndsAt;
+            if (sourceDurationHours !== durationHours) {
+                const startMs = new Date(rawCycleStartedAt).getTime();
+                const endMs = new Date(rawCycleEndsAt).getTime();
+                const oldDurationMs = Math.max(1, sourceDurationHours) * 60 * 60 * 1000;
+                const newDurationMs = durationHours * 60 * 60 * 1000;
+                const nowMs = Date.now();
+                const elapsedMs = Number.isFinite(startMs) ? Math.max(0, nowMs - startMs) : 0;
+                const progress = Number.isFinite(startMs) && Number.isFinite(endMs) && endMs > startMs
+                    ? Math.min(1, Math.max(0, (nowMs - startMs) / Math.max(1, endMs - startMs)))
+                    : Math.min(1, elapsedMs / oldDurationMs);
+                const migratedStartMs = nowMs - Math.round(newDurationMs * progress);
+                cycleStartedAt = new Date(migratedStartMs).toISOString();
+                cycleEndsAt = new Date(migratedStartMs + newDurationMs).toISOString();
+            }
+            // Hard-cap: if cycle end is more than durationHours away, reset to fresh cycle
+            {
+                const _capNow = Date.now();
+                const _capMax = durationHours * 60 * 60 * 1000;
+                if (new Date(cycleEndsAt).getTime() - _capNow > _capMax + 120000) {
+                    cycleStartedAt = new Date(_capNow).toISOString();
+                    cycleEndsAt = new Date(_capNow + _capMax).toISOString();
+                }
+            }
         const totalUpgradeSpent = Math.max(0, Number(source.totalUpgradeSpent || 0));
 
         return {
@@ -197,6 +226,7 @@ class GameDatabase {
                 baseUpgradePrice
             }))),
             image: source.image || '',
+            isTestHero,
             source: source.source || 'shop',
             grantedByAdmin: Boolean(source.grantedByAdmin),
             purchasedAt: source.purchasedAt || source.acquiredAt || new Date().toISOString(),
@@ -662,6 +692,24 @@ class GameDatabase {
             audience: 'user',
             userId: String(referrer.id)
         });
+
+        // Welcome notification for new user
+        this.createNotification({
+            type: 'info',
+            title: '🎉 Добро пожаловать!',
+            message: `Ты зашёл по реферальной ссылке и получаешь +${Math.round(rnxReward * 0.1)} $RNX приветственного бонуса`,
+            audience: 'user',
+            userId: String(newUserId)
+        });
+
+        // Add welcome bonus for the new user too
+        const newUser = this.getUserById(newUserId);
+        if (newUser) {
+            const welcomeBonus = Math.round(rnxReward * 0.1);
+            this.updateUserById(newUserId, {
+                rnxBalance: Number(newUser.rnxBalance || 0) + welcomeBonus
+            });
+        }
 
         return { success: true, referrerId: referrer.id, reward: rnxReward };
     }
@@ -1734,7 +1782,14 @@ class GameDatabase {
             isAdmin: this.data.user.isAdmin || false,
             pendingRequests,
             onlineCount: this.getOnlineCount(),
-            realOnlineCount: allUsers.filter(u => Boolean(u.isOnline)).length,
+            realOnlineCount: (() => {
+                const ONLINE_MS = 5 * 60 * 1000; // 5 minutes
+                const now = Date.now();
+                return allUsers.filter(u => {
+                    if (!u.lastSeen) return false;
+                    return (now - new Date(u.lastSeen).getTime()) < ONLINE_MS;
+                }).length;
+            })(),
             totalBalance: totalBalance.toFixed(2),
             totalDeposits: totalDeposits.toFixed(2),
             totalWithdrawals: totalWithdrawals.toFixed(2),

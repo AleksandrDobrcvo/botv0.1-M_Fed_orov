@@ -650,6 +650,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (window.gameDB) window.gameDB.setUserOffline(window.gameDB.getUser().id);
     });
 
+    // Heartbeat: keep current user lastSeen fresh every 2 minutes
+    setInterval(() => {
+        if (window.gameDB) {
+            const uid = window.gameDB.getUser().id;
+            if (uid && document.visibilityState === 'visible') {
+                window.gameDB.updateLastSeen(uid);
+            }
+        }
+    }, 2 * 60 * 1000);
+
     // Animate splash status messages
     const splashStatus = document.getElementById('splash-status');
     const statusMessages = ['Connecting...', 'Loading heroes...', 'Ready!'];
