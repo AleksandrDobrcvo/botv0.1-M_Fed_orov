@@ -585,6 +585,14 @@ body.telegram-webapp .audit-section {
     animation-delay: 0.34s;
 }
 
+.profile-panel.section-enter > *,
+.profile-panel.slide-enter-right > *,
+.profile-panel.slide-enter-left > * {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+}
+
 .hero-top {
     display: flex;
     align-items: flex-start;
@@ -8638,6 +8646,48 @@ body.telegram-webapp .profile-name {
 
     .hero-profile-visual img {
         min-height: 250px;
+    }
+
+    .hero-profile-badges {
+        left: 10px;
+        right: 10px;
+        top: 10px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .hero-profile-badges .hero-rarity-chip,
+    .hero-profile-badges .hero-level-badge {
+        max-width: 100%;
+    }
+
+    .hero-visual-caption {
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        padding: 10px 12px;
+    }
+
+    .hero-visual-role {
+        font-size: 14px;
+    }
+
+    .my-hero-media {
+        flex-basis: 108px;
+    }
+
+    .my-hero-media img {
+        width: 108px;
+        min-height: 154px;
+    }
+
+    .my-hero-media .hero-rarity-chip {
+        left: 10px;
+        bottom: 10px;
+        padding: 5px 9px;
+        font-size: 8px;
+        letter-spacing: 0.06em;
     }
 
     .hero-detail-summary-topline,
