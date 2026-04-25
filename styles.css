@@ -6748,3 +6748,447 @@ body.telegram-webapp .profile-name {
         padding-top: 0;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════════ */
+/*  VISUAL UPGRADE V4 — DEPOSIT / WITHDRAW / EXCHANGE MODALS         */
+/* ═══════════════════════════════════════════════════════════════════ */
+
+/* ─── Profile Action Buttons — Vivid styled ─── */
+#deposit-btn {
+    background: linear-gradient(135deg, rgba(52, 211, 153, 0.18), rgba(16, 185, 129, 0.10));
+    border: 1px solid rgba(52, 211, 153, 0.35);
+    color: #34d399;
+}
+
+#deposit-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, rgba(52, 211, 153, 0.28), rgba(16, 185, 129, 0.18));
+    box-shadow: 0 6px 20px rgba(52, 211, 153, 0.25);
+    transform: translateY(-1px);
+}
+
+#withdraw-btn {
+    background: linear-gradient(135deg, rgba(251, 113, 133, 0.18), rgba(239, 68, 68, 0.10));
+    border: 1px solid rgba(251, 113, 133, 0.35);
+    color: #fb7185;
+}
+
+#withdraw-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, rgba(251, 113, 133, 0.28), rgba(239, 68, 68, 0.18));
+    box-shadow: 0 6px 20px rgba(251, 113, 133, 0.25);
+    transform: translateY(-1px);
+}
+
+#exchange-btn {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.18), rgba(109, 40, 217, 0.10));
+    border: 1px solid rgba(139, 92, 246, 0.35);
+    color: #a78bfa;
+}
+
+#exchange-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.28), rgba(109, 40, 217, 0.18));
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.25);
+    transform: translateY(-1px);
+}
+
+/* ─── Deposit Modal Card — Premium Sheet ─── */
+.deposit-modal-card {
+    background: linear-gradient(180deg, #0d1a2e 0%, #080f1c 100%);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-bottom: none;
+    border-radius: 32px 32px 0 0;
+    scrollbar-width: none;
+    padding: 0 0 36px;
+}
+
+.deposit-modal-card::-webkit-scrollbar { display: none; }
+
+/* Accent stripe at top of deposit modal */
+.deposit-modal-card::before {
+    content: '';
+    display: block;
+    height: 3px;
+    width: 100%;
+    border-radius: 999px 999px 0 0;
+    background: linear-gradient(90deg, #34d399, #06b6d4, #8b5cf6);
+    flex-shrink: 0;
+}
+
+.deposit-modal-head {
+    padding: 20px 22px 0;
+    margin-bottom: 18px;
+}
+
+.deposit-modal-head-info { flex: 1; }
+
+.deposit-modal-title {
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    font-family: 'Space Grotesk', sans-serif;
+    margin: 4px 0 0;
+    color: var(--text);
+}
+
+/* Wrap inner deposit steps in padding */
+.deposit-step {
+    padding: 0 22px;
+}
+
+/* Step indicator */
+.deposit-step-dot {
+    width: 34px;
+    height: 34px;
+    font-size: 13px;
+    font-weight: 900;
+    border-width: 1.5px;
+    letter-spacing: 0;
+}
+
+.deposit-step-dot.active {
+    background: linear-gradient(135deg, #06b6d4, #0ea5e9);
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.5), 0 0 0 4px rgba(6, 182, 212, 0.15);
+}
+
+.deposit-step-dot.done {
+    background: linear-gradient(135deg, #10b981, #059669);
+    box-shadow: 0 0 14px rgba(16, 185, 129, 0.4);
+}
+
+.deposit-step-line {
+    max-width: 56px;
+    height: 2px;
+}
+
+/* Method buttons */
+.deposit-method-btn {
+    padding: 14px 12px;
+    border-radius: 16px;
+    border-width: 1.5px;
+    font-size: 13px;
+    position: relative;
+    overflow: hidden;
+}
+
+.deposit-method-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at top, rgba(255,255,255,0.05), transparent 70%);
+    pointer-events: none;
+}
+
+.deposit-method-btn.selected {
+    border-color: #06b6d4;
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(6, 182, 212, 0.06));
+    box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2), 0 6px 16px rgba(6, 182, 212, 0.12);
+    color: #67e8f9;
+}
+
+.deposit-next-btn {
+    background: linear-gradient(135deg, #34d399, #10b981) !important;
+    border: none !important;
+    color: #fff !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.01em;
+    box-shadow: 0 8px 24px rgba(52, 211, 153, 0.4) !important;
+    border-radius: 16px !important;
+    min-height: 48px !important;
+    transition: box-shadow 0.25s ease, transform 0.2s ease !important;
+}
+
+.deposit-next-btn:hover {
+    box-shadow: 0 12px 32px rgba(52, 211, 153, 0.55) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* Timer — larger, more premium */
+.deposit-timer-wrap {
+    width: 110px;
+    height: 110px;
+    margin-bottom: 22px;
+}
+
+.deposit-timer-text {
+    font-size: 1.3rem;
+    font-weight: 900;
+    font-family: 'Space Grotesk', sans-serif;
+    letter-spacing: -0.02em;
+}
+
+/* Amount badge */
+.deposit-amount-badge {
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.12), rgba(6, 182, 212, 0.06));
+    border: 1px solid rgba(6, 182, 212, 0.25);
+    border-radius: 16px;
+    padding: 14px 18px;
+    margin-bottom: 14px;
+}
+
+.deposit-amount-badge-value {
+    font-size: 1.3rem;
+    font-weight: 900;
+    font-family: 'Space Grotesk', sans-serif;
+    color: #67e8f9;
+    text-shadow: 0 0 20px rgba(103, 232, 249, 0.4);
+}
+
+/* Payment info card */
+.deposit-payment-card {
+    background: linear-gradient(160deg, rgba(15, 24, 42, 0.95), rgba(8, 13, 24, 0.90));
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 20px;
+    padding: 16px 18px;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.deposit-payment-row {
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.deposit-payment-row:last-child { border-bottom: none; }
+
+.deposit-payment-key {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    font-weight: 800;
+}
+
+.deposit-payment-val {
+    font-size: 13px;
+}
+
+.deposit-payment-code {
+    color: #c4b5fd;
+    font-size: 15px;
+    letter-spacing: 0.04em;
+}
+
+.deposit-wallet-addr {
+    font-size: 11px;
+    color: #67e8f9;
+    word-break: break-all;
+}
+
+.deposit-copy-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+    background: rgba(103, 232, 249, 0.08);
+    border: 1px solid rgba(103, 232, 249, 0.15);
+    color: #67e8f9;
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.deposit-copy-btn:hover {
+    background: rgba(103, 232, 249, 0.18);
+    box-shadow: 0 0 12px rgba(103, 232, 249, 0.2);
+}
+
+/* QR */
+.deposit-qr-wrap { gap: 10px; margin-bottom: 18px; }
+
+.deposit-qr-img {
+    width: 140px;
+    height: 140px;
+    border-radius: 18px;
+    padding: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+
+.deposit-qr-hint {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+/* Step 2 action buttons */
+.deposit-step2-actions { gap: 10px; }
+
+.deposit-confirm-sent-btn {
+    background: linear-gradient(135deg, #10b981, #059669) !important;
+    border: none !important;
+    color: #fff !important;
+    font-weight: 800 !important;
+    box-shadow: 0 6px 18px rgba(16, 185, 129, 0.4) !important;
+    border-radius: 14px !important;
+    min-height: 46px !important;
+}
+
+/* Step 3 success */
+.deposit-success-icon {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(52,211,153,0.18), rgba(16,185,129,0.08));
+    border: 1.5px solid rgba(52,211,153,0.4);
+    box-shadow: 0 0 32px rgba(52,211,153,0.2);
+    color: #34d399;
+    animation: depositSuccessPop 0.6s cubic-bezier(0.16,1,0.3,1);
+}
+
+.deposit-success-title {
+    font-size: 22px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    color: #34d399;
+    margin-bottom: 6px;
+}
+
+.deposit-success-sub {
+    font-size: 13px;
+    line-height: 1.55;
+    margin-bottom: 20px;
+}
+
+.deposit-success-meta {
+    background: linear-gradient(160deg, rgba(15,24,42,0.9), rgba(8,13,24,0.8));
+    border: 1px solid rgba(52,211,153,0.15);
+    border-radius: 18px;
+    padding: 14px 18px;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.deposit-success-row {
+    font-size: 13px;
+}
+
+/* ─── Form Modal (Withdraw / Exchange) — Premium Redesign ─── */
+#form-modal {
+    align-items: flex-end;
+    padding: 0;
+}
+
+#form-modal .modal-card {
+    width: min(100%, 480px);
+    border-radius: 28px 28px 0 0;
+    border-bottom: none;
+    padding: 0 0 32px;
+    background: linear-gradient(180deg, #0d1a2e 0%, #080f1c 100%);
+    animation: depositModalUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    scrollbar-width: none;
+    max-height: 90vh;
+}
+
+#form-modal .modal-card::-webkit-scrollbar { display: none; }
+
+/* Accent stripe at top of form modal */
+#form-modal .modal-card::before {
+    content: '';
+    display: block;
+    height: 3px;
+    width: 100%;
+    border-radius: 999px 999px 0 0;
+    background: linear-gradient(90deg, #fb7185, #a78bfa, #67e8f9);
+    flex-shrink: 0;
+}
+
+#form-modal .modal-head {
+    padding: 18px 22px 14px;
+    margin-bottom: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+#form-modal .modal-title {
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    font-family: 'Space Grotesk', sans-serif;
+    color: var(--text);
+}
+
+#form-modal-body {
+    padding: 16px 22px 0;
+    gap: 12px;
+}
+
+/* Form fields inside form-modal — tall, premium */
+#form-modal .form-field {
+    background: linear-gradient(160deg, rgba(15,24,42,0.7), rgba(8,13,24,0.6));
+    border-color: rgba(255,255,255,0.08);
+    border-radius: 18px;
+    padding: 14px 16px;
+    gap: 8px;
+}
+
+#form-modal .form-field label {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    font-weight: 800;
+    color: var(--muted);
+    text-transform: uppercase;
+}
+
+#form-modal .form-field input[type="text"],
+#form-modal .form-field input[type="number"],
+#form-modal .form-field select,
+#form-modal .form-field textarea {
+    padding: 13px 14px;
+    border-radius: 14px;
+    background: rgba(5, 12, 24, 0.6);
+    border: 1px solid rgba(255,255,255,0.08);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#form-modal .form-field input:focus,
+#form-modal .form-field select:focus,
+#form-modal .form-field textarea:focus {
+    border-color: rgba(103, 232, 249, 0.5);
+    box-shadow: 0 0 0 3px rgba(103, 232, 249, 0.12), inset 0 1px 0 rgba(103,232,249,0.05);
+    outline: none;
+    background: rgba(103, 232, 249, 0.04);
+}
+
+/* Action buttons row */
+.modal-actions {
+    padding: 14px 22px 0;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 10px;
+    margin-top: 0;
+}
+
+.modal-actions .action-cancel {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.09);
+    color: var(--muted);
+    border-radius: 16px;
+    min-height: 48px;
+    font-weight: 700;
+    font-size: 14px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.modal-actions .action-cancel:hover {
+    background: rgba(255,255,255,0.09);
+    color: var(--text);
+}
+
+.modal-actions .action-btn:not(.action-cancel) {
+    background: linear-gradient(135deg, #06b6d4, #0891b2);
+    border: none;
+    color: #fff;
+    border-radius: 16px;
+    min-height: 48px;
+    font-weight: 900;
+    font-size: 14px;
+    letter-spacing: 0.01em;
+    box-shadow: 0 8px 22px rgba(6, 182, 212, 0.38);
+    transition: box-shadow 0.25s ease, transform 0.2s ease;
+}
+
+.modal-actions .action-btn:not(.action-cancel):hover {
+    box-shadow: 0 12px 30px rgba(6, 182, 212, 0.52);
+    transform: translateY(-1px);
+}
+
+.modal-actions .action-btn:not(.action-cancel):active {
+    transform: scale(0.97);
+    box-shadow: 0 4px 14px rgba(6, 182, 212, 0.3);
+}
