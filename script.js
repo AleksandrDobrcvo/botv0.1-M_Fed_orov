@@ -1774,6 +1774,13 @@ function getHeroTextSet() {
         heroProfile: isUa ? 'Профіль героя' : 'Профиль героя',
         actionHub: isUa ? 'Меню дій' : 'Меню действий',
         actionHubSubtitle: isUa ? 'Швидкі переходи, історія та центри керування' : 'Быстрые переходы, история и центры управления',
+        menuUpdates: isUa ? 'Історія оновлень' : 'История обновлений',
+        menuUpdatesSubtitle: isUa ? 'Стрічка релізів, покращень і того, що ми додаємо в апку' : 'Лента релизов, улучшений и того, что мы добавляем в приложение',
+        menuUpdatesLoading: isUa ? 'Збираємо стрічку релізів...' : 'Собираем ленту релизов...',
+        menuUpdatesEmpty: isUa ? 'Історія релізів скоро зʼявиться тут.' : 'История релизов скоро появится здесь.',
+        menuUpdatesPlanned: isUa ? 'Наступні покращення теж зʼявлятимуться тут після кожного релізу.' : 'Следующие улучшения тоже будут появляться здесь после каждого релиза.',
+        menuUpdatesCurrent: isUa ? 'Актуально' : 'Актуально',
+        menuUpdatesArchive: isUa ? 'Архів' : 'Архив',
         menuHistory: isUa ? 'Історія' : 'История',
         menuAudit: isUa ? 'Аудит' : 'Аудит',
         menuSupport: isUa ? 'Підтримка' : 'Поддержка',
@@ -2085,6 +2092,19 @@ function renderMenuDashboard() {
             </div>
             <span class="menu-support-banner-arrow">→</span>
         </a>
+        <section class="menu-release-feed">
+            <div class="menu-release-head">
+                <div>
+                    <p class="section-label">${heroText.menuUpdates}</p>
+                    <h3 class="menu-release-title">${heroText.menuUpdatesSubtitle}</h3>
+                </div>
+                <span class="menu-release-badge">Release Log</span>
+            </div>
+            <div class="menu-release-list" id="menu-release-list">
+                <div class="menu-release-empty">${heroText.menuUpdatesLoading}</div>
+            </div>
+            <div class="menu-release-footnote">${heroText.menuUpdatesPlanned}</div>
+        </section>
     `;
 
     const grid = document.createElement('div');
@@ -2109,6 +2129,82 @@ function renderMenuDashboard() {
         grid.appendChild(card);
     });
     container.appendChild(grid);
+    renderMenuUpdateFeed();
+}
+
+function getVersionTimelineEntries(versionData) {
+    if (!versionData || typeof versionData !== 'object') return [];
+
+    const rawEntries = [
+        {
+            version: versionData.version,
+            buildDate: versionData.buildDate,
+            title: versionData.title,
+            changelog: versionData.changelog
+        },
+        ...(Array.isArray(versionData.versionHistory) ? versionData.versionHistory : [])
+    ];
+    const seen = new Set();
+
+    return rawEntries
+        .map((entry) => ({
+            version: String(entry?.version || '').trim(),
+            buildDate: entry?.buildDate || '',
+            title: entry?.title || '',
+            changelog: Array.isArray(entry?.changelog) ? entry.changelog.filter(Boolean) : []
+        }))
+        .filter((entry) => entry.version && !seen.has(entry.version) && seen.add(entry.version));
+}
+
+function formatReleaseBuildDate(value, locale) {
+    if (!value) return 'Build soon';
+    const parsed = new Date(value);
+    if (Number.isNaN(parsed.getTime())) return value;
+    return parsed.toLocaleDateString(locale, { day: '2-digit', month: '2-digit', year: 'numeric' });
+}
+
+function renderMenuUpdateFeed() {
+    const list = document.getElementById('menu-release-list');
+    if (!list) return;
+
+    const heroText = getHeroTextSet();
+    const locale = LANGUAGE_TO_LOCALE[getCurrentLanguage()] || 'ru-RU';
+    list.innerHTML = `<div class="menu-release-empty">${heroText.menuUpdatesLoading}</div>`;
+
+    fetchVersionJson().then((versionData) => {
+        if (!list.isConnected) return;
+
+        const entries = getVersionTimelineEntries(versionData).slice(0, 4);
+        if (!entries.length) {
+            list.innerHTML = `<div class="menu-release-empty">${heroText.menuUpdatesEmpty}</div>`;
+            return;
+        }
+
+        list.innerHTML = entries.map((entry, index) => {
+            const changes = entry.changelog.length
+                ? entry.changelog.slice(0, 3).map((item) => `<div class="menu-release-point"><span class="menu-release-point-dot"></span><span>${escapeHTML(item)}</span></div>`).join('')
+                : `<div class="menu-release-point"><span class="menu-release-point-dot"></span><span>${heroText.menuUpdatesPlanned}</span></div>`;
+            const stateLabel = index === 0 ? heroText.menuUpdatesCurrent : heroText.menuUpdatesArchive;
+            const title = entry.title || (index === 0 ? heroText.menuUpdates : heroText.menuHistory);
+
+            return `
+                <article class="menu-release-card${index === 0 ? ' is-current' : ''}">
+                    <div class="menu-release-card-topline">
+                        <div class="menu-release-version-wrap">
+                            <strong class="menu-release-version">v${escapeHTML(entry.version)}</strong>
+                            <span class="menu-release-state${index === 0 ? ' is-current' : ''}">${stateLabel}</span>
+                        </div>
+                        <span class="menu-release-date">${escapeHTML(formatReleaseBuildDate(entry.buildDate, locale))}</span>
+                    </div>
+                    <h4 class="menu-release-card-title">${escapeHTML(title)}</h4>
+                    <div class="menu-release-points">${changes}</div>
+                </article>
+            `;
+        }).join('');
+    }).catch(() => {
+        if (!list.isConnected) return;
+        list.innerHTML = `<div class="menu-release-empty">${heroText.menuUpdatesEmpty}</div>`;
+    });
 }
 
 function initAdminInlineTabs(container) {
@@ -4829,8 +4925,10 @@ function createOwnedHeroCard(hero, options = {}) {
     `;
     card.innerHTML = `
         <div class="my-hero-media">
-            <img src="${displayHero.image}" alt="${displayHero.name}" loading="lazy">
-            <span class="hero-rarity-chip rarity-${displayHero.rarityKey}">${getHeroRarityLabel(displayHero.rarityKey)}</span>
+            <div class="my-hero-art-frame">
+                <img src="${displayHero.image}" alt="${displayHero.name}" loading="lazy">
+                <span class="hero-rarity-chip rarity-${displayHero.rarityKey}">${getHeroRarityLabel(displayHero.rarityKey)}</span>
+            </div>
         </div>
         <div class="hero-stats-col">
             <div class="my-hero-topline">
@@ -4990,18 +5088,27 @@ function initVersionChecker() {
 }
 
 async function fetchVersionJson() {
-    try {
-        const resp = await fetch('/version.json?t=' + Date.now(), { cache: 'no-store' });
-        if (!resp.ok) return null;
-        const contentType = resp.headers.get('content-type') || '';
-        const raw = await resp.text();
-        if (!contentType.includes('application/json') && raw.trim().startsWith('<')) {
-            return null;
+    const stamp = Date.now();
+    const candidates = window.location?.protocol === 'file:'
+        ? [`version.json?t=${stamp}`, `/version.json?t=${stamp}`]
+        : [`/version.json?t=${stamp}`, `version.json?t=${stamp}`];
+
+    for (const url of candidates) {
+        try {
+            const resp = await fetch(url, { cache: 'no-store' });
+            if (!resp.ok) continue;
+            const contentType = resp.headers.get('content-type') || '';
+            const raw = await resp.text();
+            if (!contentType.includes('application/json') && raw.trim().startsWith('<')) {
+                continue;
+            }
+            return JSON.parse(raw);
+        } catch (e) {
+            continue;
         }
-        return JSON.parse(raw);
-    } catch (e) {
-        return null;
     }
+
+    return null;
 }
 
 function showUpdateOverlay(oldVersion, data) {
