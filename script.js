@@ -4084,16 +4084,13 @@ function showNotification(message, type = 'info', options = {}) {
     };
 
     toast.innerHTML = `
-        <div class="toast-accent-line toast-accent-${type}"></div>
         <div class="toast-body">
             <div class="toast-icon-wrap toast-icon-${type}">${iconMap[type] || iconMap.info}</div>
             <div class="toast-content">
-                <div class="toast-title">${title}</div>
                 <div class="toast-message">${message}</div>
             </div>
-            <button class="toast-close" type="button">×</button>
+            <button class="toast-close" type="button" aria-label="Close">&#x2715;</button>
         </div>
-        <div class="toast-progress"><div class="toast-progress-bar toast-progress-${type}"></div></div>
     `;
     container.appendChild(toast);
 
