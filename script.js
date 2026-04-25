@@ -40,13 +40,6 @@ const LOCALES = {
         profile: 'Профиль',
         tasks: 'Задания',
         menu: 'Меню',
-        myHeroesTitle: 'Мои герои',
-        myHeroesSubtitle: 'Купленные герои и статистика',
-        myHeroesCountLabel: 'Куплено героев',
-        myHeroesIncomeLabel: 'Проектируемый доход',
-        usernameFallback: '@username',
-        continueButton: 'Продолжить',
-        accessDenied: 'Доступ запрещён. Ваш ID не добавлен в конфигурацию администратора.',
         comingSoon: 'Раздел пока в разработке.',
         balanceReset: 'Баланс обнулён.',
         ratingReset: 'Рейтинг обнулён.',
@@ -60,7 +53,6 @@ const LOCALES = {
         grantLocalAdmin: 'Выдать админку (локально)',
         grantLocalAdminConfirm: 'Выдать себе права администратора локально?',
         depositPrompt: 'Новая заявка на пополнение',
-        withdrawPrompt: 'Новая заявка на вывод',
         notEnough: 'Недостаточно средств',
         addedBalance: 'Баланс добавлен',
         subtractedBalance: 'Баланс уменьшен',
@@ -70,7 +62,6 @@ const LOCALES = {
         noRequests: 'Заявок пока нет.',
         noAdminLog: 'Журнал пока пуст.',
         amountLabel: 'Сумма',
-        methodLabel: 'Способ',
         detailsLabel: 'Реквизиты / номер кошелька',
         commentLabel: 'Комментарий',
         confirmAction: 'Подтвердить',
@@ -80,7 +71,6 @@ const LOCALES = {
         statusRejected: 'Отклонена',
         depositRequestTitle: 'Пополнение',
         withdrawRequestTitle: 'Вывод',
-        adminAddBalanceTitle: 'Выдать баланс',
         adminSubtractBalanceTitle: 'Списать баланс',
         adminGrantHeroTitle: 'Выдать героя',
         adminOnlineTitle: 'Изменить онлайн',
@@ -89,16 +79,14 @@ const LOCALES = {
         heroLabel: 'Герой',
         reasonLabel: 'Причина',
         onlineCountLabel: 'Количество онлайн',
-        depositButton: 'Пополнить',
         withdrawButton: 'Вывести',
-        localAdminButton: 'Выдать админку (локально)',
+        depositButton: 'Пополнить',
         adminAddBalanceButton: 'Выдать баланс',
         adminSubtractBalanceButton: 'Списать баланс',
         adminGrantHeroButton: 'Выдать героя',
         adminGrantAccessTitle: 'Выдать админку',
         adminGrantAccessButton: 'Выдать админку',
         adminRevokeAccessButton: 'Снять админку',
-        adminOnlineButton: 'Изменить онлайн',
         methodCard: 'Банковская карта',
         methodCrypto: 'Криптокошелек',
         methodTelegram: 'Telegram Gifts / Stars',
@@ -107,7 +95,6 @@ const LOCALES = {
         formValidationError: 'Проверьте поля формы',
         modalSectionFinance: 'Финансовая операция',
         modalSectionAdmin: 'Админ-действие',
-        modalSectionTasks: 'Управление заданиями',
         tasksTitle: 'Задания',
         tasksSubtitle: 'Активности с наградами для игроков',
         noTasks: 'Пока нет активных заданий.',
@@ -595,7 +582,29 @@ const APP_STATE = {
 
 const NAV_ORDER = ['shop', 'mines', 'profile', 'tasks', 'menu'];
 
+let _splashDismissScheduled = false;
+
+function dismissSplashScreen() {
+    const splash = document.getElementById('splash-screen');
+    if (splash) {
+        splash.classList.add('splash-exit');
+        const removeSplash = () => splash.remove();
+        splash.addEventListener('animationend', removeSplash, { once: true });
+        window.setTimeout(removeSplash, 900);
+    }
+
+    const shell = document.getElementById('app-shell');
+    if (shell) shell.classList.add('app-revealed');
+}
+
+function scheduleSplashDismiss(delayMs = 1600) {
+    if (_splashDismissScheduled) return;
+    _splashDismissScheduled = true;
+    window.setTimeout(dismissSplashScreen, delayMs);
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
+    scheduleSplashDismiss();
     createBackgroundScene();
     initializeTelegramWebApp();
 
@@ -610,7 +619,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (startParam.startsWith('ref_') && window.gameDB) {
             const currentUser = window.gameDB.getUser();
             if (currentUser.id && !currentUser.referredBy) {
-                window.gameDB.applyReferral(currentUser.id, startParam);
+                const refResult = window.gameDB.applyReferral(currentUser.id, startParam);
+                if (refResult && refResult.success) {
+                    // Show welcome banner immediately in-app after render
+                    setTimeout(() => {
+                        const welcomeBonus = Math.round((refResult.reward || 500) * 0.1);
+                        showNotification(`🎉 Добро пожаловать! +${welcomeBonus} $RNX начислено за переход по ссылке!`, 'success', { persist: true });
+                    }, 2200);
+                }
             }
         }
     }
@@ -677,15 +693,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     requestAnimationFrame(() => {
         setTimeout(() => {
             clearInterval(msgInterval);
-            const splash = document.getElementById('splash-screen');
-            if (splash) {
-                splash.classList.add('splash-exit');
-                splash.addEventListener('animationend', () => {
-                    splash.remove();
-                }, { once: true });
-            }
-            const shell = document.getElementById('app-shell');
-            if (shell) shell.classList.add('app-revealed');
+            dismissSplashScreen();
         }, 1600);
     });
 
@@ -704,6 +712,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // ─── Version Check System ───
     initVersionChecker();
+});
+
+window.addEventListener('error', () => {
+    dismissSplashScreen();
+});
+
+window.addEventListener('unhandledrejection', () => {
+    dismissSplashScreen();
 });
 
 function createBackgroundScene() {
@@ -1190,6 +1206,8 @@ function initializeInteractions() {
             renderAdminUsersList();
         });
     }
+
+    initRippleButtons();
 }
 
 function renderApp() {
@@ -1286,9 +1304,9 @@ function renderApp() {
         adminUserSearch.value = APP_STATE.adminUserSearch;
     }
 
-    const adminSection = document.getElementById('admin-section');
-    if (adminSection) {
-        adminSection.classList.toggle('hidden', !user.isAdmin);
+    const menuAdminBlock = document.getElementById('menu-admin-block');
+    if (menuAdminBlock) {
+        menuAdminBlock.classList.toggle('hidden', !user.isAdmin);
     }
 
     if (window.Telegram && window.Telegram.WebApp) {
@@ -1318,12 +1336,14 @@ function renderApp() {
     if (progressFill) progressFill.style.width = progressPct + '%';
 
     // --- Quick stats ticker ---
-    const onlineCount = window.gameDB.getOnlineCount ? window.gameDB.getOnlineCount() : 0;
+    const _dbStats = (window.gameDB && typeof window.gameDB.getDatabaseStats === 'function') ? window.gameDB.getDatabaseStats() : {};
+    const onlineCount = Math.max(1, _dbStats.realOnlineCount || 0);
     setText('profile-online-count', String(onlineCount));
-    const ownedHeroes = (user.heroes || []).filter(h => h.owned);
+    const ownedHeroes = user.heroes || [];
     setText('profile-active-heroes', String(ownedHeroes.length));
-    const todayEarned = ownedHeroes.reduce((sum, h) => sum + (h.dailyIncome || 0), 0);
-    setText('profile-today-earned', todayEarned.toFixed(2) + ' TON');
+    const enrichedForStats = ownedHeroes.map(h => enrichHeroWithEconomy(h, ownedHeroes));
+    const todayEarned = enrichedForStats.reduce((sum, h) => sum + (h.accruedCurrentCycle || 0), 0);
+    setText('profile-today-earned', formatNumber(todayEarned, locale) + ' RNX');
 
     renderUserRequests();
     renderTasks();
@@ -1756,6 +1776,7 @@ function getHeroTextSet() {
         cycleIncome: isUa ? 'Виплата циклу' : 'Выплата цикла',
         duration: isUa ? 'Термін роботи' : 'Срок работы',
         level: isUa ? 'Рівень' : 'Уровень',
+        accruedNow: isUa ? 'Накопичено зараз' : 'Накоплено сейчас',
         nextUpgrade: isUa ? 'Покращення' : 'Улучшение',
         growth: isUa ? 'Ріст за рівень' : 'Рост за уровень',
         power: isUa ? 'Сила героя' : 'Сила героя',
@@ -1900,15 +1921,30 @@ function getHeroSynergySummary(heroes) {
 }
 
 function enrichHeroWithEconomy(hero, allHeroes = []) {
-    const localizedHero = getLocalizedHeroData(hero);
+    const normalizedRaw = (window.gameDB && typeof window.gameDB.normalizeHero === 'function') ? window.gameDB.normalizeHero(hero) : hero;
+    const localizedHero = getLocalizedHeroData(normalizedRaw);
     const synergy = getHeroSynergySummary(allHeroes.length ? allHeroes : [localizedHero]);
     const boostedProfitPerHour = Math.round(Number(localizedHero.profitPerHour || 0) * synergy.multiplier);
     const boostedTotalProfit = Math.round(boostedProfitPerHour * Number(localizedHero.durationHours || 0));
+
+    const now = Date.now();
+    const cycleStartMs = new Date(localizedHero.cycleStartedAt).getTime();
+    const cycleEndMs = new Date(localizedHero.cycleEndsAt).getTime();
+    const cycleTotalMs = Math.max(1, cycleEndMs - cycleStartMs);
+    const cycleElapsedMs = Number.isFinite(cycleStartMs)
+        ? Math.min(Math.max(0, now - cycleStartMs), cycleTotalMs)
+        : 0;
+    const cycleProgress = Number.isFinite(cycleEndMs) && cycleEndMs > cycleStartMs
+        ? Math.min(1, cycleElapsedMs / cycleTotalMs)
+        : 0;
+    const accruedCurrentCycle = Math.round(boostedTotalProfit * cycleProgress);
 
     return {
         ...localizedHero,
         boostedProfitPerHour,
         boostedTotalProfit,
+        cycleProgress,
+        accruedCurrentCycle,
         synergyMultiplier: synergy.multiplier,
         synergyBonus: synergy.totalBonus,
         countdown: formatCountdown(localizedHero.cycleEndsAt)
@@ -2005,16 +2041,18 @@ function renderMenuDashboard() {
         synergy: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
         referral: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
         rating: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>`,
-        promo: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>`
+        promo: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>`,
+        history: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="12 8 12 12 14 14"/><path d="M3.05 11a9 9 0 1 0 .5-4.5"/><polyline points="3 3 3 11 11 11"/></svg>`
     };
     const cards = [
         { icon: menuIcons.notifications, title: heroText.menuNotifications, value: unread, accent: 'cyan', badge: unread > 0, action: () => openNotificationsModal() },
         { icon: menuIcons.support, title: heroText.menuSupport, value: pendingTickets, accent: 'amber', badge: pendingTickets > 0, action: () => openSupportModal() },
-        { icon: menuIcons.heroes, title: heroText.menuHeroLedger, value: heroOps, accent: 'purple', action: () => { APP_STATE.historyFilter = 'completed'; renderHistorySection(); } },
+        { icon: menuIcons.heroes, title: heroText.menuHeroLedger, value: heroOps, accent: 'purple', action: () => { setActiveNavButton('menu'); handleNavigation('history'); } },
         { icon: menuIcons.synergy, title: heroText.synergy, value: `${Math.round(synergy.totalBonus * 100)}%`, accent: 'green', action: () => handleNavigation('mines') },
         { icon: menuIcons.referral, title: menuT.referralTitle, value: user.stats?.referrals || 0, accent: 'cyan', action: () => { setActiveNavButton('tasks'); handleNavigation('referral'); } },
         { icon: menuIcons.rating, title: menuT.ratingTitle || 'Рейтинг', value: `#${user.rating?.position || 0}`, accent: 'purple', action: () => { setActiveNavButton('tasks'); handleNavigation('rating'); } },
-        { icon: menuIcons.promo, title: menuT.promoTitle, value: '→', accent: 'amber', action: () => openPromoCodeModal() }
+        { icon: menuIcons.promo, title: menuT.promoTitle, value: '→', accent: 'amber', action: () => openPromoCodeModal() },
+        { icon: menuIcons.history, title: menuT.historyTitle || 'История', value: '→', accent: 'green', action: () => { setActiveNavButton('menu'); handleNavigation('history'); } }
     ];
 
     container.innerHTML = `
@@ -2024,6 +2062,16 @@ function renderMenuDashboard() {
                 <h3 class="menu-dashboard-title">${heroText.actionHubSubtitle}</h3>
             </div>
         </div>
+        <a href="https://t.me/RoboNexus_team" target="_blank" rel="noopener noreferrer" class="menu-support-banner">
+            <div class="menu-support-banner-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.94 8.19l-2.03 9.57c-.15.67-.54.84-1.09.52l-3-2.21-1.45 1.4c-.16.16-.3.3-.6.3l.21-3.06 5.5-4.97c.24-.21-.05-.33-.37-.12L7.06 14.5l-2.96-.93c-.64-.2-.65-.64.14-.95l11.57-4.46c.53-.19 1 .13.13.03z"/></svg>
+            </div>
+            <div class="menu-support-banner-text">
+                <strong>Поддержка проекта</strong>
+                <span>@RoboNexus_team · Администрация и помощь</span>
+            </div>
+            <span class="menu-support-banner-arrow">→</span>
+        </a>
     `;
 
     const grid = document.createElement('div');
@@ -3799,6 +3847,7 @@ function handleNavigation(type) {
     const auditSection = document.getElementById('audit-section');
     const referralSection = document.getElementById('referral-section');
     const ratingSection = document.getElementById('rating-section');
+    const menuSection = document.getElementById('menu-section');
 
     // Determine slide direction
     const newIndex = NAV_ORDER.indexOf(type);
@@ -3814,6 +3863,7 @@ function handleNavigation(type) {
     if (auditSection) auditSection.classList.add('hidden');
     if (referralSection) referralSection.classList.add('hidden');
     if (ratingSection) ratingSection.classList.add('hidden');
+    if (menuSection) menuSection.classList.add('hidden');
 
     if (type === 'profile') {
         if (profileSection) showAppView(profileSection, direction);
@@ -3860,10 +3910,18 @@ function handleNavigation(type) {
         return;
     }
 
-    if (type === 'menu') {
+    if (type === 'history') {
         if (historySection) {
             showAppView(historySection, direction);
             renderHistorySection();
+        }
+        return;
+    }
+
+    if (type === 'menu') {
+        if (menuSection) {
+            showAppView(menuSection, direction);
+            renderMenuDashboard();
         }
         return;
     }
@@ -3921,9 +3979,9 @@ function openAuditScreen() {
     closeAdminModal();
     setActiveNavButton('menu');
     handleNavigation('menu');
-    const historySection = document.getElementById('history-section');
+    const menuSection = document.getElementById('menu-section');
     const auditSection = document.getElementById('audit-section');
-    if (historySection) historySection.classList.add('hidden');
+    if (menuSection) menuSection.classList.add('hidden');
     if (auditSection) showAppView(auditSection);
     renderAuditSection();
 }
@@ -4082,11 +4140,58 @@ function triggerHaptic(level) {
     }
 }
 
+/* ── Ripple effect ── */
+function createRipple(event) {
+    const btn = event.currentTarget;
+    const circle = document.createElement('span');
+    const diameter = Math.max(btn.clientWidth, btn.clientHeight);
+    const rect = btn.getBoundingClientRect();
+    const x = (event.clientX || rect.left + rect.width / 2) - rect.left - diameter / 2;
+    const y = (event.clientY || rect.top + rect.height / 2) - rect.top - diameter / 2;
+    circle.classList.add('ripple-circle');
+    circle.style.cssText = `width:${diameter}px;height:${diameter}px;left:${x}px;top:${y}px`;
+    btn.appendChild(circle);
+    circle.addEventListener('animationend', () => circle.remove(), { once: true });
+}
+
+function initRippleButtons() {
+    document.querySelectorAll('.action-btn, .buy-btn, .nav-btn, .admin-btn').forEach(btn => {
+        if (!btn.dataset.rippleInit) {
+            btn.addEventListener('click', createRipple);
+            btn.dataset.rippleInit = '1';
+        }
+    });
+}
+
+/* IDs for which a flash animation is triggered on change */
+const FLASH_VALUE_IDS = new Set([
+    'balance-value', 'balance-buy-value', 'balance-withdraw-value',
+    'rnx-balance-value', 'rating-value', 'online-value',
+    'profile-today-earned', 'profile-online-count', 'profile-active-heroes'
+]);
+
+const _prevTextValues = new Map();
+
 function setText(id, value) {
     const element = document.getElementById(id);
-    if (element) {
-        element.textContent = value;
+    if (!element) return;
+    const prev = _prevTextValues.get(id);
+    element.textContent = value;
+    if (FLASH_VALUE_IDS.has(id) && prev !== undefined && prev !== value) {
+        /* Flash the chip container if exists */
+        const chip = element.closest('.hero-summary-chip') || element.closest('.ticker-item');
+        if (chip) {
+            chip.classList.remove('chip-flash');
+            void chip.offsetWidth; /* reflow to restart animation */
+            chip.classList.add('chip-flash');
+            chip.addEventListener('animationend', () => chip.classList.remove('chip-flash'), { once: true });
+        }
+        element.classList.remove('value-flash');
+        void element.offsetWidth;
+        element.classList.add('value-flash');
+        element.addEventListener('animationend', () => element.classList.remove('value-flash'), { once: true });
     }
+    _prevTextValues.set(id, value);
 }
 
 function formatNumber(value, locale) {
@@ -4241,7 +4346,7 @@ const HEROES = [
         rarityKey: 'starter',
         price: 0,
         baseProfitPerHour: 12.5,   // 300 RNX/день ÷ 24 г
-        durationHours: 360,        // 15 днів × 24 г
+        durationHours: 1,          // 1 година: тестове нарахування раз на цикл
         growthRate: 0,
         baseUpgradePrice: 0,
         isTestHero: true,
@@ -4260,7 +4365,7 @@ const HEROES = [
         rarityKey: 'common',
         price: 5,
         baseProfitPerHour: 37.5,   // 900 RNX/день ÷ 24 г
-        durationHours: 2400,       // 100 днів × 24 г
+        durationHours: 24,         // 1 день
         growthRate: 0,
         baseUpgradePrice: 2,
         description: {
@@ -4277,7 +4382,7 @@ const HEROES = [
         rarityKey: 'common',
         price: 8,
         baseProfitPerHour: 62.5,   // 1500 RNX/день ÷ 24 г
-        durationHours: 2400,       // 100 днів × 24 г
+        durationHours: 24,         // 1 день
         growthRate: 0,
         baseUpgradePrice: 4,
         description: {
@@ -4294,7 +4399,7 @@ const HEROES = [
         rarityKey: 'rare',
         price: 12,
         baseProfitPerHour: 100,    // 2400 RNX/день ÷ 24 г
-        durationHours: 2280,       // 95 днів × 24 г
+        durationHours: 24,         // 1 день
         growthRate: 0,
         baseUpgradePrice: 6,
         description: {
@@ -4311,7 +4416,7 @@ const HEROES = [
         rarityKey: 'epic',
         price: 20,
         baseProfitPerHour: 195.83, // 4700 RNX/день ÷ 24 г
-        durationHours: 2160,       // 90 днів × 24 г
+        durationHours: 24,         // 1 день
         growthRate: 0,
         baseUpgradePrice: 10,
         description: {
@@ -4328,7 +4433,7 @@ const HEROES = [
         rarityKey: 'epic',
         price: 50,
         baseProfitPerHour: 541.67, // 13000 RNX/день ÷ 24 г
-        durationHours: 1920,       // 80 днів × 24 г
+        durationHours: 24,         // 1 день
         growthRate: 0,
         baseUpgradePrice: 25,
         description: {
@@ -4345,7 +4450,7 @@ const HEROES = [
         rarityKey: 'legendary',
         price: 120,
         baseProfitPerHour: 1291.67, // 31000 RNX/день ÷ 24 г
-        durationHours: 1680,        // 70 днів × 24 г
+        durationHours: 24,          // 1 день
         growthRate: 0,
         baseUpgradePrice: 60,
         description: {
@@ -4419,6 +4524,26 @@ function renderShop() {
     const visibleHeroes = getFilteredHeroTemplates();
     container.innerHTML = '';
 
+    /* Show skeleton while heroes render */
+    if (visibleHeroes.length > 0) {
+        const skeletonCount = Math.min(visibleHeroes.length, 6);
+        for (let i = 0; i < skeletonCount; i++) {
+            const sk = document.createElement('div');
+            sk.className = 'skeleton-card';
+            container.appendChild(sk);
+        }
+        /* Defer actual render by 1 frame so skeleton is visible */
+        requestAnimationFrame(() => {
+            container.innerHTML = '';
+            _renderShopCards(container, visibleHeroes, ownedHeroes, heroText, locale);
+            initRippleButtons();
+        });
+    } else {
+        _renderShopCards(container, visibleHeroes, ownedHeroes, heroText, locale);
+    }
+}
+
+function _renderShopCards(container, visibleHeroes, ownedHeroes, heroText, locale) {
     visibleHeroes.forEach((hero) => {
         const localizedHero = getLocalizedHeroData(hero);
         const projectedHero = enrichHeroWithEconomy(window.gameDB.normalizeHero(localizedHero), ownedHeroes);
@@ -4630,13 +4755,7 @@ function createOwnedHeroCard(hero, options = {}) {
     };
     const rc = rarityColors[displayHero.rarityKey] || rarityColors.common;
 
-    // Cycle progress
-    const now = Date.now();
-    const cycleStart = new Date(displayHero.cycleStartedAt).getTime();
-    const cycleEnd = new Date(displayHero.cycleEndsAt).getTime();
-    const cycleTotal = cycleEnd - cycleStart;
-    const cycleElapsed = Math.min(now - cycleStart, cycleTotal);
-    const cyclePct = cycleTotal > 0 ? Math.min(100, Math.round((cycleElapsed / cycleTotal) * 100)) : 0;
+    const cyclePct = Math.min(100, Math.round(Number(displayHero.cycleProgress || 0) * 100));
 
     card.className = `my-hero-item rarity-${displayHero.rarityKey}`;
     card.style.cssText = `
@@ -4668,16 +4787,20 @@ function createOwnedHeroCard(hero, options = {}) {
             </div>
             <div class="hero-cycle-wrap">
                 <div class="hero-cycle-header">
-                    <span class="hero-cycle-label">Прогресс цикла</span>
-                    <span class="hero-cycle-timer" data-hero-countdown="${displayHero.cycleEndsAt}">${displayHero.countdown}</span>
+                    <span class="hero-cycle-label">${cyclePct >= 100 ? '⚡ Готово к выплате!' : 'Добыча RNX'}</span>
+                    <span class="hero-cycle-pct" style="color:${rc.accent}">${cyclePct}%</span>
                 </div>
                 <div class="hero-cycle-track">
-                    <div class="hero-cycle-bar" style="width:${cyclePct}%; background: linear-gradient(90deg, ${rc.accent}99, ${rc.accent});"></div>
+                    <div class="hero-cycle-bar" style="width:${cyclePct}%; background: linear-gradient(90deg, ${rc.accent}55, ${rc.accent}); box-shadow: 0 0 8px ${rc.accent}50;"></div>
+                </div>
+                <div class="hero-cycle-footer">
+                    <span class="hero-cycle-countdown${cyclePct >= 100 ? ' cycle-ready' : ''}" data-hero-countdown="${displayHero.cycleEndsAt}">${displayHero.countdown}</span>
+                    <span class="hero-cycle-accrued" style="color:${rc.accent}">накоплено ${formatRnx(displayHero.accruedCurrentCycle || 0, locale)}</span>
                 </div>
             </div>
             <div class="hero-meta-row">
-                <span class="hero-meta-chip">${heroText.lifetime}: ${formatRnx(displayHero.lifetimeEarnings || 0, locale)}</span>
-                <span class="hero-meta-chip">${heroText.synergy}: +${Math.round(displayHero.synergyBonus * 100)}%</span>
+                <span class="hero-meta-chip">За жизнь: ${formatRnx(displayHero.lifetimeEarnings || 0, locale)}</span>
+                <span class="hero-meta-chip">Синергия: +${Math.round(displayHero.synergyBonus * 100)}%</span>
                 <span class="hero-meta-chip">Апгрейд: ${formatCurrency(displayHero.nextUpgradeCost, locale)}</span>
             </div>
             ${interactive ? `<div class="hero-actions-row"><button class="hero-secondary-btn hero-view-btn" type="button">${heroText.details}</button><button class="buy-btn hero-upgrade-btn" type="button" style="background: linear-gradient(135deg, ${rc.accent}cc, ${rc.accent}88);">${heroText.upgrade}</button></div>` : ''}
@@ -4805,7 +4928,12 @@ async function fetchVersionJson() {
     try {
         const resp = await fetch('/version.json?t=' + Date.now(), { cache: 'no-store' });
         if (!resp.ok) return null;
-        return await resp.json();
+        const contentType = resp.headers.get('content-type') || '';
+        const raw = await resp.text();
+        if (!contentType.includes('application/json') && raw.trim().startsWith('<')) {
+            return null;
+        }
+        return JSON.parse(raw);
     } catch (e) {
         return null;
     }

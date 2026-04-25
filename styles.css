@@ -1456,21 +1456,101 @@ body.telegram-webapp .identity-chip {
     line-height: 1.15;
 }
 
+/* ─── Support Banner ─── */
+.menu-support-banner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(52,211,153,0.1), rgba(103,232,249,0.06));
+    border: 1px solid rgba(52,211,153,0.25);
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.menu-support-banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(52,211,153,0.05), transparent 60%);
+    pointer-events: none;
+}
+
+.menu-support-banner:hover {
+    background: linear-gradient(135deg, rgba(52,211,153,0.16), rgba(103,232,249,0.1));
+    border-color: rgba(52,211,153,0.45);
+    transform: translateY(-2px);
+}
+
+.menu-support-banner:active { transform: scale(0.98); }
+
+.menu-support-banner-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    background: rgba(52,211,153,0.15);
+    border: 1px solid rgba(52,211,153,0.2);
+    display: grid;
+    place-items: center;
+    color: #34d399;
+    flex-shrink: 0;
+}
+
+.menu-support-banner-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    flex: 1;
+    min-width: 0;
+}
+
+.menu-support-banner-text strong {
+    font-size: 14px;
+    font-weight: 700;
+    color: #34d399;
+}
+
+.menu-support-banner-text span {
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.menu-support-banner-arrow {
+    font-size: 16px;
+    font-weight: 700;
+    color: #34d399;
+    opacity: 0.7;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+}
+
+.menu-support-banner:hover .menu-support-banner-arrow {
+    transform: translateX(4px);
+    opacity: 1;
+}
+
 .menu-dashboard-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 8px;
+    gap: 10px;
 }
 
 .menu-hub-card {
-    padding: 12px 10px;
-    border-radius: 16px;
+    padding: 14px 12px;
+    border-radius: 18px;
     background: linear-gradient(145deg, rgba(18, 29, 47, 0.98), rgba(10, 18, 30, 0.95));
     border: 1px solid rgba(255, 255, 255, 0.07);
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.24);
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 7px;
     cursor: pointer;
     text-align: left;
     transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
@@ -1588,6 +1668,57 @@ body.telegram-webapp .identity-chip {
     max-height: 260px;
     overflow: auto;
     padding-right: 4px;
+}
+
+/* ─── Menu Admin Block (replaces standalone admin-section) ─── */
+.menu-admin-block {
+    margin-top: 20px;
+    border-radius: 22px;
+    background: linear-gradient(135deg, rgba(245,158,11,0.08), rgba(103,232,249,0.05));
+    border: 1px solid rgba(245,158,11,0.2);
+    overflow: hidden;
+}
+
+.menu-admin-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+}
+
+.menu-admin-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.menu-admin-header .section-label {
+    margin: 0;
+    font-size: 10px;
+}
+
+.menu-admin-header .modal-title {
+    margin: 0;
+    font-size: 13px;
+}
+
+.menu-admin-toggle {
+    margin-left: auto;
+    padding: 6px 14px;
+    border-radius: 10px;
+    background: rgba(245,158,11,0.15);
+    border: 1px solid rgba(245,158,11,0.25);
+    color: #f59e0b;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.2s ease;
+}
+
+.menu-admin-toggle:active { background: rgba(245,158,11,0.25); }
+
+.admin-inline-panel {
+    padding: 0 16px 16px;
 }
 
 .admin-section {
@@ -3323,11 +3454,15 @@ body.telegram-webapp .admin-actions-wrap {
 .app-footer {
     position: relative;
     width: min(520px, 100%);
-    margin: 24px auto 88px auto;
+    margin: 24px auto 0 auto;
     border-radius: var(--radius-xl);
     background: linear-gradient(160deg, rgba(14,22,38,0.8), rgba(6,10,18,0.95));
     border: 1px solid rgba(255,255,255,0.06);
     overflow: hidden;
+}
+
+#menu-section > .app-footer {
+    margin-bottom: 88px;
 }
 
 .app-footer-glow {
@@ -3419,7 +3554,9 @@ body.telegram-webapp .admin-actions-wrap {
 
 .app-footer-links {
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
+    justify-content: center;
 }
 
 .app-footer-link {
@@ -3435,6 +3572,22 @@ body.telegram-webapp .admin-actions-wrap {
     font-size: 13px;
     font-weight: 700;
     transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.app-footer-link-support {
+    background: rgba(52,211,153,0.08);
+    border-color: rgba(52,211,153,0.22);
+    color: #34d399;
+}
+
+.app-footer-link-support svg {
+    color: #34d399 !important;
+}
+
+.app-footer-link-support:hover {
+    background: rgba(52,211,153,0.15);
+    border-color: rgba(52,211,153,0.4);
+    box-shadow: 0 4px 20px rgba(52,211,153,0.15);
 }
 
 .app-footer-link:active {
@@ -4478,7 +4631,11 @@ body.telegram-webapp .my-hero-item img {
 .hero-cycle-wrap {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 7px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 14px;
+    padding: 10px 12px;
+    border: 1px solid rgba(255,255,255,0.05);
 }
 
 .hero-cycle-header {
@@ -4489,23 +4646,22 @@ body.telegram-webapp .my-hero-item img {
 
 .hero-cycle-label {
     font-size: 10px;
-    font-weight: 600;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.09em;
     color: var(--muted);
 }
 
-.hero-cycle-timer {
+.hero-cycle-pct {
     font-size: 11px;
-    font-weight: 700;
-    color: var(--text);
-    font-variant-numeric: tabular-nums;
+    font-weight: 800;
+    letter-spacing: 0.02em;
 }
 
 .hero-cycle-track {
-    height: 4px;
+    height: 6px;
     border-radius: 999px;
-    background: rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.07);
     overflow: hidden;
 }
 
@@ -4513,6 +4669,34 @@ body.telegram-webapp .my-hero-item img {
     height: 100%;
     border-radius: 999px;
     transition: width 0.6s ease;
+}
+
+.hero-cycle-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
+}
+
+.hero-cycle-countdown {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+    letter-spacing: 0.04em;
+}
+
+.hero-cycle-accrued {
+    font-size: 11px;
+    font-weight: 600;
+    opacity: 0.9;
+    white-space: nowrap;
+}
+
+.cycle-ready {
+    color: #34d399 !important;
+    text-shadow: 0 0 12px rgba(52,211,153,0.45);
 }
 
 /* Meta chips */
@@ -5238,32 +5422,50 @@ body.telegram-webapp .hero-inline-stats span {
 
 /* ── Quick Stats Ticker ── */
 .quick-stats-ticker {
-    display: flex;
-    gap: 12px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
     margin: 14px 0 4px;
-    padding: 12px 14px;
-    border-radius: var(--radius-md);
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.06);
     animation: statCardIn 0.5s var(--transition-smooth) 0.4s both;
-    overflow-x: auto;
-    scrollbar-width: none;
 }
-
-.quick-stats-ticker::-webkit-scrollbar { display: none; }
 
 .ticker-item {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 8px;
-    white-space: nowrap;
-    font-size: 12px;
-    color: var(--muted);
+    justify-content: center;
+    gap: 5px;
+    padding: 14px 8px 12px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
+    text-align: center;
+    min-width: 0;
+    transition: border-color 0.2s ease, background 0.2s ease;
 }
 
-.ticker-item strong {
-    color: var(--text);
+.ticker-item:hover {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.12);
+}
+
+.ticker-value {
+    font-size: 15px;
     font-weight: 800;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    display: block;
+}
+
+.ticker-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
 }
 
 .ticker-dot {
@@ -6093,4 +6295,179 @@ body.telegram-webapp .hero-inline-stats span {
     .update-icon-ring {
         border-radius: 24px;
     }
+}
+
+/* ════════════════════════════════════════════════════════════ */
+/*  VISUAL UPGRADE v2 — RIPPLE · FLASH · SKELETON · ACCENTS   */
+/* ════════════════════════════════════════════════════════════ */
+
+/* ── Ripple Effect ── */
+.ripple-circle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(0);
+    animation: rippleOut 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    pointer-events: none;
+}
+
+@keyframes rippleOut {
+    to { transform: scale(5); opacity: 0; }
+}
+
+/* ── Value Flash (balance chips update) ── */
+@keyframes valueFlash {
+    0%   { color: inherit; }
+    28%  { color: var(--accent); text-shadow: 0 0 14px rgba(103,232,249,0.75); }
+    100% { color: inherit; }
+}
+
+.value-flash {
+    animation: valueFlash 0.75s cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+@keyframes chipFlash {
+    0%   { background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+           border-color: rgba(255,255,255,0.08); box-shadow: none; }
+    38%  { background: linear-gradient(180deg, rgba(103,232,249,0.16), rgba(103,232,249,0.06));
+           border-color: rgba(103,232,249,0.35); box-shadow: 0 0 20px rgba(103,232,249,0.18); }
+    100% { background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+           border-color: rgba(255,255,255,0.08); box-shadow: none; }
+}
+
+.chip-flash {
+    animation: chipFlash 0.9s cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+/* ── Skeleton Loader ── */
+@keyframes shimmerSlide {
+    0%   { background-position: 100% 50%; }
+    100% { background-position: -100% 50%; }
+}
+
+.skeleton-card {
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255,255,255,0.05);
+    background: linear-gradient(90deg,
+        rgba(255,255,255,0.03) 0%,
+        rgba(255,255,255,0.08) 40%,
+        rgba(255,255,255,0.03) 80%
+    );
+    background-size: 300% 100%;
+    animation: shimmerSlide 1.6s ease-in-out infinite;
+    min-height: 210px;
+}
+
+.skeleton-text-line {
+    border-radius: 8px;
+    background: linear-gradient(90deg,
+        rgba(255,255,255,0.03) 0%,
+        rgba(255,255,255,0.08) 40%,
+        rgba(255,255,255,0.03) 80%
+    );
+    background-size: 300% 100%;
+    animation: shimmerSlide 1.6s ease-in-out infinite;
+    height: 13px;
+    margin-bottom: 8px;
+}
+
+/* ── Stats Grid — Per-card Accent Colors ── */
+.stats-grid .info-card { border-top-width: 2px; }
+.stats-grid .info-card:nth-child(1) { border-top-color: rgba(139,92,246,0.5); }
+.stats-grid .info-card:nth-child(2) { border-top-color: rgba(103,232,249,0.5); }
+.stats-grid .info-card:nth-child(3) { border-top-color: rgba(245,158,11,0.5); }
+.stats-grid .info-card:nth-child(4) { border-top-color: rgba(52,211,153,0.5); }
+.stats-grid .info-card:nth-child(5) { border-top-color: rgba(103,232,249,0.4); }
+.stats-grid .info-card:nth-child(6) { border-top-color: rgba(52,211,153,0.4); }
+
+.stats-grid .info-card:nth-child(1) .info-value { color: #c4b5fd; }
+.stats-grid .info-card:nth-child(2) .info-value { color: var(--accent); }
+.stats-grid .info-card:nth-child(3) .info-value { color: var(--accent-2); }
+.stats-grid .info-card:nth-child(4) .info-value { color: var(--success); }
+.stats-grid .info-card:nth-child(5) .info-value { color: #67e8f9; }
+.stats-grid .info-card:nth-child(6) .info-value { color: #34d399; }
+
+/* ── Avatar — Outer Glow Layer ── */
+.avatar-wrap::after {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg,
+        rgba(103,232,249,0.4),
+        rgba(245,158,11,0.32),
+        rgba(139,92,246,0.35),
+        rgba(103,232,249,0.4)
+    );
+    animation: spin 6s linear infinite;
+    filter: blur(9px);
+    z-index: -1;
+    opacity: 0.65;
+}
+
+/* ── Hero Summary Chip — Hover Glow ── */
+.hero-summary-chip {
+    transition: background 0.25s ease, border-color 0.25s ease,
+                transform 0.22s cubic-bezier(0.22,1,0.36,1), box-shadow 0.25s ease;
+    cursor: default;
+}
+
+.hero-summary-chip:hover {
+    background: linear-gradient(180deg, rgba(103,232,249,0.1), rgba(103,232,249,0.03));
+    border-color: rgba(103,232,249,0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(103,232,249,0.12);
+}
+
+/* ── Nav Indicator — Enhanced Glow ── */
+.nav-indicator {
+    background: linear-gradient(135deg, rgba(103,232,249,0.2) 0%, rgba(139,92,246,0.2) 100%);
+    border-color: rgba(103,232,249,0.3);
+    box-shadow:
+        0 4px 28px rgba(103,232,249,0.2),
+        0 0 0 1px rgba(103,232,249,0.08),
+        inset 0 1px 0 rgba(255,255,255,0.12);
+}
+
+/* ── Action Buttons — Enhanced Hover Glow ── */
+.action-btn {
+    transition: background 0.3s ease, box-shadow 0.3s ease,
+                transform 0.2s cubic-bezier(0.22,1,0.36,1);
+}
+
+.action-btn:hover:not(:disabled) {
+    box-shadow: 0 14px 30px rgba(103,232,249,0.3), 0 0 0 1.5px rgba(103,232,249,0.2);
+}
+
+.action-btn-exchange:hover:not(:disabled) {
+    box-shadow: 0 14px 30px rgba(139,92,246,0.3), 0 0 0 1.5px rgba(139,92,246,0.2) !important;
+}
+
+.action-btn-danger:hover:not(:disabled) {
+    box-shadow: 0 14px 30px rgba(251,113,133,0.28), 0 0 0 1.5px rgba(251,113,133,0.18) !important;
+}
+
+/* ── Buy Button — Pulse Glow ── */
+.buy-btn:not(:disabled) {
+    transition: box-shadow 0.3s ease, transform 0.2s cubic-bezier(0.22,1,0.36,1);
+}
+
+.buy-btn:hover:not(:disabled) {
+    box-shadow: 0 10px 28px rgba(103,232,249,0.32);
+    transform: translateY(-2px) scale(1.02);
+}
+
+/* ── Filter Chips — Hover Lift ── */
+.filter-chip:hover:not(.active) {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.14);
+    transform: translateY(-1px);
+    transition: all 0.2s ease;
+}
+
+/* ── Number Value — Smooth Transition ── */
+.hero-summary-value,
+.info-value,
+.ticker-value {
+    transition: color 0.35s ease;
 }
