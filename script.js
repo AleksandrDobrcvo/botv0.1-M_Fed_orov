@@ -1079,6 +1079,10 @@ function initializeInteractions() {
 
     navButtons.forEach((button) => {
         button.addEventListener('click', () => {
+            // Защита от спам-кликов: пока идёт переключение — игнор
+            if (window.__navLock) return;
+            window.__navLock = true;
+            setTimeout(function () { window.__navLock = false; }, 240);
             triggerHaptic('light');
             handleNavigation(button.dataset.nav);
             setActiveNavButton(button.dataset.nav);
@@ -5539,13 +5543,24 @@ function setActiveNavButton(type) {
 
 function showAppView(element, direction) {
     if (!element) return;
+    // Антимерцание: помечаем body на короткое время — пауза дорогих фоновых анимаций
+    var body = document.body;
+    if (body) {
+        body.classList.add('is-nav-busy');
+        if (window.__navBusyTimer) clearTimeout(window.__navBusyTimer);
+        window.__navBusyTimer = setTimeout(function () {
+            body.classList.remove('is-nav-busy');
+        }, 220);
+    }
     element.classList.remove('hidden');
     element.classList.remove('section-enter', 'slide-enter-right', 'slide-enter-left');
-    void element.offsetWidth;
-    let cls = 'section-enter';
+    // Без sync reflow (void offsetWidth) — навешиваем класс на следующий кадр.
+    var cls = 'section-enter';
     if (direction === 'right') cls = 'slide-enter-right';
     else if (direction === 'left') cls = 'slide-enter-left';
-    element.classList.add(cls);
+    requestAnimationFrame(function () {
+        element.classList.add(cls);
+    });
 }
 
 function openAuditScreen() {

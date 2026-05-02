@@ -18818,7 +18818,8 @@ html.tab-hidden *::after {
     contain: layout paint style;
 }
 
-/* 3. Промоция тяжёлых движущихся слоёв в свой compositor-layer */
+/* 3. Промоция тяжёлых движущихся слоёв в свой compositor-layer.
+      will-change ставим ТОЛЬКО на пределённое — иначе постоянная нагрузка на GPU. */
 .prf-hero-card::before,        /* aurora */
 .lm-income-widget::after,       /* shine */
 .lm-hero-progress-fill::after,
@@ -18830,7 +18831,6 @@ html.tab-hidden *::after {
 .ambient-orb-a,
 .ambient-orb-b,
 .ambient-orb-c {
-    will-change: transform, opacity;
     transform: translateZ(0);
     backface-visibility: hidden;
 }
@@ -18926,10 +18926,51 @@ html.low-fx .lm-hero-card:hover {
     contain: strict;
 }
 
-/* 7. Lazy-render: невидимые вкладки — content-visibility */
-.app-view.hidden {
-    content-visibility: hidden;
-    contain-intrinsic-size: 700px;
+/* 7. ─── ANTI-FLICKER NAV LAYER ─── (фикс мерцания при переключении меню) */
+
+/* Каждая вкладка — собственный layout/paint scope: переключение не трогает остальное */
+.app-view {
+    contain: layout paint style;
+}
+
+/* Лёгкая короткая fade-in для входа секции (заменяет тяжёлые slide+stagger).
+   Визуал секций сохранён, но без cascading reflow. */
+.app-view.section-enter,
+.app-view.slide-enter-right,
+.app-view.slide-enter-left {
+    animation: navFadeIn 180ms ease-out !important;
+}
+@keyframes navFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Убиваем дочерний stagger при навигации — главный источник лагов меню.
+   Каждый ребёнок запускал свою анимацию с задержкой 0.04..0.34s →
+   ~6 параллельных трансформов + 6 paint-волн. Теперь — мгновенно. */
+.app-view.section-enter > *,
+.app-view.slide-enter-right > *,
+.app-view.slide-enter-left > * {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+/* Пока идёт переключение вкладок — пауза дорогих фоновых анимаций */
+body.is-nav-busy .prf-hero-card::before,
+body.is-nav-busy .lm-income-widget::after,
+body.is-nav-busy .ambient-orb-a,
+body.is-nav-busy .ambient-orb-b,
+body.is-nav-busy .ambient-orb-c,
+body.is-nav-busy .prf-avatar-wrap::before,
+body.is-nav-busy .prf-ring-svg {
+    animation-play-state: paused !important;
+}
+
+/* Стабилизируем bottom-nav: не должна провоцировать reflow всей страницы */
+.bottom-nav, nav[aria-label="Main navigation"] {
+    contain: layout paint style;
+    transform: translateZ(0);
 }
 
 
