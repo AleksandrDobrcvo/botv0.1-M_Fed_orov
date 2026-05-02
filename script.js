@@ -12,7 +12,7 @@ const LOCALES = {
         statusNovice: 'Новичок шахты',
         profileCardTitle: 'Профиль игрока',
         profileCardSubtitle: 'Минималистичный экран с корректными данными и подготовкой под Telegram.',
-        minedOre: 'Добыто токенов $RNX',
+        minedOre: 'Добыто $RNX',
         level: 'Уровень',
         purchased: 'Куплено',
         invited: 'Приглашено',
@@ -106,6 +106,19 @@ const LOCALES = {
         taskRewardLabel: 'Награда',
         addTaskTitle: 'Добавить задание',
         taskCreated: 'Задание добавлено',
+        taskClaimBtn: 'Выполнить',
+        taskBannerKicker: 'ACTIVE QUESTS',
+        taskBannerTitle: 'Задания с наградами',
+        taskBannerSubtitle: 'Выполняйте задания и получайте $RNX токены.',
+        taskTotalLabel: 'Заданий',
+        taskPoolLabel: 'Призовой фонд',
+        taskNoLabel: 'Задание',
+        taskClaimSent: 'Запрос на выполнение отправлен в поддержку',
+        taskCategory0: 'Social',
+        taskCategory1: 'Finance',
+        taskCategory2: 'Trading',
+        taskCategory3: 'Quest',
+        taskCategory4: 'Special',
         manageFinanceTitle: 'Настроить финансы',
         depositLimitsTitle: 'Пополнение',
         withdrawLimitsTitle: 'Вывод',
@@ -133,6 +146,16 @@ const LOCALES = {
         historyFilterRejected: 'Отклонены',
         historyFilterCompleted: 'Завершены',
         noHistory: 'Операций пока нет.',
+        historyBannerKicker: 'OPERATIONS FEED',
+        historyBannerTitle: 'Хронология операций',
+        historyBannerSubtitle: 'Финансовые и игровые операции в едином журнале.',
+        historyTotalLabel: 'Операций',
+        historyPendingLabel: 'Ожидают',
+        historyCompletedLabel: 'Завершено',
+        historyVolumeLabel: 'Оборот TON',
+        historyToStatsBtn: 'К статистике',
+        historyTodayLabel: 'Сегодня',
+        historyYesterdayLabel: 'Вчера',
         taskUpdated: 'Задание обновлено',
         profileNameLabel: 'Имя',
         profileUsernameLabel: 'Username',
@@ -207,6 +230,8 @@ const LOCALES = {
         exchangeHint: '50% на баланс покупки, 50% на баланс вывода',
         exchangeRate: 'Курс: 10 000 $RNX = 1 TON',
         insufficientRnx: 'Недостаточно $RNX',
+        tickerMined: 'Добыто',
+        tickerHeroes: 'Героев',
         referralTitle: 'Реферальная программа',
         referralSubtitle: '3-уровневая реферальная система',
         referralCodeLabel: 'Ваш реферальный код',
@@ -230,6 +255,15 @@ const LOCALES = {
         ratingLevel: 'Уровень',
         ratingEmpty: 'Рейтинг пока пуст.',
         ratingYou: 'Вы',
+        ratingBannerKicker: 'TOP PLAYERS',
+        ratingBannerTitle: 'Таблица лидеров',
+        ratingBannerSubtitle: 'Топ игроков по очкам, балансу и героям.',
+        ratingParticipantsLabel: 'Участников',
+        ratingTopScoreLabel: 'Лучший результат',
+        ratingYourPlaceLabel: 'Ваше место',
+        ratingNotRanked: 'не в рейтинге',
+        ratingPodiumTitle: 'Пьедестал почёта',
+        ratingLeaderboardTitle: 'Таблица результатов',
         adminTotalBalance: 'Общий баланс',
         adminTotalDeposits: 'Все пополнения',
         adminTotalWithdrawals: 'Все выводы',
@@ -284,7 +318,7 @@ const LOCALES = {
         statusNovice: 'Новачок шахти',
         profileCardTitle: 'Профіль гравця',
         profileCardSubtitle: 'Мінімалістичний екран з коректними даними та підготовкою під Telegram.',
-        minedOre: 'Видобуто токенів $RNX',
+        minedOre: 'Видобуто $RNX',
         level: 'Рівень',
         purchased: 'Куплено',
         invited: 'Запрошено',
@@ -391,6 +425,19 @@ const LOCALES = {
         taskRewardLabel: 'Нагорода',
         addTaskTitle: 'Додати завдання',
         taskCreated: 'Завдання додано',
+        taskClaimBtn: 'Виконати',
+        taskBannerKicker: 'ACTIVE QUESTS',
+        taskBannerTitle: 'Завдання з нагородами',
+        taskBannerSubtitle: 'Виконуйте завдання та отримуйте $RNX токени.',
+        taskTotalLabel: 'Завдань',
+        taskPoolLabel: 'Призовий фонд',
+        taskNoLabel: 'Завдання',
+        taskClaimSent: 'Запит на виконання надіслано в підтримку',
+        taskCategory0: 'Social',
+        taskCategory1: 'Finance',
+        taskCategory2: 'Trading',
+        taskCategory3: 'Quest',
+        taskCategory4: 'Special',
         manageFinanceTitle: 'Налаштувати фінанси',
         depositLimitsTitle: 'Поповнення',
         withdrawLimitsTitle: 'Виведення',
@@ -418,6 +465,16 @@ const LOCALES = {
         historyFilterRejected: 'Відхилені',
         historyFilterCompleted: 'Завершені',
         noHistory: 'Операцій поки немає.',
+        historyBannerKicker: 'OPERATIONS FEED',
+        historyBannerTitle: 'Хронологія операцій',
+        historyBannerSubtitle: 'Фінансові та ігрові операції в єдиному журналі.',
+        historyTotalLabel: 'Операцій',
+        historyPendingLabel: 'Очікують',
+        historyCompletedLabel: 'Завершено',
+        historyVolumeLabel: 'Оборот TON',
+        historyToStatsBtn: 'До статистики',
+        historyTodayLabel: 'Сьогодні',
+        historyYesterdayLabel: 'Вчора',
         taskUpdated: 'Завдання оновлено',
         profileNameLabel: 'Імʼя',
         profileUsernameLabel: 'Username',
@@ -492,6 +549,8 @@ const LOCALES = {
         exchangeHint: '50% на баланс покупки, 50% на баланс виведення',
         exchangeRate: 'Курс: 10 000 $RNX = 1 TON',
         insufficientRnx: 'Недостатньо $RNX',
+        tickerMined: 'Видобуто',
+        tickerHeroes: 'Героїв',
         referralTitle: 'Реферальна програма',
         referralSubtitle: '3-рівнева реферальна система',
         referralCodeLabel: 'Ваш реферальний код',
@@ -514,6 +573,15 @@ const LOCALES = {
         ratingLevel: 'Рівень',
         ratingEmpty: 'Рейтинг поки порожній.',
         ratingYou: 'Ви',
+        ratingBannerKicker: 'TOP PLAYERS',
+        ratingBannerTitle: 'Таблиця лідерів',
+        ratingBannerSubtitle: 'Топ гравців за очками, балансом та героями.',
+        ratingParticipantsLabel: 'Учасників',
+        ratingTopScoreLabel: 'Найкращий результат',
+        ratingYourPlaceLabel: 'Ваше місце',
+        ratingNotRanked: 'не в рейтингу',
+        ratingPodiumTitle: 'П’єдестал пошани',
+        ratingLeaderboardTitle: 'Таблиця результатів',
         adminTotalBalance: 'Загальний баланс',
         adminTotalDeposits: 'Усі поповнення',
         adminTotalWithdrawals: 'Усі виведення',
@@ -566,6 +634,7 @@ const LANGUAGE_TO_LOCALE = {
 const APP_STATE = {
     historyFilter: 'all',
     auditFilter: 'all',
+    statsPeriod: '7',
     adminUserSearch: '',
     adminRequestFilter: 'pending',
     adminSupportFilter: 'all',
@@ -580,7 +649,7 @@ const APP_STATE = {
     activeNavIndex: 2 // profile is default (index 2)
 };
 
-const NAV_ORDER = ['shop', 'mines', 'profile', 'tasks', 'menu'];
+const NAV_ORDER = ['shop', 'mines', 'profile', 'stats', 'menu'];
 
 let _splashDismissScheduled = false;
 
@@ -632,6 +701,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     initializeLanguageSystem();
+    initializeStatsPeriodSystem();
     initializeInteractions();
     renderApp();
     // Position nav indicator after DOM is laid out
@@ -781,6 +851,97 @@ function createBackgroundScene() {
     });
 }
 
+function getStatsPeriodLabels(language = getCurrentLanguage()) {
+    return language === 'ua'
+        ? { '7': '7 днів', '30': '30 днів', all: 'Весь час' }
+        : { '7': '7 дней', '30': '30 дней', all: 'Все время' };
+}
+
+function syncStatsPeriodMenu() {
+    const labels = getStatsPeriodLabels();
+    const select = document.getElementById('stats-period-select');
+    const current = document.getElementById('stats-period-current');
+    const trigger = document.getElementById('stats-period-trigger');
+    const period = APP_STATE.statsPeriod || select?.value || '7';
+
+    APP_STATE.statsPeriod = period;
+
+    if (select) {
+        select.value = period;
+    }
+
+    if (current) {
+        current.textContent = labels[period] || labels['7'];
+    }
+
+    if (trigger) {
+        trigger.setAttribute('aria-label', labels[period] || labels['7']);
+    }
+
+    document.querySelectorAll('.stats-period-option').forEach((option) => {
+        const label = labels[option.dataset.period] || option.textContent;
+        option.textContent = label;
+        option.classList.toggle('active', option.dataset.period === period);
+    });
+}
+
+function initializeStatsPeriodSystem() {
+    const menu = document.getElementById('stats-period-menu');
+    const trigger = document.getElementById('stats-period-trigger');
+    const dropdown = document.getElementById('stats-period-dropdown');
+    const select = document.getElementById('stats-period-select');
+    const options = document.querySelectorAll('.stats-period-option');
+
+    syncStatsPeriodMenu();
+
+    if (!menu || !trigger || !dropdown || !select || menu.dataset.bound) {
+        return;
+    }
+
+    // Move dropdown to body so backdrop-filter on parent doesn't trap position:fixed
+    document.body.appendChild(dropdown);
+
+    const positionDropdown = () => {
+        const rect = trigger.getBoundingClientRect();
+        dropdown.style.top = (rect.bottom + 8) + 'px';
+        dropdown.style.right = (window.innerWidth - rect.right) + 'px';
+        dropdown.style.minWidth = rect.width + 'px';
+    };
+
+    const closeStatsPeriodDropdown = () => {
+        dropdown.classList.add('hidden');
+        trigger.setAttribute('aria-expanded', 'false');
+    };
+
+    menu.dataset.bound = '1';
+
+    trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const willOpen = dropdown.classList.contains('hidden');
+        if (willOpen) positionDropdown();
+        dropdown.classList.toggle('hidden', !willOpen);
+        trigger.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!menu.contains(event.target) && !dropdown.contains(event.target)) {
+            closeStatsPeriodDropdown();
+        }
+    });
+
+    options.forEach((option) => {
+        option.addEventListener('click', () => {
+            const nextPeriod = option.dataset.period || '7';
+            APP_STATE.statsPeriod = nextPeriod;
+            select.value = nextPeriod;
+            syncStatsPeriodMenu();
+            closeStatsPeriodDropdown();
+            renderStatisticsSection();
+            triggerHaptic('light');
+        });
+    });
+}
+
 function initializeTelegramWebApp() {
     if (!window.Telegram || !window.Telegram.WebApp) {
         return;
@@ -797,6 +958,12 @@ function initializeTelegramWebApp() {
 
     if (tg.initDataUnsafe && tg.initDataUnsafe.user && window.gameDB) {
         window.gameDB.initTelegramUser(tg.initDataUnsafe.user);
+        // Sync current app language into user record so bot notifications use it
+        const _initLang = getCurrentLanguage();
+        const _initUser = window.gameDB.getUser();
+        if (_initUser && _initUser.id) {
+            window.gameDB.updateUserById(_initUser.id, { lang: _initLang });
+        }
     }
 
     const language = getCurrentLanguage();
@@ -861,6 +1028,11 @@ function initializeLanguageSystem() {
             }
 
             window.gameDB.updateSettings({ language: nextLanguage });
+            // Also store lang in user record so notifications use correct language
+            const currentUser = window.gameDB.getUser();
+            if (currentUser && currentUser.id) {
+                window.gameDB.updateUserById(currentUser.id, { lang: nextLanguage });
+            }
             if (currentValue) currentValue.textContent = nextLanguage.toUpperCase();
             closeLanguageDropdown();
             renderApp();
@@ -895,6 +1067,8 @@ function initializeInteractions() {
     const supportModal = document.getElementById('support-modal');
     const supportModalClose = document.getElementById('support-modal-close');
     const supportNewTicket = document.getElementById('support-new-ticket');
+    const updatesModal = document.getElementById('updates-modal');
+    const updatesModalClose = document.getElementById('updates-modal-close');
     const heroDetailModal = document.getElementById('hero-detail-modal');
     const heroDetailClose = document.getElementById('hero-detail-close');
     const heroDetailCancel = document.getElementById('hero-detail-cancel');
@@ -905,9 +1079,9 @@ function initializeInteractions() {
 
     navButtons.forEach((button) => {
         button.addEventListener('click', () => {
-            setActiveNavButton(button.dataset.nav);
             triggerHaptic('light');
             handleNavigation(button.dataset.nav);
+            setActiveNavButton(button.dataset.nav);
         });
     });
 
@@ -919,8 +1093,8 @@ function initializeInteractions() {
                 return;
             }
 
-            populateAdminModal();
             openAdminModal();
+            populateAdminModal();
             triggerHaptic('medium');
         });
     }
@@ -986,6 +1160,7 @@ function initializeInteractions() {
             closeHeroDetailModal();
             closeNotificationsModal();
             closeSupportModal();
+            closeUpdatesModal();
         }
     });
 
@@ -995,13 +1170,15 @@ function initializeInteractions() {
         const isLocal = hostname === 'localhost' || hostname === '127.0.0.1' || window.location.protocol === 'file:';
         if (isLocal) {
             localAdminBtn.classList.remove('hidden');
+            const adminZone = document.getElementById('prf-admin-zone');
+            if (adminZone) adminZone.classList.remove('hidden');
             localAdminBtn.addEventListener('click', () => {
                 const t = getTranslations();
                 if (!window.confirm(t.grantLocalAdminConfirm)) return;
                 const user = window.gameDB.getUser();
                 window.gameDB.updateUser({ ...user, isAdmin: true });
                 renderApp();
-                showNotification('Админка выдана локально', 'success');
+                showNotification(t.localAdminGranted, 'success');
             });
         }
     }
@@ -1034,7 +1211,14 @@ function initializeInteractions() {
     if (notificationsFab) notificationsFab.addEventListener('click', openNotificationsModal);
     if (supportFab) supportFab.addEventListener('click', openSupportModal);
     if (notificationsModalClose) notificationsModalClose.addEventListener('click', closeNotificationsModal);
-    if (supportModalClose) supportModalClose.addEventListener('click', closeSupportModal);
+    if (supportModalClose) supportModalClose.addEventListener('click', () => {
+        if (APP_STATE.supportView === 'create') {
+            APP_STATE.supportView = 'main';
+            renderSupportCenter();
+        } else {
+            closeSupportModal();
+        }
+    });
     if (notificationsReadAll) {
         notificationsReadAll.addEventListener('click', () => {
             const user = window.gameDB.getUser();
@@ -1043,6 +1227,7 @@ function initializeInteractions() {
         });
     }
     if (supportNewTicket) supportNewTicket.addEventListener('click', openSupportCreateModal);
+    if (updatesModalClose) updatesModalClose.addEventListener('click', closeUpdatesModal);
     if (notificationsModal) {
         notificationsModal.addEventListener('click', (event) => {
             if (event.target === notificationsModal) closeNotificationsModal();
@@ -1051,6 +1236,11 @@ function initializeInteractions() {
     if (supportModal) {
         supportModal.addEventListener('click', (event) => {
             if (event.target === supportModal) closeSupportModal();
+        });
+    }
+    if (updatesModal) {
+        updatesModal.addEventListener('click', (event) => {
+            if (event.target === updatesModal) closeUpdatesModal();
         });
     }
     if (heroDetailClose) heroDetailClose.addEventListener('click', closeHeroDetailModal);
@@ -1208,6 +1398,13 @@ function renderApp() {
         }
     });
 
+    const headerOnlineLabel = document.querySelector('.online-chip .hero-summary-label');
+    if (headerOnlineLabel) {
+        headerOnlineLabel.textContent = '';
+        headerOnlineLabel.setAttribute('aria-label', t.onlineLabel || 'Онлайн');
+        headerOnlineLabel.setAttribute('title', t.onlineLabel || 'Онлайн');
+    }
+
     const languageCurrent = document.getElementById('language-current');
     if (languageCurrent) {
         languageCurrent.textContent = language.toUpperCase();
@@ -1216,18 +1413,30 @@ function renderApp() {
         option.classList.toggle('active', option.dataset.language === language);
     });
 
+    syncHeaderDensity(NAV_ORDER[APP_STATE.activeNavIndex] || 'profile');
+
     const name = user.name || 'User';
     const username = user.username || t.usernameFallback;
     const telegramUserId = String(user.id || window.Telegram?.WebApp?.initDataUnsafe?.user?.id || '');
     const initials = getInitials(name, username);
 
     setText('balance-value', `${formatNumber(user.balanceBuy, locale)} TON`);
-    setText('rating-value', `#${formatNumber(user.rating.position, locale)} · ${formatNumber(user.rating.score, locale)}`);
-    setText('balance-buy-value', `${Number(user.balanceBuy || 0).toFixed(2)} TON`);
-    setText('balance-withdraw-value', `${Number(user.balanceWithdraw || 0).toFixed(2)} TON`);
-    setText('rnx-balance-value', `${formatNumber(user.rnxBalance, locale)} $RNX`);
+    const _totalUsers = (window.gameDB && typeof window.gameDB.getUsers === 'function') ? window.gameDB.getUsers().length : 0;
+    const _ratingLabel = getCurrentLanguage() === 'ua' ? 'гравців' : 'игроков';
+    setText('rating-value', `#${formatNumber(user.rating.position, locale)} / ${formatNumber(_totalUsers || 1, locale)} ${_ratingLabel}`);
+
+    // Animated count-up for balances
+    if (typeof countUp === 'function') {
+        countUp(document.getElementById('balance-buy-value'),    Number(user.balanceBuy || 0),      { decimals: 2, suffix: ' TON', duration: 800 });
+        countUp(document.getElementById('balance-withdraw-value'), Number(user.balanceWithdraw || 0), { decimals: 2, suffix: ' TON', duration: 800 });
+        countUp(document.getElementById('rnx-balance-value'),    Number(user.rnxBalance || 0),      { suffix: ' $RNX', duration: 900 });
+    } else {
+        setText('balance-buy-value', `${Number(user.balanceBuy || 0).toFixed(2)} TON`);
+        setText('balance-withdraw-value', `${Number(user.balanceWithdraw || 0).toFixed(2)} TON`);
+        setText('rnx-balance-value', `${formatNumber(user.rnxBalance, locale)} $RNX`);
+    }
     setText('user-name', name);
-    setText('hero-header-name', '@RoboNexusBot');
+    setText('hero-header-name', username);
     setText('username-data', username);
     setText('telegram-id', `${t.telegramIdLabel}: ${telegramUserId || '-'}`);
     setText('registration-data', formatRegistrationDate(user.registrationDate, locale));
@@ -1254,9 +1463,9 @@ function renderApp() {
         }
     }
 
-    setText('deposit-btn', t.depositButton);
-    setText('withdraw-btn', t.withdrawButton);
-    setText('exchange-btn', `${t.exchangeButton} $RNX`);
+    setText('deposit-btn-text', t.depositButton);
+    setText('withdraw-btn-text', t.withdrawButton);
+    setText('exchange-btn-text', `${t.exchangeButton} $RNX`);
     setText('local-admin-btn', t.localAdminButton);
     setText('admin-add-balance', t.adminAddBalanceButton);
     setText('admin-subtract-balance', t.adminSubtractBalanceButton);
@@ -1274,12 +1483,17 @@ function renderApp() {
     setText('support-modal-label', t.supportTitle);
     setText('support-modal-title', t.supportSubtitle);
     setText('support-new-ticket', t.supportNewTicket);
+    setText('updates-modal-label', getHeroTextSet().menuUpdates);
+    setText('updates-modal-title', getHeroTextSet().menuUpdatesModalTitle);
     setText('support-admin-title', t.supportAdminTitle);
     setText('my-heroes-bonus-label', language === 'ua' ? 'Бонус колекції' : 'Бонус коллекции');
     setText('my-heroes-next-label', language === 'ua' ? 'Наступний цикл' : 'Следующий цикл');
     setText('hero-detail-label', language === 'ua' ? 'Герой' : 'Герой');
     setText('hero-detail-title', language === 'ua' ? 'Профіль героя' : 'Профиль героя');
     setText('hero-detail-cancel', t.closeAction);
+    setText('profile-online-label', t.onlineLabel);
+    setText('profile-earned-label', t.tickerMined);
+    setText('profile-heroes-label', t.tickerHeroes);
     const adminUserSearch = document.getElementById('admin-user-search');
     if (adminUserSearch) {
         adminUserSearch.placeholder = t.usersSearchPlaceholder;
@@ -1312,10 +1526,30 @@ function renderApp() {
     const currentXP = Math.round((totalRnxEarned % rnxPerLevel) / 10); // показуємо 0-100
     const progressPct = Math.min(100, Math.round((totalRnxEarned % rnxPerLevel) / rnxPerLevel * 100));
     setText('level-progress-current', String(level));
+    setText('level-progress-current2', String(level));
     setText('level-data', String(level));
     setText('level-progress-xp', `${currentXP} / 100 XP`);
     const progressFill = document.getElementById('level-progress-fill');
-    if (progressFill) progressFill.style.width = progressPct + '%';
+    if (progressFill) {
+        const prevPct = parseFloat(progressFill.dataset.prevPct ?? '-1');
+        // XP flash when value increases
+        if (prevPct >= 0 && progressPct > prevPct) {
+            progressFill.classList.remove('xp-gained');
+            void progressFill.offsetWidth; // force reflow
+            progressFill.classList.add('xp-gained');
+            setTimeout(() => progressFill.classList.remove('xp-gained'), 700);
+        }
+        progressFill.dataset.prevPct = String(progressPct);
+        progressFill.style.width = progressPct + '%';
+    }
+    // Remaining XP text
+    const remainingRnxToLevel = rnxPerLevel - (totalRnxEarned % rnxPerLevel);
+    const remainingXPDisplay = Math.round(remainingRnxToLevel / 10);
+    const remainingEl = document.getElementById('level-progress-remaining');
+    if (remainingEl) {
+        const _isUaLvl = getCurrentLanguage() === 'ua';
+        remainingEl.textContent = (_isUaLvl ? 'До наступного рівня: ' : 'До следующего уровня: ') + remainingXPDisplay + ' XP';
+    }
 
     // --- Quick stats ticker ---
     const _dbStats = (window.gameDB && typeof window.gameDB.getDatabaseStats === 'function') ? window.gameDB.getDatabaseStats() : {};
@@ -1323,9 +1557,152 @@ function renderApp() {
     setText('profile-online-count', String(onlineCount));
     const ownedHeroes = user.heroes || [];
     setText('profile-active-heroes', String(ownedHeroes.length));
+    // Highlight live-mining button + update label
+    const _liveMiningBtn = document.getElementById('prf-live-mining-btn');
+    const _liveMiningTxt = document.getElementById('prf-live-btn-text');
+    const _liveMiningSubTxt = document.getElementById('prf-live-btn-sub');
+    const _isUaLivBtn = getCurrentLanguage() === 'ua';
+    if (_liveMiningTxt) _liveMiningTxt.textContent = (_isUaLivBtn ? 'Ферма' : 'Ферма');
+    if (_liveMiningSubTxt) _liveMiningSubTxt.textContent = (_isUaLivBtn ? 'у реальному часі' : 'в реальном времени');
+    if (_liveMiningBtn) {
+        if (ownedHeroes.length > 0) {
+            _liveMiningBtn.style.borderColor = 'rgba(52,211,153,0.5)';
+            _liveMiningBtn.style.background  = 'linear-gradient(135deg,rgba(16,185,129,0.2) 0%,rgba(6,182,212,0.14) 100%)';
+        } else {
+            _liveMiningBtn.style.borderColor = '';
+            _liveMiningBtn.style.background  = '';
+        }
+    }
     const enrichedForStats = ownedHeroes.map(h => enrichHeroWithEconomy(h, ownedHeroes));
     const todayEarned = enrichedForStats.reduce((sum, h) => sum + (h.accruedCurrentCycle || 0), 0);
-    setText('profile-today-earned', formatNumber(todayEarned, locale) + ' RNX');
+    const dailyIncome = Math.round(enrichedForStats.reduce((sum, h) => sum + (h.boostedProfitPerHour || 0) * 24, 0));
+    setText('profile-today-earned', formatNumber(dailyIncome, locale) + ' RNX');
+    const _earnedLbl = document.getElementById('profile-earned-label');
+    if (_earnedLbl) _earnedLbl.textContent = getCurrentLanguage() === 'ua' ? 'Дохід / день' : 'Доход / день';
+
+    // --- V3: Rank title ---
+    (function() {
+        const _isUa = getCurrentLanguage() === 'ua';
+        const _lvl = level;
+        let _rankIcon = '🪨', _rankName = '';
+        if (_lvl <= 2)        { _rankIcon = '🪨'; _rankName = _isUa ? 'Новачок' : 'Новичок'; }
+        else if (_lvl <= 5)   { _rankIcon = '⛏'; _rankName = _isUa ? 'Шахтар' : 'Шахтёр'; }
+        else if (_lvl <= 10)  { _rankIcon = '🤖'; _rankName = _isUa ? 'Оператор' : 'Оператор'; }
+        else if (_lvl <= 20)  { _rankIcon = '🔧'; _rankName = _isUa ? 'Технік' : 'Техник'; }
+        else if (_lvl <= 50)  { _rankIcon = '💎'; _rankName = _isUa ? 'Майстер' : 'Мастер'; }
+        else                  { _rankIcon = '👑'; _rankName = _isUa ? 'Легенда' : 'Легенда'; }
+        const _iconEl = document.getElementById('prf-rank-icon');
+        const _nameEl = document.getElementById('prf-rank-name');
+        if (_iconEl) _iconEl.textContent = _rankIcon;
+        if (_nameEl) _nameEl.textContent = _rankName;
+    })();
+
+    // --- V3: Days in project ---
+    (function() {
+        const _isUa = getCurrentLanguage() === 'ua';
+        const _regDate = user.registrationDate ? new Date(user.registrationDate) : new Date();
+        const _now = new Date();
+        const _diffMs = _now - _regDate;
+        const _days = Math.max(1, Math.floor(_diffMs / (1000 * 60 * 60 * 24)));
+        const _daysEl = document.getElementById('prf-days-in-project');
+        const _daysLblEl = document.getElementById('prf-days-label');
+        if (_daysEl) _daysEl.textContent = String(_days);
+        if (_daysLblEl) {
+            const _d = _days % 10;
+            const _d100 = _days % 100;
+            let _suffix = '';
+            if (_isUa) {
+                _suffix = (_d === 1 && _d100 !== 11) ? 'день в проекті' : (_d >= 2 && _d <= 4 && (_d100 < 10 || _d100 >= 20)) ? 'дні в проекті' : 'днів в проекті';
+            } else {
+                _suffix = (_d === 1 && _d100 !== 11) ? 'день в проекте' : (_d >= 2 && _d <= 4 && (_d100 < 10 || _d100 >= 20)) ? 'дня в проекте' : 'дней в проекте';
+            }
+            _daysLblEl.textContent = _suffix;
+        }
+    })();
+
+    // --- V3: Referral widget ---
+    (function() {
+        const _refBlock = document.getElementById('prf-ref-block');
+        const _refDisplay = document.getElementById('prf-ref-link-display');
+        const _refCopyBtn = document.getElementById('prf-ref-copy-btn');
+        const _refLblEl = document.getElementById('prf-ref-lbl');
+        const _refCopyText = document.getElementById('prf-ref-copy-text');
+        const _isUaRef = getCurrentLanguage() === 'ua';
+        if (_refLblEl) _refLblEl.textContent = _isUaRef ? 'Реферальне посилання' : 'Реферальная ссылка';
+        if (_refCopyText) _refCopyText.textContent = _isUaRef ? 'Копіювати' : 'Копировать';
+        const _refCode = user.referralCode || '';
+        const _refLink = _refCode ? getReferralBotLink(_refCode) : 'https://t.me/RoboNexusBot';
+        if (_refDisplay) _refDisplay.textContent = _refLink.replace('https://', '');
+        if (_refBlock && _refCopyBtn) {
+            const _handler = async () => {
+                try {
+                    await navigator.clipboard.writeText(_refLink);
+                } catch(_) {
+                    const _ta = document.createElement('textarea');
+                    _ta.value = _refLink; _ta.style.position = 'fixed'; _ta.style.opacity = '0';
+                    document.body.appendChild(_ta); _ta.select(); document.execCommand('copy');
+                    document.body.removeChild(_ta);
+                }
+                if (_refCopyText) _refCopyText.textContent = _isUaRef ? 'Скопійовано!' : 'Скопировано!';
+                _refCopyBtn.classList.add('copied');
+                setTimeout(() => {
+                    if (_refCopyText) _refCopyText.textContent = _isUaRef ? 'Копіювати' : 'Копировать';
+                    _refCopyBtn.classList.remove('copied');
+                }, 2200);
+            };
+            // Re-attach listener freshly each render
+            _refCopyBtn.replaceWith(_refCopyBtn.cloneNode(true));
+            const _freshBtn = document.getElementById('prf-ref-copy-btn');
+            if (_freshBtn) _freshBtn.addEventListener('click', _handler);
+        }
+    })();
+
+    // --- G4: Onboarding for new players ---
+    const _onboardBanner = document.getElementById('profile-onboarding-banner');
+    if (_onboardBanner) {
+        const _isNewPlayer = ownedHeroes.length === 0 && Number(user.balanceBuy || 0) === 0 && Number(user.balanceWithdraw || 0) === 0;
+        _onboardBanner.classList.toggle('hidden', !_isNewPlayer);
+        if (_isNewPlayer) {
+            const _isUaOb = getCurrentLanguage() === 'ua';
+            _onboardBanner.innerHTML = `
+                <div class="onboarding-icon">🤖</div>
+                <div class="onboarding-body">
+                    <strong>${_isUaOb ? 'Ласкаво просимо до RoboNexus!' : 'Добро пожаловать в RoboNexus!'}</strong>
+                    <span>${_isUaOb ? 'Поповни баланс → купи героя → починай майнити RNX та заробляти TON.' : 'Пополни баланс → купи героя → начни майнить RNX и зарабатывать TON.'}</span>
+                </div>
+                <button class="onboarding-cta-btn" type="button" onclick="document.querySelector('[data-nav=\\'shop\\']')?.click()">${_isUaOb ? 'До магазину →' : 'В магазин →'}</button>`;
+        }
+    }
+
+    // --- Balance hints ---
+    const _balanceBuy = Number(user.balanceBuy || 0);
+    const _balanceWithdraw = Number(user.balanceWithdraw || 0);
+    const buyHintEl = document.getElementById('balance-buy-hint');
+    const withdrawHintEl = document.getElementById('balance-withdraw-hint');
+    if (buyHintEl) {
+        buyHintEl.textContent = _balanceBuy === 0
+            ? (getCurrentLanguage() === 'ua' ? 'Придбай героя та починай майнити RNX' : 'Купи героя и начни майнить RNX')
+            : (getCurrentLanguage() === 'ua' ? 'Використовуй для купівлі героїв' : 'Используй для покупки героев');
+    }
+    if (withdrawHintEl) {
+        if (_balanceWithdraw === 0) {
+            if (ownedHeroes.length > 0 && todayEarned > 0) {
+                withdrawHintEl.textContent = getCurrentLanguage() === 'ua'
+                    ? `Намайнено за цикл: ${formatNumber(todayEarned, locale)} RNX`
+                    : `Намайнено за цикл: ${formatNumber(todayEarned, locale)} RNX`;
+            } else if (ownedHeroes.length === 0) {
+                withdrawHintEl.textContent = getCurrentLanguage() === 'ua'
+                    ? 'Купи першого героя для заробітку'
+                    : 'Купи первого героя для заработка';
+            } else {
+                withdrawHintEl.textContent = getCurrentLanguage() === 'ua'
+                    ? 'Майнінг іде, чекай накопичення'
+                    : 'Майнинг идёт, ожидай накопления';
+            }
+        } else {
+            withdrawHintEl.textContent = getCurrentLanguage() === 'ua' ? 'Готово до виведення' : 'Готово к выводу';
+        }
+    }
 
     renderUserRequests();
     renderTasks();
@@ -1351,23 +1728,46 @@ function getActorId() {
 }
 
 function openNotificationsModal() {
+    window.APP_NOTIF_FILTER = 'all';
     openModal('notifications-modal');
+    renderNotificationsCenter();
+    // bind filter tabs
+    var tabAll    = document.getElementById('notif-tab-all');
+    var tabUnread = document.getElementById('notif-tab-unread');
+    var _setTab = function(f) {
+        window.APP_NOTIF_FILTER = f;
+        if (tabAll)    tabAll.classList.toggle('notif-tab-active', f === 'all');
+        if (tabUnread) tabUnread.classList.toggle('notif-tab-active', f === 'unread');
+        renderNotificationsCenter();
+    };
+    if (tabAll)    tabAll.onclick    = function() { _setTab('all'); };
+    if (tabUnread) tabUnread.onclick = function() { _setTab('unread'); };
+    // close on backdrop click
+    var modal = document.getElementById('notifications-modal');
+    if (modal) modal.onclick = function(e) { if (e.target === modal) closeNotificationsModal(); };
 }
 
 function closeNotificationsModal() {
-    const el = document.getElementById('notifications-modal');
-    if (el) el.classList.remove('modal-active');
-    refreshModalBodyLock();
+    closeModal('notifications-modal');
 }
 
 function openSupportModal() {
+    APP_STATE.supportView = 'main';
     openModal('support-modal');
+    renderSupportCenter();
 }
 
 function closeSupportModal() {
-    const el = document.getElementById('support-modal');
-    if (el) el.classList.remove('modal-active');
-    refreshModalBodyLock();
+    closeModal('support-modal');
+}
+
+function openUpdatesModal() {
+    renderReleaseList('updates-modal-list');
+    openModal('updates-modal');
+}
+
+function closeUpdatesModal() {
+    closeModal('updates-modal');
 }
 
 function getNotificationIcon(type) {
@@ -1377,60 +1777,134 @@ function getNotificationIcon(type) {
     return '◔';
 }
 
+// Notification filter state
+if (!window.APP_NOTIF_FILTER) window.APP_NOTIF_FILTER = 'all';
+
+function _getNotifIconSvg(type) {
+    if (type === 'success') return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+    if (type === 'error')   return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>';
+    if (type === 'support') return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="18" height="18" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5h11A2.5 2.5 0 0 1 20 7.5v6A2.5 2.5 0 0 1 17.5 16H13l-3.8 3v-3H6.5A2.5 2.5 0 0 1 4 13.5v-6Z"/></svg>';
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="18" height="18" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12.01" y2="8"/><line x1="12" y1="12" x2="12" y2="16"/></svg>';
+}
+
+function _getNotifTypeLabel(type, ua) {
+    if (type === 'success') return ua ? 'Успішно' : 'Успешно';
+    if (type === 'error')   return ua ? 'Помилка' : 'Ошибка';
+    if (type === 'support') return ua ? 'Підтримка' : 'Поддержка';
+    return ua ? 'Інфо' : 'Инфо';
+}
+
+function _notifDateGroup(isoStr, ua) {
+    if (!isoStr) return '';
+    const d = new Date(isoStr);
+    const now = new Date();
+    const diffDays = Math.floor((now - d) / 86400000);
+    if (diffDays === 0) return ua ? 'Сьогодні' : 'Сегодня';
+    if (diffDays === 1) return ua ? 'Вчора' : 'Вчера';
+    const locale = ua ? 'uk-UA' : 'ru-RU';
+    return d.toLocaleDateString(locale, { day: 'numeric', month: 'long' });
+}
+
 function renderNotificationsCenter() {
     const container = document.getElementById('notifications-list');
-    const badge = document.getElementById('notifications-badge');
-    if (!container || !window.gameDB) return;
+    const badge     = document.getElementById('notifications-badge');
+    const unreadPill = document.getElementById('notif-unread-badge');
+    if (!window.gameDB) return;
 
+    const ua = getCurrentLanguage() === 'ua';
     const t = getTranslations();
     const user = window.gameDB.getUser();
     const actorId = getActorId();
-    const notifications = window.gameDB.getNotificationsForUser(actorId, Boolean(user.isAdmin));
-    const unread = notifications.filter((item) => !(Array.isArray(item.readBy) ? item.readBy : []).includes(actorId));
+    const all = window.gameDB.getNotificationsForUser(actorId, Boolean(user.isAdmin));
+    const unreadItems = all.filter((item) => !(Array.isArray(item.readBy) ? item.readBy : []).includes(actorId));
+    const unreadCount = unreadItems.length;
 
+    // Header badge
     if (badge) {
-        badge.textContent = String(unread.length);
-        badge.classList.toggle('hidden', unread.length === 0);
+        badge.textContent = String(unreadCount);
+        badge.classList.toggle('hidden', unreadCount === 0);
     }
+    if (unreadPill) {
+        unreadPill.textContent = String(unreadCount);
+        unreadPill.classList.toggle('hidden', unreadCount === 0);
+    }
+
+    // Translate static texts
+    const titleEl = document.getElementById('notifications-modal-title');
+    if (titleEl) titleEl.textContent = ua ? 'Сповіщення' : 'Уведомления';
+    const tabAll    = document.getElementById('notif-tab-all');
+    const tabUnread = document.getElementById('notif-tab-unread');
+    if (tabAll)    tabAll.textContent    = ua ? 'Всі'           : 'Все';
+    if (tabUnread) tabUnread.textContent = ua ? 'Непрочитані'   : 'Непрочитанные';
+    const readAllBtn = document.getElementById('notifications-read-all');
+    if (readAllBtn) {
+        const svgStr = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polyline points="20 6 9 17 4 12"/></svg>';
+        readAllBtn.innerHTML = svgStr + ' ' + (ua ? 'Прочитати все' : 'Прочитать всё');
+    }
+    const emptyTitle = document.getElementById('notif-empty-title');
+    const emptySub   = document.getElementById('notif-empty-sub');
+    if (emptyTitle) emptyTitle.textContent = ua ? 'Немає сповіщень' : 'Нет уведомлений';
+    if (emptySub)   emptySub.textContent   = ua ? 'Тут з\'являться важливі події' : 'Здесь появятся важные события';
+
+    if (!container) return;
+    if (!document.getElementById('notifications-modal')?.classList.contains('modal-active')) return;
 
     container.innerHTML = '';
-    if (!notifications.length) {
-        const empty = document.createElement('div');
-        empty.className = 'request-card';
-        empty.textContent = t.noNotifications;
-        container.appendChild(empty);
+
+    // Filter by tab
+    const filter = window.APP_NOTIF_FILTER || 'all';
+    const items = filter === 'unread' ? unreadItems : all;
+
+    const emptyState = document.getElementById('notif-empty-state');
+    if (!items.length) {
+        if (emptyState) emptyState.classList.remove('hidden');
         return;
     }
+    if (emptyState) emptyState.classList.add('hidden');
 
-    notifications.slice(0, 20).forEach((item) => {
+    // Group by date
+    let lastGroup = null;
+    items.slice(0, 30).forEach((item, animIdx) => {
         const isRead = (Array.isArray(item.readBy) ? item.readBy : []).includes(actorId);
+        const group = _notifDateGroup(item.createdAt, ua);
+
+        if (group && group !== lastGroup) {
+            lastGroup = group;
+            const div = document.createElement('div');
+            div.className = 'notif-date-divider';
+            div.textContent = group;
+            container.appendChild(div);
+        }
+
         const card = document.createElement('div');
-        card.className = `notification-card${isRead ? '' : ' unread'}`;
+        const typeClass = 'notif-' + (item.type || 'info');
+        card.className = 'notif-card ' + typeClass + (isRead ? '' : ' notif-unread');
+        card.style.animationDelay = (animIdx * 35) + 'ms';
 
-        // Icon per type
-        const icons = { success: '✅', error: '❌', info: 'ℹ️', support: '💬' };
-        const icon = icons[item.type] || '🔔';
-        const timeLabel = formatRegistrationDate(item.createdAt, LANGUAGE_TO_LOCALE[getCurrentLanguage()] || 'ru-RU');
+        const iconSvg   = _getNotifIconSvg(item.type || 'info');
+        const iconClass = 'notif-icon-' + (item.type || 'info');
+        const typeLabel = _getNotifTypeLabel(item.type, ua);
+        const tagClass  = 'notif-tag-' + (item.type || 'info');
+        const locale    = ua ? 'uk-UA' : 'ru-RU';
+        const timeLabel = formatRegistrationDate(item.createdAt, locale);
 
-        card.innerHTML = `
-            <div class="notification-head">
-                <div style="display:flex;gap:10px;align-items:flex-start;flex:1;min-width:0;">
-                    <span style="font-size:20px;flex-shrink:0;line-height:1.2;">${icon}</span>
-                    <div style="min-width:0;flex:1;">
-                        <div class="notification-title">${item.title || t.notificationsTitle}</div>
-                        <div class="notification-meta">${item.message || '-'}</div>
-                    </div>
-                </div>
-                <span class="status-chip ${item.type === 'error' ? 'rejected' : item.type === 'success' ? 'approved' : 'pending'}" style="flex-shrink:0;">${getNotificationIcon(item.type)}</span>
-            </div>
-            <div class="notification-meta" style="margin-top:10px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.05);">🕐 ${timeLabel}</div>
-        `;
+        card.innerHTML =
+            '<div class="notif-card-icon ' + iconClass + '">' + iconSvg + '</div>' +
+            '<div class="notif-card-body">' +
+                '<div class="notif-card-title">' + (item.title || t.notificationsTitle) + '</div>' +
+                (item.message ? '<div class="notif-card-msg">' + item.message + '</div>' : '') +
+                '<div class="notif-card-foot">' +
+                    '<span class="notif-card-time">' +
+                        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="10" height="10"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
+                        ' ' + (timeLabel || '—') +
+                    '</span>' +
+                    '<span class="notif-card-tag ' + tagClass + '">' + typeLabel + '</span>' +
+                '</div>' +
+            '</div>';
 
         card.addEventListener('click', () => {
             window.gameDB.markNotificationRead(item.id, actorId);
-            if (item.ticketId) {
-                openSupportModal();
-            }
+            if (item.ticketId) { openSupportModal(); }
             renderApp();
         });
         container.appendChild(card);
@@ -1517,26 +1991,7 @@ function createSupportTicketCard(ticket, options = {}) {
     return card;
 }
 
-function renderSupportCenter() {
-    const container = document.getElementById('support-ticket-list');
-    if (!container || !window.gameDB) return;
-
-    const user = window.gameDB.getUser();
-    const t = getTranslations();
-    const actorId = getActorId();
-    const tickets = window.gameDB.getSupportTickets().filter((item) => Boolean(user.isAdmin) || String(item.userId) === actorId);
-
-    container.innerHTML = '';
-    if (!tickets.length) {
-        const empty = document.createElement('div');
-        empty.className = 'request-card';
-        empty.textContent = t.supportEmpty;
-        container.appendChild(empty);
-        return;
-    }
-
-    tickets.forEach((ticket) => container.appendChild(createSupportTicketCard(ticket, { adminMode: Boolean(user.isAdmin) })));
-}
+// renderSupportCenter is defined below (v2 — renders into #support-modal-body)
 
 function renderAdminSupportList() {
     const container = document.getElementById('admin-support-list');
@@ -1548,11 +2003,12 @@ function renderAdminSupportList() {
     const filter = APP_STATE.adminSupportFilter || 'all';
 
     if (filterBar) {
+        const isUa = getCurrentLanguage() === 'ua';
         const filters = [
-            { key: 'all', label: 'Все', count: allTickets.length },
-            { key: 'open', label: '🔴 Открытые', count: allTickets.filter((tk) => tk.status === 'open').length },
-            { key: 'in-progress', label: '🟡 В работе', count: allTickets.filter((tk) => tk.status === 'in-progress').length },
-            { key: 'closed', label: '✅ Закрытые', count: allTickets.filter((tk) => tk.status === 'closed' || tk.status === 'resolved').length }
+            { key: 'all', label: isUa ? 'Усі' : 'Все', count: allTickets.length },
+            { key: 'open', label: isUa ? '🔴 Відкриті' : '🔴 Открытые', count: allTickets.filter((tk) => tk.status === 'open').length },
+            { key: 'in-progress', label: isUa ? '🟡 В роботі' : '🟡 В работе', count: allTickets.filter((tk) => tk.status === 'in-progress').length },
+            { key: 'closed', label: isUa ? '✅ Закриті' : '✅ Закрытые', count: allTickets.filter((tk) => tk.status === 'closed' || tk.status === 'resolved').length }
         ];
         filterBar.innerHTML = '';
         filters.forEach((f) => {
@@ -1586,14 +2042,16 @@ function renderAdminSupportList() {
     tickets.forEach((ticket) => container.appendChild(createSupportTicketCard(ticket, { adminMode: true })));
 }
 
-function openSupportCreateModal() {
+function openSupportCreateModal(presetSubject, presetCategory) {
     const t = getTranslations();
+    const subjectDefault = presetSubject || '';
+    const categoryDefault = presetCategory || 'general';
     window.openFormModal({
         title: t.supportNewTicket,
         sectionLabel: t.supportTitle,
         fields: [
-            { name: 'subject', label: t.supportSubjectLabel, type: 'text', required: true },
-            { name: 'category', label: t.supportCategoryLabel, type: 'select', value: 'general', options: getSupportCategoryOptions() },
+            { name: 'subject', label: t.supportSubjectLabel, type: 'text', required: true, value: subjectDefault },
+            { name: 'category', label: t.supportCategoryLabel, type: 'select', value: categoryDefault, options: getSupportCategoryOptions() },
             { name: 'priority', label: t.supportPriorityLabel, type: 'select', value: 'normal', options: getSupportPriorityOptions() },
             { name: 'message', label: t.supportMessageLabel, type: 'textarea', required: true, rows: 4 }
         ],
@@ -1683,26 +2141,20 @@ function getSupportStatusOptions() {
 }
 
 function closeFormModal() {
-    const el = document.getElementById('form-modal');
-    if (el) el.classList.remove('modal-active');
-    refreshModalBodyLock();
+    closeModal('form-modal');
 }
 
 function closeUserDetailModal() {
-    const el = document.getElementById('user-detail-modal');
-    if (el) el.classList.remove('modal-active');
-    refreshModalBodyLock();
+    closeModal('user-detail-modal');
 }
 
 function closeHeroDetailModal() {
-    const el = document.getElementById('hero-detail-modal');
-    if (el) el.classList.remove('modal-active');
     APP_STATE.selectedHeroInstanceId = '';
-    refreshModalBodyLock();
+    closeModal('hero-detail-modal');
 }
 
 function refreshModalBodyLock() {
-    const ids = ['admin-modal', 'form-modal', 'user-detail-modal', 'notifications-modal', 'support-modal', 'hero-detail-modal'];
+    const ids = ['admin-modal', 'form-modal', 'user-detail-modal', 'notifications-modal', 'support-modal', 'updates-modal', 'hero-detail-modal'];
     const anyOpen = ids.some((id) => {
         const el = document.getElementById(id);
         return el && el.classList.contains('modal-active');
@@ -1713,8 +2165,24 @@ function refreshModalBodyLock() {
 function openModal(id) {
     const el = document.getElementById(id);
     if (!el) return;
+    el.classList.remove('modal-closing');
     el.classList.add('modal-active');
     document.body.classList.add('modal-open');
+}
+
+function closeModal(id) {
+    const el = document.getElementById(id);
+    if (!el || !el.classList.contains('modal-active')) return;
+    el.classList.add('modal-closing');
+    let done = false;
+    const finish = () => {
+        if (done) return;
+        done = true;
+        el.classList.remove('modal-active', 'modal-closing');
+        refreshModalBodyLock();
+    };
+    el.addEventListener('animationend', (e) => { if (e.target === el) finish(); });
+    setTimeout(finish, 320);
 }
 
 function getRequestStatusLabel(status, t = getTranslations()) {
@@ -1753,21 +2221,25 @@ function getHeroTextSet() {
         rarity: isUa ? 'Рідкість' : 'Редкость',
         role: isUa ? 'Клас' : 'Класс',
         source: isUa ? 'Джерело' : 'Источник',
-        currentIncome: isUa ? 'Дохід / година' : 'Доход / час',
-        totalIncome: isUa ? 'Дохід за цикл' : 'Доход за цикл',
-        cycleIncome: isUa ? 'Виплата циклу' : 'Выплата цикла',
+        price: isUa ? 'Ціна' : 'Цена',
+        currentIncome: isUa ? 'Прибуток / день' : 'Прибыль / день',
+        totalIncome: isUa ? 'Загальний прибуток' : 'Общая прибыль',
+        cycleIncome: isUa ? 'Нарахування за термін' : 'Начисление за срок',
         duration: isUa ? 'Термін роботи' : 'Срок работы',
         level: isUa ? 'Рівень' : 'Уровень',
         accruedNow: isUa ? 'Накопичено зараз' : 'Накоплено сейчас',
+        accruedLabel: isUa ? 'накопичено' : 'накоплено',
         nextUpgrade: isUa ? 'Покращення' : 'Улучшение',
         growth: isUa ? 'Ріст за рівень' : 'Рост за уровень',
         power: isUa ? 'Сила героя' : 'Сила героя',
         upgrade: isUa ? 'Прокачати' : 'Прокачать',
         sell: isUa ? 'Продати' : 'Продать',
         reissue: isUa ? 'Перевидати' : 'Переиздать',
-        timer: isUa ? 'До завершення циклу' : 'До завершения цикла',
-        cycleReady: isUa ? 'Цикл завершено' : 'Цикл завершён',
+        timer: isUa ? 'До завершення терміну' : 'До завершения срока',
+        cycleReady: isUa ? 'Термін завершено' : 'Срок завершён',
+        durationProgress: isUa ? 'Відпрацювання терміну' : 'Отработка срока',
         lifetime: isUa ? 'Зароблено всього' : 'Заработано всего',
+        rules: isUa ? 'Правила' : 'Правила',
         synergy: isUa ? 'Синергія колекції' : 'Синергия коллекции',
         rarityCombo: isUa ? 'Бонус рідкості' : 'Бонус редкости',
         classCombo: isUa ? 'Бонус класів' : 'Бонус классов',
@@ -1781,17 +2253,26 @@ function getHeroTextSet() {
         menuUpdatesPlanned: isUa ? 'Наступні покращення теж зʼявлятимуться тут після кожного релізу.' : 'Следующие улучшения тоже будут появляться здесь после каждого релиза.',
         menuUpdatesCurrent: isUa ? 'Актуально' : 'Актуально',
         menuUpdatesArchive: isUa ? 'Архів' : 'Архив',
+        menuUpdatesBadge: 'Release Log',
+        menuUpdatesModalTitle: isUa ? 'Усі релізи та покращення RoboNexus' : 'Все релизы и улучшения RoboNexus',
         menuHistory: isUa ? 'Історія' : 'История',
         menuAudit: isUa ? 'Аудит' : 'Аудит',
         menuSupport: isUa ? 'Підтримка' : 'Поддержка',
         menuNotifications: isUa ? 'Сповіщення' : 'Уведомления',
         menuHeroLedger: isUa ? 'Герої' : 'Герои',
         menuOpen: isUa ? 'Відкрити' : 'Открыть',
+        menuHubLabel: isUa ? 'Центр керування' : 'Центр управления',
+        menuSummaryHeroes: isUa ? 'Герої' : 'Герои',
+        menuSummaryAlerts: isUa ? 'Нові' : 'Новые',
+        menuSummarySynergy: isUa ? 'Синергія' : 'Синергия',
+        menuSupportBannerTitle: isUa ? 'Підтримка проєкту' : 'Поддержка проекта',
+        menuSupportBannerSubtitle: isUa ? '@RoboNexus_team · Адміністрація та допомога' : '@RoboNexus_team · Администрация и помощь',
         allRarities: isUa ? 'Усі рідкості' : 'Все редкости',
         common: isUa ? 'Звичайний' : 'Обычный',
         rare: isUa ? 'Рідкісний' : 'Редкий',
         epic: isUa ? 'Епічний' : 'Эпический',
         legendary: isUa ? 'Легендарний' : 'Легендарный',
+        starter: isUa ? 'Тестовий' : 'Тестовый',
         shopSource: isUa ? 'Покупка' : 'Покупка',
         adminSource: isUa ? 'Видача адміном' : 'Выдача админом',
         upgradeSource: isUa ? 'Прокачка' : 'Прокачка',
@@ -1801,18 +2282,39 @@ function getHeroTextSet() {
         detailsTitle: isUa ? 'Пасив і механіка' : 'Пассив и механика',
         startLevel: isUa ? 'Стартовий рівень' : 'Стартовый уровень',
         levelRange: isUa ? 'Рівень' : 'Уровень',
-        nextPayout: isUa ? 'Наступна виплата' : 'Следующая выплата'
+        nextPayout: isUa ? 'Найближче завершення' : 'Ближайшее завершение',
+        readyForClaim: isUa ? 'Готово до завершення' : 'Готово к завершению',
+        miningProgress: isUa ? 'Відпрацювання терміну' : 'Отработка срока',
+        lifetimeShort: isUa ? 'За весь час' : 'За все время',
+        localAdminGranted: isUa ? 'Адмінку видано локально' : 'Админка выдана локально',
+        testHeroClaimed: isUa ? 'Тестовий герой вже отримано' : 'Тестовый герой уже получен',
+        testHeroNoUpgrade: isUa ? 'Тестовий герой не підтримує прокачку' : 'Тестовый герой не поддерживает прокачку',
+        noUpgradeBtn: isUa ? 'Не прокачується' : 'Не прокачивается',
+        maxLevelReached: isUa ? 'Максимальний рівень досягнуто (LVL 10)' : 'Максимальный уровень достигнут (LVL 10)',
+        maxLevelBtn: isUa ? 'МАКС. РІВЕНЬ' : 'МАКС. УРОВЕНЬ',
+        incomeCreditedTitle: isUa ? 'Прибуток зараховано' : 'Прибыль начислена',
+        incomeCreditedMessage: isUa ? 'На ваш RNX-баланс зараховано' : 'На ваш RNX-баланс зачислено',
+        heroesTriggered: isUa ? 'Спрацювало героїв' : 'Сработало героев'
     };
 }
 
-function getHeroRarityLabel(rarityKey) {
+function getHeroRarityLabel(rarityKeyOrHero, heroData = null) {
     const text = getHeroTextSet();
+    const hero = typeof rarityKeyOrHero === 'object' && rarityKeyOrHero
+        ? rarityKeyOrHero
+        : heroData;
+    const rarityKey = typeof rarityKeyOrHero === 'string'
+        ? rarityKeyOrHero
+        : hero?.rarityKey;
+    if (hero && hero.rarityLabel) {
+        return hero.rarityLabel;
+    }
     const map = {
         common: text.common,
         rare: text.rare,
         epic: text.epic,
         legendary: text.legendary,
-        starter: getCurrentLanguage() === 'ua' ? 'Тестовий' : 'Тестовый'
+        starter: text.starter
     };
     return map[rarityKey] || text.common;
 }
@@ -1853,14 +2355,58 @@ function getLocalizedHeroData(hero) {
     if (!template) return hero;
 
     const language = getCurrentLanguage();
+    const baseProfitPerHour = Number(template.baseProfitPerHour ?? hero.baseProfitPerHour ?? hero.profitPerHour ?? 1);
+    const durationHours = Number(template.durationHours ?? hero.durationHours ?? 24);
     return {
         ...hero,
         name: typeof template.name === 'object' ? (template.name[language] || template.name.ru || hero.name) : (template.name || hero.name),
         description: typeof template.description === 'object' ? (template.description[language] || template.description.ru || hero.description) : (template.description || hero.description),
         role: typeof template.role === 'object' ? (template.role[language] || template.role.ru || hero.role) : (template.role || hero.role),
+        rarityLabel: typeof template.rarityLabel === 'object' ? (template.rarityLabel[language] || template.rarityLabel.ru || hero.rarityLabel || '') : (template.rarityLabel || hero.rarityLabel || ''),
+        rules: Array.isArray(template.rules)
+            ? template.rules.map((rule) => typeof rule === 'object' ? (rule[language] || rule.ru || '') : rule).filter(Boolean)
+            : (Array.isArray(hero.rules) ? hero.rules : []),
+        price: Number(template.price ?? hero.price ?? 0),
+        rarityKey: template.rarityKey || hero.rarityKey,
+        durationHours,
+        baseProfitPerHour,
+        growthRate: Number(template.growthRate ?? hero.growthRate ?? 0),
+        baseUpgradePrice: Number(template.baseUpgradePrice ?? hero.baseUpgradePrice ?? 0),
+        isTestHero: Boolean(template.isTestHero || hero.isTestHero),
+        totalProfit: Math.round(Number(hero.profitPerHour || baseProfitPerHour) * durationHours),
         image: template.image || createHeroArtwork(template),
         palette: template.palette || hero.palette
     };
+}
+
+function getPluralWord(count, one, few, many) {
+    const value = Math.abs(Number(count) || 0) % 100;
+    const lastDigit = value % 10;
+    if (value > 10 && value < 20) return many;
+    if (lastDigit > 1 && lastDigit < 5) return few;
+    if (lastDigit === 1) return one;
+    return many;
+}
+
+function formatHeroDuration(hours, locale = LANGUAGE_TO_LOCALE[getCurrentLanguage()] || 'ru-RU') {
+    const safeHours = Math.max(1, Math.round(Number(hours) || 0));
+    const isUa = getCurrentLanguage() === 'ua';
+    if (safeHours >= 24 && safeHours % 24 === 0) {
+        const days = Math.round(safeHours / 24);
+        const word = isUa
+            ? getPluralWord(days, 'день', 'дні', 'днів')
+            : getPluralWord(days, 'день', 'дня', 'дней');
+        return `${formatNumber(days, locale)} ${word}`;
+    }
+
+    const word = isUa
+        ? getPluralWord(safeHours, 'година', 'години', 'годин')
+        : getPluralWord(safeHours, 'час', 'часа', 'часов');
+    return `${formatNumber(safeHours, locale)} ${word}`;
+}
+
+function formatHeroDailyProfit(hero, locale = LANGUAGE_TO_LOCALE[getCurrentLanguage()] || 'ru-RU') {
+    return formatRnx(Math.round(Number(hero.boostedProfitPerHour || hero.profitPerHour || 0) * 24), locale);
 }
 
 function formatCountdown(targetDate) {
@@ -1874,6 +2420,19 @@ function formatCountdown(targetDate) {
     const minutes = Math.floor((totalSeconds % 3600) / 60);
     const seconds = totalSeconds % 60;
     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+}
+
+function syncHeaderDensity(type) {
+    document.body.classList.toggle('compact-top-hero', type !== 'profile');
+    const _sectionLabels = {
+        profile: getCurrentLanguage() === 'ua' ? 'Профіль гравця' : 'Профиль игрока',
+        shop:    getCurrentLanguage() === 'ua' ? 'Магазин героїв' : 'Магазин героев',
+        mines:   getCurrentLanguage() === 'ua' ? 'Мої герої'      : 'Мои герои',
+        stats:   getCurrentLanguage() === 'ua' ? 'Статистика'     : 'Статистика',
+        menu:    getCurrentLanguage() === 'ua' ? 'Центр керування' : 'Центр управления',
+    };
+    const _labelEl = document.querySelector('.hero-head-main .section-label');
+    if (_labelEl) _labelEl.textContent = _sectionLabels[type] || 'RoboNexus';
 }
 
 function getHeroSynergySummary(heroes) {
@@ -2034,7 +2593,9 @@ function renderHeroTimersOnly() {
 function renderMenuDashboard() {
     const container = document.getElementById('menu-dashboard');
     if (!container || !window.gameDB) return;
+    if (document.getElementById('menu-section')?.classList.contains('hidden')) return;
     const heroText = getHeroTextSet();
+    const locale = LANGUAGE_TO_LOCALE[getCurrentLanguage()] || 'ru-RU';
     const user = window.gameDB.getUser();
     const heroes = Array.isArray(user.heroes) ? user.heroes : [];
     const synergy = getHeroSynergySummary(heroes);
@@ -2052,59 +2613,97 @@ function renderMenuDashboard() {
         referral: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
         rating: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>`,
         promo: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>`,
-        history: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="12 8 12 12 14 14"/><path d="M3.05 11a9 9 0 1 0 .5-4.5"/><polyline points="3 3 3 11 11 11"/></svg>`
+        history: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="12 8 12 12 14 14"/><path d="M3.05 11a9 9 0 1 0 .5-4.5"/><polyline points="3 3 3 11 11 11"/></svg>`,
+        updates: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>`
     };
     const cards = [
         { icon: menuIcons.notifications, title: heroText.menuNotifications, value: unread, accent: 'cyan', badge: unread > 0, action: () => openNotificationsModal() },
         { icon: menuIcons.support, title: heroText.menuSupport, value: pendingTickets, accent: 'amber', badge: pendingTickets > 0, action: () => openSupportModal() },
-        { icon: menuIcons.heroes, title: heroText.menuHeroLedger, value: heroOps, accent: 'purple', action: () => { setActiveNavButton('menu'); handleNavigation('history'); } },
-        { icon: menuIcons.synergy, title: heroText.synergy, value: `${Math.round(synergy.totalBonus * 100)}%`, accent: 'green', action: () => handleNavigation('mines') },
-        { icon: menuIcons.referral, title: menuT.referralTitle, value: user.stats?.referrals || 0, accent: 'cyan', action: () => { setActiveNavButton('tasks'); handleNavigation('referral'); } },
-        { icon: menuIcons.rating, title: menuT.ratingTitle || 'Рейтинг', value: `#${user.rating?.position || 0}`, accent: 'purple', action: () => { setActiveNavButton('tasks'); handleNavigation('rating'); } },
+        { icon: menuIcons.heroes, title: heroText.menuHeroLedger, value: heroOps, accent: 'purple', action: () => { handleNavigation('history'); setActiveNavButton('menu'); } },
+        { icon: menuIcons.synergy, title: heroText.synergy, value: `${Math.round(synergy.totalBonus * 100)}%`, accent: 'green', action: () => { handleNavigation('mines'); setActiveNavButton('mines'); } },
+        { icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>`, title: 'Статистика', value: '→', accent: 'cyan', action: () => { handleNavigation('stats'); setActiveNavButton('stats'); } },
+        { icon: menuIcons.referral, title: menuT.referralTitle, value: user.stats?.referrals || 0, accent: 'cyan', action: () => { handleNavigation('referral'); setActiveNavButton('menu'); } },
+        { icon: menuIcons.rating, title: menuT.ratingTitle || heroText.menuHistory, value: `#${user.rating?.position || 0}`, accent: 'purple', action: () => { handleNavigation('rating'); setActiveNavButton('menu'); } },
         { icon: menuIcons.promo, title: menuT.promoTitle, value: '→', accent: 'amber', action: () => openPromoCodeModal() },
-        { icon: menuIcons.history, title: menuT.historyTitle || 'История', value: '→', accent: 'green', action: () => { setActiveNavButton('menu'); handleNavigation('history'); } }
+        { icon: menuIcons.history, title: menuT.historyTitle || heroText.menuHistory, value: '→', accent: 'green', action: () => { handleNavigation('history'); setActiveNavButton('menu'); } },
+        { icon: menuIcons.updates, title: heroText.menuUpdates, value: '→', accent: 'cyan', action: () => openUpdatesModal() }
     ];
 
     const menuSummary = [
-        { label: 'Героев', value: heroCount },
-        { label: 'Новых', value: unread },
-        { label: 'Синергия', value: `${Math.round(synergy.totalBonus * 100)}%` }
+        { label: heroText.menuSummaryHeroes, value: heroCount },
+        { label: heroText.menuSummaryAlerts, value: unread },
+        { label: heroText.menuSummarySynergy, value: `${Math.round(synergy.totalBonus * 100)}%` }
+    ];
+
+    const heroMetrics = [
+        { label: 'Баланс', value: `${Number(user.balance || 0).toLocaleString(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} TON` },
+        { label: 'Героїв активних', value: formatNumber(heroCount, locale) },
+        { label: 'Тікетів', value: formatNumber(pendingTickets, locale) },
+        { label: 'Сповіщень', value: formatNumber(unread, locale) }
+    ];
+
+    const heroFloaters = [
+        { icon: '◆', label: 'Синергія', value: `${Math.round(synergy.totalBonus * 100)}%` },
+        { icon: '◔', label: 'Рейтинг', value: `#${user.rating?.position || 0}` },
+        { icon: '✦', label: 'Реферали', value: formatNumber(user.stats?.referrals || 0, locale) }
     ];
 
     container.innerHTML = `
-        <div class="menu-dashboard-head">
+        <section class="menu-cinematic-hero">
+            <div class="menu-cinematic-noise"></div>
+            <div class="menu-cinematic-grid">
+                <div class="menu-cinematic-copy">
+                    <div class="menu-dashboard-topline">
+                        <p class="section-label">${heroText.actionHub}</p>
+                        <span class="menu-dashboard-pill">${heroText.menuHubLabel}</span>
+                    </div>
+                    <h3 class="menu-dashboard-title menu-cinematic-title">${heroText.actionHubSubtitle}</h3>
+                    <p class="menu-cinematic-subtitle">Керуйте героями, відстежуйте активність та тримайте всі ключові дії в одному центрі керування.</p>
+                    <div class="menu-dashboard-mini menu-cinematic-metrics">
+                        ${heroMetrics.map((item) => `<div class="menu-dashboard-mini-chip menu-cinematic-chip"><span>${item.label}</span><strong>${item.value}</strong></div>`).join('')}
+                    </div>
+                    <div class="menu-cinematic-actions">
+                        <button class="menu-cinematic-cta menu-cinematic-cta-primary" id="menu-hero-open-stats" type="button">Відкрити статистику</button>
+                        <button class="menu-cinematic-cta menu-cinematic-cta-secondary" id="menu-hero-open-support" type="button">Підтримка онлайн</button>
+                    </div>
+                </div>
+                <div class="menu-cinematic-visual">
+                    <div class="menu-cinematic-orbit"></div>
+                    <div class="menu-cinematic-rnx">$RNX</div>
+                    <img class="menu-cinematic-figure" src="images/hero_stellar_prime.png" alt="" loading="lazy" decoding="async">
+                    <div class="menu-cinematic-floaters">
+                        ${heroFloaters.map((item, index) => `
+                            <div class="menu-cinematic-floater floater-${index + 1}">
+                                <span class="menu-cinematic-floater-icon">${item.icon}</span>
+                                <div>
+                                    <span>${item.label}</span>
+                                    <strong>${item.value}</strong>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="menu-dashboard-head menu-dashboard-head-secondary">
             <div class="menu-dashboard-topline">
                 <p class="section-label">${heroText.actionHub}</p>
-                <span class="menu-dashboard-pill">Control Hub</span>
+                <span class="menu-dashboard-pill">${heroText.menuHubLabel}</span>
             </div>
-            <h3 class="menu-dashboard-title">${heroText.actionHubSubtitle}</h3>
             <div class="menu-dashboard-mini">
                 ${menuSummary.map((item) => `<div class="menu-dashboard-mini-chip"><span>${item.label}</span><strong>${item.value}</strong></div>`).join('')}
             </div>
         </div>
         <a href="https://t.me/RoboNexus_team" target="_blank" rel="noopener noreferrer" class="menu-support-banner">
             <div class="menu-support-banner-icon">
-                <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.94 8.19l-2.03 9.57c-.15.67-.54.84-1.09.52l-3-2.21-1.45 1.4c-.16.16-.3.3-.6.3l.21-3.06 5.5-4.97c.24-.21-.05-.33-.37-.12L7.06 14.5l-2.96-.93c-.64-.2-.65-.64.14-.95l11.57-4.46c.53-.19 1 .13.13.03z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.94 8.19l-2.03 9.57c-.15.67-.54.84-1.09.52l-3-2.21-1.45 1.4c-.16.16-.3.3-.6.3l.21-3.06 5.5-4.97c.24-.21-.05-.33-.37-.12L7.06 14.5l-2.96-.93c-.64-.2-.65-.64.14-.95l11.57-4.46c.53-.19 1 .13 1.03.63z"/></svg>
             </div>
             <div class="menu-support-banner-text">
-                <strong>Поддержка проекта</strong>
-                <span>@RoboNexus_team · Администрация и помощь</span>
+                <strong>${heroText.menuSupportBannerTitle}</strong>
+                <span>${heroText.menuSupportBannerSubtitle}</span>
             </div>
             <span class="menu-support-banner-arrow">→</span>
         </a>
-        <section class="menu-release-feed">
-            <div class="menu-release-head">
-                <div>
-                    <p class="section-label">${heroText.menuUpdates}</p>
-                    <h3 class="menu-release-title">${heroText.menuUpdatesSubtitle}</h3>
-                </div>
-                <span class="menu-release-badge">Release Log</span>
-            </div>
-            <div class="menu-release-list" id="menu-release-list">
-                <div class="menu-release-empty">${heroText.menuUpdatesLoading}</div>
-            </div>
-            <div class="menu-release-footnote">${heroText.menuUpdatesPlanned}</div>
-        </section>
     `;
 
     const grid = document.createElement('div');
@@ -2129,7 +2728,19 @@ function renderMenuDashboard() {
         grid.appendChild(card);
     });
     container.appendChild(grid);
-    renderMenuUpdateFeed();
+
+    const openStatsBtn = document.getElementById('menu-hero-open-stats');
+    if (openStatsBtn) {
+        openStatsBtn.addEventListener('click', () => {
+            handleNavigation('stats');
+            setActiveNavButton('stats');
+        });
+    }
+
+    const openSupportBtn = document.getElementById('menu-hero-open-support');
+    if (openSupportBtn) {
+        openSupportBtn.addEventListener('click', () => openSupportModal());
+    }
 }
 
 function getVersionTimelineEntries(versionData) {
@@ -2163,8 +2774,8 @@ function formatReleaseBuildDate(value, locale) {
     return parsed.toLocaleDateString(locale, { day: '2-digit', month: '2-digit', year: 'numeric' });
 }
 
-function renderMenuUpdateFeed() {
-    const list = document.getElementById('menu-release-list');
+function renderReleaseList(targetId, options = {}) {
+    const list = document.getElementById(targetId);
     if (!list) return;
 
     const heroText = getHeroTextSet();
@@ -2174,7 +2785,8 @@ function renderMenuUpdateFeed() {
     fetchVersionJson().then((versionData) => {
         if (!list.isConnected) return;
 
-        const entries = getVersionTimelineEntries(versionData).slice(0, 4);
+        const limit = Number.isFinite(options.limit) ? options.limit : 0;
+        const entries = getVersionTimelineEntries(versionData).slice(0, limit > 0 ? limit : undefined);
         if (!entries.length) {
             list.innerHTML = `<div class="menu-release-empty">${heroText.menuUpdatesEmpty}</div>`;
             return;
@@ -2216,6 +2828,41 @@ function initAdminInlineTabs(container) {
         });
     });
 
+    // Drag-scroll + arrow buttons for admin tabs
+    const tabsEl = container.querySelector('.admin-tabs') || document.getElementById('admin-tabs');
+    const prevBtn = document.getElementById('admin-tabs-prev');
+    const nextBtn = document.getElementById('admin-tabs-next');
+
+    if (tabsEl) {
+        const STEP = 140;
+
+        // Update arrow visibility
+        const updateArrows = () => {
+            if (!prevBtn || !nextBtn) return;
+            prevBtn.classList.toggle('hidden', tabsEl.scrollLeft <= 2);
+            nextBtn.classList.toggle('hidden', tabsEl.scrollLeft + tabsEl.clientWidth >= tabsEl.scrollWidth - 2);
+        };
+
+        tabsEl.addEventListener('scroll', updateArrows, { passive: true });
+        updateArrows();
+
+        if (prevBtn) prevBtn.addEventListener('click', () => { tabsEl.scrollBy({ left: -STEP, behavior: 'smooth' }); });
+        if (nextBtn) nextBtn.addEventListener('click', () => { tabsEl.scrollBy({ left: STEP, behavior: 'smooth' }); });
+
+        // Mouse drag scroll
+        let isDown = false, startX = 0, scrollLeft = 0;
+        tabsEl.addEventListener('mousedown', e => {
+            isDown = true; startX = e.pageX - tabsEl.offsetLeft;
+            scrollLeft = tabsEl.scrollLeft; tabsEl.classList.add('is-dragging');
+        });
+        tabsEl.addEventListener('mouseleave', () => { isDown = false; tabsEl.classList.remove('is-dragging'); });
+        tabsEl.addEventListener('mouseup', () => { isDown = false; tabsEl.classList.remove('is-dragging'); });
+        tabsEl.addEventListener('mousemove', e => {
+            if (!isDown) return; e.preventDefault();
+            tabsEl.scrollLeft = scrollLeft - (e.pageX - tabsEl.offsetLeft - startX);
+        });
+    }
+
     // Re-bind quick action buttons inside inline panel
     const bindClick = (id, handler) => {
         const el = container.querySelector('#' + id) || document.getElementById(id);
@@ -2226,6 +2873,103 @@ function initAdminInlineTabs(container) {
     bindClick('admin-open-audit', () => { handleNavigation('audit'); });
     bindClick('admin-grant-access', openAdminAccessModal);
     bindClick('admin-finance-settings', openFinanceSettingsModal);
+
+    // Auto-payment button: switch to overview and scroll to autopay panel
+    bindClick('admin-autopayment-btn', () => {
+        APP_STATE.adminTab = 'overview';
+        renderAdminTabState();
+        setTimeout(() => {
+            const panel = document.getElementById('admin-autopay-panel');
+            if (panel) {
+                panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                panel.style.transition = 'box-shadow .3s';
+                panel.style.boxShadow = '0 0 0 2px rgba(34,197,94,.5)';
+                setTimeout(() => { panel.style.boxShadow = ''; }, 1200);
+            }
+        }, 80);
+    });
+
+    // Auto-payment toggle
+    const autopayToggle = container.querySelector('#admin-autopay-toggle') || document.getElementById('admin-autopay-toggle');
+    if (autopayToggle) {
+        autopayToggle.addEventListener('change', () => {
+            _updateAutopayUI(autopayToggle.checked);
+        });
+    }
+
+    // Auto-payment save
+    bindClick('admin-autopay-save', () => {
+        const toggle = document.getElementById('admin-autopay-toggle');
+        const addr   = (document.getElementById('admin-autopay-address') || {}).value || '';
+        const apiKey = (document.getElementById('admin-autopay-apikey') || {}).value || '';
+        const interval = +(document.getElementById('admin-autopay-interval') || {}).value || 60;
+        const enabled = toggle ? toggle.checked : false;
+        const settings = { enabled, address: addr, interval };
+        // Only store API key if non-empty (don't overwrite with blank)
+        if (apiKey) settings.apiKey = apiKey;
+        if (window.gameDB && typeof window.gameDB.updateSettings === 'function') {
+            window.gameDB.updateSettings({ autoPayment: settings }).then(() => {
+                triggerHaptic('light');
+                showToast('✓ Настройки автооплаты сохранены', 'success');
+                _updateAutopayBadge(enabled);
+            }).catch(e => showToast('Ошибка: ' + (e.message || e), 'error'));
+        } else {
+            triggerHaptic('light');
+            showToast('✓ Сохранено локально', 'success');
+            _updateAutopayBadge(enabled);
+        }
+    });
+
+    // Auto-payment copy address
+    bindClick('admin-autopay-copy', () => {
+        const addr = (document.getElementById('admin-autopay-address') || {}).value || '';
+        if (addr && navigator.clipboard) {
+            navigator.clipboard.writeText(addr).then(() => showToast('Адрес скопирован', 'success'));
+        }
+    });
+}
+
+function _updateAutopayUI(enabled) {
+    const panel = document.getElementById('admin-autopay-panel');
+    const label = document.getElementById('admin-autopay-status-label');
+    if (panel) panel.classList.toggle('is-disabled', !enabled);
+    if (label) label.textContent = enabled ? 'ВКЛ' : 'ВЫКЛ';
+    _updateAutopayBadge(enabled);
+}
+
+function _updateAutopayBadge(enabled) {
+    const badge = document.getElementById('autopay-status-badge');
+    if (!badge) return;
+    badge.textContent = enabled ? 'ON' : 'OFF';
+    badge.classList.toggle('is-on', enabled);
+}
+
+function _loadAutopaySettings() {
+    let settings = null;
+    try {
+        if (window.gameDB && typeof window.gameDB.getSettings === 'function') {
+            const s = window.gameDB.getSettings();
+            settings = s && s.autoPayment ? s.autoPayment : null;
+        }
+    } catch (e) { /* no settings */ }
+
+    const toggle   = document.getElementById('admin-autopay-toggle');
+    const addrEl   = document.getElementById('admin-autopay-address');
+    const interval = document.getElementById('admin-autopay-interval');
+    const lastEl   = document.getElementById('admin-autopay-last-check');
+    const enabled  = settings ? !!settings.enabled : false;
+
+    if (toggle) toggle.checked = enabled;
+    if (addrEl && settings && settings.address) addrEl.value = settings.address;
+    if (interval && settings && settings.interval) {
+        const opt = interval.querySelector(`option[value="${settings.interval}"]`);
+        if (opt) opt.selected = true;
+    }
+    if (lastEl && settings && settings.lastCheck) {
+        const d = new Date(settings.lastCheck);
+        lastEl.textContent = 'Последняя: ' + d.toLocaleString();
+    }
+    _updateAutopayUI(enabled);
 }
 
 function renderAdminTabState() {
@@ -2246,7 +2990,7 @@ function createRequestCard(request, options = {}) {
     const locale = LANGUAGE_TO_LOCALE[getCurrentLanguage()] || 'ru-RU';
     const card = document.createElement('div');
     const statusClass = `status-${request.status}-card`;
-    card.className = `request-card ${statusClass}`;
+    card.className = `request-card request-card-finance ${statusClass}`;
 
     const title = request.type === 'deposit' ? t.depositRequestTitle : t.withdrawRequestTitle;
     const statusLabel = getRequestStatusLabel(request.status, t);
@@ -2319,6 +3063,7 @@ function createRequestCard(request, options = {}) {
 function renderUserRequests() {
     const container = document.getElementById('user-requests-list');
     if (!container || !window.gameDB) return;
+    if (!document.getElementById('admin-modal')?.classList.contains('modal-active')) return;
 
     const user = window.gameDB.getUser();
     const requests = window.gameDB.getRequests().filter((item) => String(item.userId) === String(user.id));
@@ -2428,7 +3173,7 @@ function renderAdminLogList() {
         const colorClass = LOG_COLORS[entry.type] || 'log-default';
         const actor = resolveAuditActor(entry.adminId);
         const card = document.createElement('div');
-        card.className = 'request-card admin-log-entry';
+        card.className = 'request-card admin-log-entry admin-log-card';
         card.innerHTML = `
             <div class="admin-log-entry-head">
                 <span class="admin-log-type-badge ${colorClass}">${getAuditTypeLabel(entry.type, t)}</span>
@@ -2486,6 +3231,7 @@ function renderAuditSection() {
     const filtersContainer = document.getElementById('audit-filters');
     const listContainer = document.getElementById('audit-list');
     if (!filtersContainer || !listContainer || !window.gameDB) return;
+    if (document.getElementById('audit-section')?.classList.contains('hidden')) return;
 
     const t = getTranslations();
     const locale = LANGUAGE_TO_LOCALE[getCurrentLanguage()] || 'ru-RU';
@@ -2528,7 +3274,7 @@ function renderAuditSection() {
 
     filteredEntries.forEach((entry) => {
         const card = document.createElement('div');
-        card.className = 'request-card';
+        card.className = 'request-card request-card-audit';
         card.innerHTML = `
             <div class="request-card-head">
                 <div>
@@ -2566,47 +3312,237 @@ function renderFinanceSummary() {
     });
 }
 
+function _taskAutoIcon(task, index) {
+    const combined = ((task.title || '') + ' ' + (task.description || '')).toLowerCase();
+    if (/telegram|subscribe|follow|channel|group|join|соц|підпис|підпис/.test(combined)) {
+        return `<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.94 8.19l-2.03 9.57c-.15.67-.54.84-1.09.52l-3-2.21-1.45 1.4c-.16.16-.3.3-.6.3l.21-3.06 5.5-4.97c.24-.21-.05-.33-.37-.12L7.06 14.5l-2.96-.93c-.64-.2-.65-.64.14-.95l11.57-4.46c.53-.19 1 .13 1.03.63z"/></svg>`;
+    }
+    if (/deposit|пополн|поповн|invest|invest|ton|баланс/.test(combined)) {
+        return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>`;
+    }
+    if (/referral|refer|invite|приглас|запрос|реферал/.test(combined)) {
+        return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`;
+    }
+    if (/hero|герой|герої|mine|шахт|buy|купи|purchase/.test(combined)) {
+        return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`;
+    }
+    if (/trade|обмен|обмін|exchange|rnx/.test(combined)) {
+        return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>`;
+    }
+    const defaults = [
+        `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+        `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`,
+        `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>`,
+        `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`
+    ];
+    return defaults[index % defaults.length];
+}
+
+function _taskCategoryInfo(task, index, t) {
+    const combined = ((task.title || '') + ' ' + (task.description || '')).toLowerCase();
+    const cats = [
+        { key: 'social', color: 'cyan', label: t.taskCategory0 || 'Social' },
+        { key: 'finance', color: 'green', label: t.taskCategory1 || 'Finance' },
+        { key: 'trading', color: 'amber', label: t.taskCategory2 || 'Trading' },
+        { key: 'quest', color: 'purple', label: t.taskCategory3 || 'Quest' },
+        { key: 'special', color: 'pink', label: t.taskCategory4 || 'Special' }
+    ];
+    if (/telegram|subscribe|follow|channel|group|join|соц/.test(combined)) return cats[0];
+    if (/deposit|пополн|поповн|invest|ton|баланс/.test(combined)) return cats[1];
+    if (/trade|обмен|обмін|exchange|rnx/.test(combined)) return cats[2];
+    if (/hero|герой|mine|шахт|referral|refer|invite/.test(combined)) return cats[3];
+    return cats[index % cats.length];
+}
+
 function renderTasks() {
     const container = document.getElementById('tasks-list');
     if (!container || !window.gameDB) return;
+    if (document.getElementById('tasks-section')?.classList.contains('hidden')) return;
 
     const t = getTranslations();
+    const locale = LANGUAGE_TO_LOCALE[getCurrentLanguage()] || 'ru-RU';
     const tasks = window.gameDB.getTasks().filter((item) => item.status === 'active');
     container.innerHTML = '';
+
+    // ── Cinematic banner ──
+    const totalReward = tasks.reduce((sum, task) => sum + Number(task.reward || 0), 0);
+    const banner = document.createElement('section');
+    banner.className = 'task-cinematic-banner';
+    banner.innerHTML = `
+        <div class="task-cinematic-copy">
+            <span class="task-cinematic-kicker">${t.taskBannerKicker || 'ACTIVE QUESTS'}</span>
+            <h3 class="task-cinematic-title">${t.taskBannerTitle || t.tasksTitle}</h3>
+            <p class="task-cinematic-subtitle">${t.taskBannerSubtitle || t.tasksSubtitle}</p>
+            <div class="task-cinematic-chips">
+                <div class="task-cinematic-chip">
+                    <span>${t.taskTotalLabel || t.tasksTitle}</span>
+                    <strong>${tasks.length}</strong>
+                </div>
+                <div class="task-cinematic-chip">
+                    <span>${t.taskPoolLabel || t.taskReward}</span>
+                    <strong>${formatRnx(totalReward, locale)}</strong>
+                </div>
+            </div>
+        </div>
+        <div class="task-cinematic-visual">
+            <div class="task-cinematic-orbit"></div>
+            <div class="task-cinematic-rnx">$RNX</div>
+            <div class="task-cinematic-grid-bg"></div>
+        </div>
+    `;
+    container.appendChild(banner);
 
     if (!tasks.length) {
         const empty = document.createElement('div');
         empty.className = 'request-card';
-        empty.textContent = t.noTasks;
+        empty.style.textAlign = 'center';
+        empty.style.padding = '28px 16px';
+        empty.innerHTML = `<div style="font-size:32px;margin-bottom:10px;">📋</div><div style="color:var(--muted);font-size:14px;">${t.noTasks}</div>`;
         container.appendChild(empty);
         return;
     }
 
-    tasks.forEach((task) => {
+    const list = document.createElement('div');
+    list.className = 'task-cards-list';
+    tasks.forEach((task, index) => {
+        const icon = _taskAutoIcon(task, index);
+        const cat = _taskCategoryInfo(task, index, t);
+        const num = String(index + 1).padStart(2, '0');
         const card = document.createElement('article');
-        card.className = 'task-card';
+        card.className = 'task-card task-card-v2';
+        card.dataset.taskId = task.id;
         card.innerHTML = `
-            <div class="task-card-head">
-                <div class="task-card-title">${task.title}</div>
-                <span class="status-chip approved">${t.taskStatusActive}</span>
+            <div class="task-v2-top">
+                <div class="task-v2-num">#${num}</div>
+                <span class="task-v2-cat task-v2-cat-${cat.color}">${cat.label}</span>
             </div>
-            <div class="task-card-desc">${task.description}</div>
-            <div class="task-card-reward">${t.taskReward}: ${formatRnx(task.reward, LANGUAGE_TO_LOCALE[getCurrentLanguage()] || 'ru-RU')}</div>
+            <div class="task-v2-body">
+                <div class="task-v2-icon task-v2-icon-${cat.color}">${icon}</div>
+                <div class="task-v2-content">
+                    <div class="task-v2-title">${task.title}</div>
+                    <div class="task-v2-desc">${task.description}</div>
+                </div>
+            </div>
+            <div class="task-v2-footer">
+                <div class="task-v2-reward">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="14" height="14"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    <span>${formatRnx(task.reward, locale)}</span>
+                </div>
+                <button class="task-v2-claim-btn" type="button" data-task-id="${task.id}">
+                    ${t.taskClaimBtn || 'Выполнить'}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+            </div>
         `;
-        container.appendChild(card);
+        list.appendChild(card);
     });
+    container.appendChild(list);
+
+    list.querySelectorAll('.task-v2-claim-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+            showNotification(t.taskClaimSent || t.requestCreated || 'Запрос отправлен', 'info');
+            openSupportModal();
+        });
+    });
+}
+
+function _historyDateKey(isoString) {
+    const d = new Date(isoString);
+    if (Number.isNaN(d.getTime())) return 'unknown';
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
+function _historyDateLabel(key, locale, t) {
+    if (key === 'unknown') return '—';
+    const today = _historyDateKey(new Date().toISOString());
+    const yesterday = _historyDateKey(new Date(Date.now() - 86400000).toISOString());
+    if (key === today) return t.historyTodayLabel || 'Сегодня';
+    if (key === yesterday) return t.historyYesterdayLabel || 'Вчера';
+    const d = new Date(key);
+    return d.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+function _historyOpIcon(operation) {
+    const type = operation.type || '';
+    const icons = {
+        deposit:        `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>`,
+        withdraw:       `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>`,
+        'admin-credit': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><circle cx="12" cy="12" r="10"/><polyline points="12 8 12 12 14 14"/></svg>`,
+        'admin-debit':  `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`,
+        'hero-purchase':`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`,
+        'hero-upgrade': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polyline points="18 15 12 9 6 15"/></svg>`,
+        'hero-grant':   `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><path d="M12 22V7m0 0a2 2 0 1 0-2-2 2 2 0 0 0 2 2 2 2 0 1 0 2-2 2 2 0 0 0-2 2"/></svg>`
+    };
+    return icons[type] || `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`;
+}
+
+function _historyOpColor(operation) {
+    const type = operation.type || '';
+    const status = operation.status || '';
+    if (status === 'rejected') return 'red';
+    if (type === 'deposit' || type === 'admin-credit') return 'green';
+    if (type === 'withdraw' || type === 'admin-debit') return 'amber';
+    if (type.startsWith('hero')) return 'purple';
+    return 'cyan';
 }
 
 function renderHistorySection() {
     const filtersContainer = document.getElementById('history-filters');
     const listContainer = document.getElementById('history-list');
     if (!filtersContainer || !listContainer || !window.gameDB) return;
+    if (document.getElementById('history-section')?.classList.contains('hidden')) return;
 
     const t = getTranslations();
+    const locale = LANGUAGE_TO_LOCALE[getCurrentLanguage()] || 'ru-RU';
     const allOperations = [
         ...window.gameDB.getFinanceOperations(),
         ...window.gameDB.getHeroOperations()
     ].sort((left, right) => new Date(right.createdAt).getTime() - new Date(left.createdAt).getTime());
+
+    const financeOperations = window.gameDB.getFinanceOperations();
+    const pendingOps = allOperations.filter((item) => item.status === 'pending').length;
+    const completedOps = allOperations.filter((item) => item.status === 'approved' || item.status === 'completed').length;
+    const financeVolume = financeOperations.reduce((sum, item) => sum + Math.abs(Number(item.amount || 0)), 0);
+
+    // ── Cinematic banner (rebuild each time for i18n) ──
+    const historySection = document.getElementById('history-section');
+    if (historySection) {
+        let historyHero = document.getElementById('history-cinematic-banner');
+        if (!historyHero) {
+            historyHero = document.createElement('section');
+            historyHero.id = 'history-cinematic-banner';
+            historyHero.className = 'history-cinematic-banner';
+            filtersContainer.insertAdjacentElement('beforebegin', historyHero);
+        }
+        historyHero.innerHTML = `
+            <div class="history-cinematic-copy">
+                <span class="history-cinematic-kicker">${t.historyBannerKicker || 'OPERATIONS FEED'}</span>
+                <h3 class="history-cinematic-title">${t.historyBannerTitle || t.historyTitle}</h3>
+                <p class="history-cinematic-subtitle">${t.historyBannerSubtitle || t.historySubtitle}</p>
+                <div class="history-cinematic-chips">
+                    <div class="history-cinematic-chip"><span>${t.historyTotalLabel || t.historyTitle}</span><strong>${formatNumber(allOperations.length, locale)}</strong></div>
+                    <div class="history-cinematic-chip"><span>${t.historyPendingLabel || t.historyFilterPending}</span><strong>${formatNumber(pendingOps, locale)}</strong></div>
+                    <div class="history-cinematic-chip"><span>${t.historyCompletedLabel || t.historyFilterCompleted}</span><strong>${formatNumber(completedOps, locale)}</strong></div>
+                    <div class="history-cinematic-chip"><span>${t.historyVolumeLabel || 'TON'}</span><strong>${financeVolume.toLocaleString(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} TON</strong></div>
+                </div>
+                <button class="history-cinematic-btn" id="history-hero-stats-btn" type="button">${t.historyToStatsBtn || 'К статистике'}</button>
+            </div>
+            <div class="history-cinematic-visual">
+                <div class="history-cinematic-ring"></div>
+                <div class="history-cinematic-badge">ARCHIVE</div>
+                <img class="history-cinematic-figure" src="images/hero_core_digger.png" alt="" loading="lazy" decoding="async">
+            </div>
+        `;
+        const statsBtn = document.getElementById('history-hero-stats-btn');
+        if (statsBtn) {
+            statsBtn.addEventListener('click', () => {
+                handleNavigation('stats');
+                setActiveNavButton('stats');
+            });
+        }
+    }
+
+    // ── Filters ──
     const filters = [
         { id: 'all', label: t.historyFilterAll },
         { id: 'pending', label: t.historyFilterPending },
@@ -2614,7 +3550,6 @@ function renderHistorySection() {
         { id: 'rejected', label: t.historyFilterRejected },
         { id: 'completed', label: t.historyFilterCompleted }
     ];
-
     filtersContainer.innerHTML = '';
     filters.forEach((filter) => {
         const button = document.createElement('button');
@@ -2628,45 +3563,93 @@ function renderHistorySection() {
         filtersContainer.appendChild(button);
     });
 
+    // ── Build list ──
     listContainer.innerHTML = '';
-    const filtered = allOperations.filter((item) => APP_STATE.historyFilter === 'all' ? true : item.status === APP_STATE.historyFilter);
+    const filtered = allOperations.filter((item) =>
+        APP_STATE.historyFilter === 'all' ? true : item.status === APP_STATE.historyFilter
+    );
 
     if (!filtered.length) {
         const empty = document.createElement('div');
         empty.className = 'request-card';
-        empty.textContent = t.noHistory;
+        empty.style.textAlign = 'center';
+        empty.style.padding = '28px 16px';
+        empty.innerHTML = `<div style="font-size:32px;margin-bottom:10px;">📭</div><div style="color:var(--muted);font-size:14px;">${t.noHistory}</div>`;
         listContainer.appendChild(empty);
         return;
     }
 
-    filtered.slice(0, 30).forEach((operation) => {
-        listContainer.appendChild(createFinanceOperationCard(operation));
+    // ── Group by date ──
+    const PAGE_SIZE = 30;
+    const paged = filtered.slice(0, PAGE_SIZE);
+    const groups = new Map();
+    paged.forEach((op) => {
+        const key = _historyDateKey(op.createdAt);
+        if (!groups.has(key)) groups.set(key, []);
+        groups.get(key).push(op);
     });
+
+    groups.forEach((ops, dateKey) => {
+        const groupEl = document.createElement('div');
+        groupEl.className = 'history-date-group';
+
+        const labelEl = document.createElement('div');
+        labelEl.className = 'history-date-label';
+        labelEl.textContent = _historyDateLabel(dateKey, locale, t);
+        groupEl.appendChild(labelEl);
+
+        const groupList = document.createElement('div');
+        groupList.className = 'history-group-list';
+        ops.forEach((op) => {
+            groupList.appendChild(createFinanceOperationCard(op));
+        });
+        groupEl.appendChild(groupList);
+        listContainer.appendChild(groupEl);
+    });
+
+    if (filtered.length > PAGE_SIZE) {
+        const more = document.createElement('div');
+        more.className = 'history-load-more';
+        more.textContent = `+ ${filtered.length - PAGE_SIZE} операций`;
+        listContainer.appendChild(more);
+    }
 }
 
 function createFinanceOperationCard(operation) {
     const t = getTranslations();
     const locale = LANGUAGE_TO_LOCALE[getCurrentLanguage()] || 'ru-RU';
     const card = document.createElement('div');
-    card.className = 'request-card';
+    const color = _historyOpColor(operation);
+    const icon = _historyOpIcon(operation);
+    card.className = `history-op-card history-op-${color}`;
+
+    const timeStr = (() => {
+        const d = new Date(operation.createdAt);
+        if (Number.isNaN(d.getTime())) return '—';
+        return d.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
+    })();
 
     if (isHeroOperation(operation)) {
         const heroText = getHeroTextSet();
         const levelLine = operation.levelBefore && operation.levelBefore !== operation.levelAfter
-            ? `${heroText.levelRange}: ${operation.levelBefore} -> ${operation.levelAfter}`
-            : `${heroText.levelRange}: ${operation.levelAfter || 1}`;
+            ? `${operation.levelBefore} → ${operation.levelAfter}`
+            : String(operation.levelAfter || 1);
+        const title = `${getHeroOperationTitle(operation.type)} · ${operation.heroName || '—'}`;
+        const amountStr = operation.amount ? formatCurrency(operation.amount, locale) : '';
 
         card.innerHTML = `
-            <div class="request-card-head">
-                <div>
-                    <div class="request-card-title">${getHeroOperationTitle(operation.type)} · ${operation.heroName || '-'}</div>
-                    <div class="request-card-sub">ID ${operation.userId || '-'}${operation.username ? ` · ${operation.username}` : ''}</div>
-                </div>
-                <span class="status-chip ${operation.status}">${getRequestStatusLabel(operation.status, t)}</span>
+            <div class="history-op-left">
+                <div class="history-op-icon history-op-icon-${color}">${icon}</div>
             </div>
-            <div class="request-card-meta">${heroText.rarity}: ${getHeroRarityLabel(operation.rarityKey)} · ${heroText.source}: ${getHeroSourceLabel(operation.source)}</div>
-            <div class="request-card-meta">${levelLine}${operation.amount ? ` · ${formatCurrency(operation.amount, locale)}` : ''}</div>
-            <div class="request-card-meta">${formatRegistrationDate(operation.createdAt, locale)}${operation.comment ? ` · ${operation.comment}` : ''}</div>
+            <div class="history-op-body">
+                <div class="history-op-title">${title}</div>
+                <div class="history-op-meta">${heroText.rarity}: ${getHeroRarityLabel(operation.rarityKey)} · Lv ${levelLine}${amountStr ? ` · ${amountStr}` : ''}</div>
+                <div class="history-op-sub">ID ${operation.userId || '—'}${operation.username ? ` · ${operation.username}` : ''}${operation.comment ? ` · ${operation.comment}` : ''}</div>
+            </div>
+            <div class="history-op-right">
+                <span class="status-chip ${operation.status}">${getRequestStatusLabel(operation.status, t)}</span>
+                <span class="history-op-time">${timeStr}</span>
+            </div>
         `;
         return card;
     }
@@ -2677,164 +3660,357 @@ function createFinanceOperationCard(operation) {
         'admin-credit': t.adminAddBalanceTitle,
         'admin-debit': t.adminSubtractBalanceTitle
     };
+    const title = titleMap[operation.type] || operation.type;
+    const amountStr = formatCurrency(operation.amount, locale);
+    const isPositive = operation.type === 'deposit' || operation.type === 'admin-credit';
+
     card.innerHTML = `
-        <div class="request-card-head">
-            <div>
-                <div class="request-card-title">${titleMap[operation.type] || operation.type} · ${formatCurrency(operation.amount, locale)}</div>
-                <div class="request-card-sub">ID ${operation.userId || '-'}${operation.username ? ` · ${operation.username}` : ''}</div>
-            </div>
-            <span class="status-chip ${operation.status}">${getRequestStatusLabel(operation.status, t)}</span>
+        <div class="history-op-left">
+            <div class="history-op-icon history-op-icon-${color}">${icon}</div>
         </div>
-        <div class="request-card-meta">${t.methodLabel}: ${getMethodLabel(operation.method, t)}${operation.details ? ` · ${operation.details}` : ''}</div>
-        <div class="request-card-meta">${formatRegistrationDate(operation.createdAt, locale)}${operation.comment ? ` · ${operation.comment}` : ''}</div>
+        <div class="history-op-body">
+            <div class="history-op-title">${title}</div>
+            <div class="history-op-meta">${t.methodLabel}: ${getMethodLabel(operation.method, t)}${operation.details ? ` · ${operation.details}` : ''}</div>
+            <div class="history-op-sub">ID ${operation.userId || '—'}${operation.username ? ` · ${operation.username}` : ''}${operation.comment ? ` · ${operation.comment}` : ''}</div>
+        </div>
+        <div class="history-op-right">
+            <span class="history-op-amount history-op-amount-${isPositive ? 'pos' : 'neg'}">${isPositive ? '+' : '−'}${amountStr}</span>
+            <span class="status-chip ${operation.status}">${getRequestStatusLabel(operation.status, t)}</span>
+            <span class="history-op-time">${timeStr}</span>
+        </div>
     `;
     return card;
 }
 
-function openUserDetailModal(userId, initialTab = 'finance') {
+function openUserDetailModal(userId, initialTab = 'manage') {
     APP_STATE.selectedUserId = userId;
     APP_STATE.selectedUserTab = initialTab;
-    renderUserDetailModal();
     openModal('user-detail-modal');
+    renderUserDetailModal();
 }
 
 function renderUserDetailModal() {
-    const titleEl = document.getElementById('user-detail-title');
-    const labelEl = document.getElementById('user-detail-label');
-    const tabsEl = document.getElementById('user-detail-tabs');
-    const bodyEl = document.getElementById('user-detail-body');
-    if (!titleEl || !labelEl || !tabsEl || !bodyEl || !window.gameDB) return;
+    const modal = document.getElementById('user-detail-modal');
+    if (!modal?.classList.contains('modal-active')) return;
 
-    const t = getTranslations();
+    const avatarEl  = document.getElementById('umgmt-avatar');
+    const onlineEl  = document.getElementById('umgmt-online-dot');
+    const nameEl    = document.getElementById('umgmt-name');
+    const subEl     = document.getElementById('umgmt-sub');
+    const badgesEl  = document.getElementById('umgmt-head-badges');
+    const statsEl   = document.getElementById('umgmt-stats');
+    const tabsEl    = document.getElementById('user-detail-tabs');
+    const bodyEl    = document.getElementById('user-detail-body');
+    if (!bodyEl || !window.gameDB) return;
+
+    const t      = getTranslations();
     const locale = LANGUAGE_TO_LOCALE[getCurrentLanguage()] || 'ru-RU';
-    const user = APP_STATE.selectedUserId ? window.gameDB.getUserById(APP_STATE.selectedUserId) : null;
+    const user   = APP_STATE.selectedUserId ? window.gameDB.getUserById(APP_STATE.selectedUserId) : null;
 
-    if (!user) {
-        titleEl.textContent = t.userCardTitle;
-        labelEl.textContent = '';
-        tabsEl.innerHTML = '';
-        bodyEl.innerHTML = '';
-        return;
+    if (!user) { bodyEl.innerHTML = '<div class="umgmt-empty">Пользователь не найден</div>'; return; }
+
+    const ONLINE_MS = 5 * 60 * 1000;
+    const isOnline  = user.lastSeen && (Date.now() - new Date(user.lastSeen).getTime()) < ONLINE_MS;
+
+    // — Header
+    if (avatarEl) {
+        avatarEl.textContent = (user.name || 'U').charAt(0).toUpperCase();
+        avatarEl.className   = 'umgmt-avatar' + (user.isFrozen ? ' is-frozen' : user.isAdmin ? ' is-admin' : '');
+    }
+    if (onlineEl) onlineEl.className = 'umgmt-online-dot' + (isOnline ? ' is-online' : '');
+    if (nameEl)   nameEl.textContent = user.name || 'User';
+    if (subEl)    subEl.textContent  = (user.username || '@user') + ' · ID ' + (user.id || '-');
+
+    if (badgesEl) {
+        badgesEl.innerHTML = '';
+        if (user.isAdmin)  badgesEl.innerHTML += '<span class="umgmt-badge badge-admin">АДМІН</span>';
+        if (user.isFrozen) badgesEl.innerHTML += '<span class="umgmt-badge badge-frozen">ЗАМОРОЖЕНО</span>';
     }
 
-    titleEl.textContent = `${t.userCardTitle} · ${user.name || 'User'}`;
-    labelEl.textContent = `ID ${user.id || '-'} · ${user.username || '@user'}`;
+    // — Stats bar
+    if (statsEl) {
+        statsEl.innerHTML = `
+            <div class="umgmt-stat"><div class="umgmt-stat-val">${Number(user.balanceBuy||0).toFixed(2)}</div><div class="umgmt-stat-lbl">TON Buy</div></div>
+            <div class="umgmt-stat"><div class="umgmt-stat-val">${Number(user.balanceWithdraw||0).toFixed(2)}</div><div class="umgmt-stat-lbl">TON Out</div></div>
+            <div class="umgmt-stat"><div class="umgmt-stat-val">${formatNumber(user.rnxBalance||0,locale)}</div><div class="umgmt-stat-lbl">$RNX</div></div>
+            <div class="umgmt-stat"><div class="umgmt-stat-val">${user.stats?.level||1}</div><div class="umgmt-stat-lbl">Рівень</div></div>
+            <div class="umgmt-stat"><div class="umgmt-stat-val">${(user.heroes||[]).length}</div><div class="umgmt-stat-lbl">Героїв</div></div>`;
+    }
 
-    const tabs = [
-        { id: 'finance', label: t.userTabFinance },
-        { id: 'heroes', label: t.userTabHeroes },
-        { id: 'tasks', label: t.userTabTasks },
-        { id: 'history', label: t.userTabHistory }
+    // — Tabs
+    const currentTab = APP_STATE.selectedUserTab || 'manage';
+    const TABS = [
+        { id: 'manage',  label: '⚙️ Управління' },
+        { id: 'heroes',  label: '🤖 Герої' },
+        { id: 'history', label: '📋 Історія' }
     ];
+    if (tabsEl) {
+        tabsEl.innerHTML = TABS.map(tab =>
+            `<button class="umgmt-tab-btn${currentTab===tab.id?' active':''}" data-tab="${tab.id}">${tab.label}</button>`
+        ).join('');
+        tabsEl.querySelectorAll('.umgmt-tab-btn').forEach(btn =>
+            btn.addEventListener('click', () => { APP_STATE.selectedUserTab = btn.dataset.tab; renderUserDetailModal(); })
+        );
+    }
 
-    tabsEl.innerHTML = '';
-    tabs.forEach((tab) => {
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.className = `tab-chip${APP_STATE.selectedUserTab === tab.id ? ' active' : ''}`;
-        button.textContent = tab.label;
-        button.addEventListener('click', () => {
-            APP_STATE.selectedUserTab = tab.id;
-            renderUserDetailModal();
-        });
-        tabsEl.appendChild(button);
+    // — Body
+    if (currentTab === 'manage')  _renderUmgmtManageTab(user, bodyEl, t, locale);
+    else if (currentTab === 'heroes') _renderUmgmtHeroesTab(user, bodyEl, t, locale);
+    else _renderUmgmtHistoryTab(user, bodyEl, t, locale);
+}
+
+function _renderUmgmtManageTab(user, bodyEl, t, locale) {
+    const userId     = String(user.id || APP_STATE.selectedUserId);
+    const isFrozen   = !!user.isFrozen;
+    const isAdmin    = !!user.isAdmin;
+    const isSelf     = userId === String(window.gameDB.getUser().id || '');
+
+    bodyEl.innerHTML = `
+        <!-- TON Balance -->
+        <div class="umgmt-section">
+            <div class="umgmt-section-hd">💰 TON Баланс</div>
+            <div class="umgmt-bal-display">
+                <div class="umgmt-bal-item">
+                    <div class="umgmt-bal-lbl">Покупка</div>
+                    <div class="umgmt-bal-val">${Number(user.balanceBuy||0).toFixed(2)} TON</div>
+                </div>
+                <div class="umgmt-bal-item">
+                    <div class="umgmt-bal-lbl">Вивід</div>
+                    <div class="umgmt-bal-val">${Number(user.balanceWithdraw||0).toFixed(2)} TON</div>
+                </div>
+            </div>
+            <div class="umgmt-row">
+                <select class="umgmt-select" id="umgmt-bal-field">
+                    <option value="balanceBuy">Кошелёк покупки</option>
+                    <option value="balanceWithdraw">Кошелёк вивода</option>
+                </select>
+                <input class="umgmt-input" id="umgmt-bal-amount" type="number" min="0" step="0.01" placeholder="Сумма TON">
+            </div>
+            <div class="umgmt-row">
+                <button class="umgmt-btn umgmt-green" id="umgmt-bal-add">+ Нарахувати</button>
+                <button class="umgmt-btn umgmt-red" id="umgmt-bal-sub">− Списати</button>
+            </div>
+        </div>
+
+        <!-- RNX -->
+        <div class="umgmt-section">
+            <div class="umgmt-section-hd">🪙 $RNX Токени</div>
+            <div class="umgmt-cur-val">${formatNumber(user.rnxBalance||0,locale)} $RNX</div>
+            <div class="umgmt-row">
+                <input class="umgmt-input" id="umgmt-rnx-amount" type="number" min="0" placeholder="Кількість $RNX">
+            </div>
+            <div class="umgmt-row">
+                <button class="umgmt-btn umgmt-green" id="umgmt-rnx-add">+ Нарахувати</button>
+                <button class="umgmt-btn umgmt-red" id="umgmt-rnx-sub">− Списати</button>
+            </div>
+        </div>
+
+        <!-- Level -->
+        <div class="umgmt-section">
+            <div class="umgmt-section-hd">⭐ Рівень гравця</div>
+            <div class="umgmt-cur-val">Рівень ${user.stats?.level||1} · ${formatNumber(user.stats?.minedOre||0,locale)} $RNX добуто</div>
+            <div class="umgmt-row">
+                <input class="umgmt-input" id="umgmt-level-input" type="number" min="1" max="999" placeholder="Новий рівень">
+            </div>
+            <button class="umgmt-btn umgmt-blue umgmt-full" id="umgmt-level-set">Встановити рівень</button>
+        </div>
+
+        <!-- Account -->
+        <div class="umgmt-section">
+            <div class="umgmt-section-hd">🔒 Управління аккаунтом</div>
+            <div class="umgmt-account-grid">
+                <button class="umgmt-btn ${isFrozen?'umgmt-green':'umgmt-amber'} umgmt-full" id="umgmt-freeze-btn">
+                    ${isFrozen?'🔓 Розморозити аккаунт':'🔐 Заморозити аккаунт'}
+                </button>
+                <button class="umgmt-btn ${isAdmin?'umgmt-red':'umgmt-purple'} umgmt-full" id="umgmt-admin-btn"${isSelf?' disabled':''}>
+                    ${isAdmin?'👑 Забрати адмінку':'👑 Видати адмінку'}
+                </button>
+                <button class="umgmt-btn umgmt-cyan umgmt-full" id="umgmt-hero-quick-btn">
+                    🤖 Видати героя (швидко)
+                </button>
+                <button class="umgmt-btn umgmt-muted umgmt-full" id="umgmt-reset-mining-btn">
+                    ⚙️ Скинути майнінг
+                </button>
+            </div>
+        </div>`;
+
+    // — Bind events
+    const q = id => document.getElementById(id);
+
+    q('umgmt-bal-add')?.addEventListener('click', () => {
+        const amount = parseFloat(q('umgmt-bal-amount')?.value || 0);
+        const field  = q('umgmt-bal-field')?.value || 'balanceBuy';
+        if (!amount || amount <= 0) return showNotification('Вкажіть суму', 'error');
+        const res = window.gameDB.adjustBalanceById(userId, amount, { adminId: window.gameDB.getUser().id, balanceField: field, countAsDeposit: true, reason: 'Admin credit' });
+        if (!res.success) return showNotification('Помилка', 'error');
+        showNotification(`+${amount} TON нараховано`, 'success');
+        APP_STATE.selectedUserTab = 'manage';
+        openUserDetailModal(userId, 'manage');
     });
 
-    if (APP_STATE.selectedUserTab === 'finance') {
-        const pendingRequests = window.gameDB.getRequests().filter((item) => String(item.userId) === String(user.id) && item.status === 'pending').length;
-        const operations = window.gameDB.getFinanceOperations().filter((item) => String(item.userId) === String(user.id));
-        bodyEl.innerHTML = `
-            <div class="detail-grid">
-                <div class="detail-card"><div class="detail-title">${t.balanceBuyLabel}</div><div class="detail-value">${Number(user.balanceBuy || 0).toFixed(2)} TON</div></div>
-                <div class="detail-card"><div class="detail-title">${t.balanceWithdrawLabel}</div><div class="detail-value">${Number(user.balanceWithdraw || 0).toFixed(2)} TON</div></div>
-                <div class="detail-card"><div class="detail-title">${t.rnxBalanceLabel}</div><div class="detail-value">${formatNumber(user.rnxBalance || 0, locale)} $RNX</div></div>
-                <div class="detail-card"><div class="detail-title">${t.pendingRequestsTitle}</div><div class="detail-value">${pendingRequests}</div></div>
-                <div class="detail-card"><div class="detail-title">${t.depositedLabel}</div><div class="detail-value">${Number(user.stats?.deposited || 0).toFixed(2)} TON</div></div>
-                <div class="detail-card"><div class="detail-title">${t.withdrawnLabel}</div><div class="detail-value">${Number(user.stats?.withdrawn || 0).toFixed(2)} TON</div></div>
+    q('umgmt-bal-sub')?.addEventListener('click', () => {
+        const amount = parseFloat(q('umgmt-bal-amount')?.value || 0);
+        const field  = q('umgmt-bal-field')?.value || 'balanceBuy';
+        if (!amount || amount <= 0) return showNotification('Вкажіть суму', 'error');
+        const res = window.gameDB.adjustBalanceById(userId, -amount, { adminId: window.gameDB.getUser().id, balanceField: field, countAsWithdraw: true, reason: 'Admin debit' });
+        if (!res.success) return showNotification('Недостатньо коштів', 'error');
+        showNotification(`−${amount} TON списано`, 'success');
+        openUserDetailModal(userId, 'manage');
+    });
+
+    q('umgmt-rnx-add')?.addEventListener('click', () => {
+        const amount = parseFloat(q('umgmt-rnx-amount')?.value || 0);
+        if (!amount || amount <= 0) return showNotification('Вкажіть кількість', 'error');
+        const u = window.gameDB.getUserById(userId);
+        if (!u) return;
+        window.gameDB.updateUserById(userId, { rnxBalance: (u.rnxBalance||0) + amount });
+        window.gameDB.createAdminLog({ type: 'rnx-credit', targetUserId: userId, amount, adminId: window.gameDB.getUser().id, createdAt: new Date().toISOString() });
+        showNotification(`+${formatNumber(amount, locale)} $RNX нараховано`, 'success');
+        openUserDetailModal(userId, 'manage');
+    });
+
+    q('umgmt-rnx-sub')?.addEventListener('click', () => {
+        const amount = parseFloat(q('umgmt-rnx-amount')?.value || 0);
+        if (!amount || amount <= 0) return showNotification('Вкажіть кількість', 'error');
+        const u = window.gameDB.getUserById(userId);
+        if (!u) return;
+        const newBal = Math.max(0, (u.rnxBalance||0) - amount);
+        window.gameDB.updateUserById(userId, { rnxBalance: newBal });
+        window.gameDB.createAdminLog({ type: 'rnx-debit', targetUserId: userId, amount, adminId: window.gameDB.getUser().id, createdAt: new Date().toISOString() });
+        showNotification(`−${formatNumber(amount, locale)} $RNX списано`, 'success');
+        openUserDetailModal(userId, 'manage');
+    });
+
+    q('umgmt-level-set')?.addEventListener('click', () => {
+        const level = parseInt(q('umgmt-level-input')?.value || 0);
+        if (!level || level < 1) return showNotification('Рівень має бути ≥ 1', 'error');
+        const u = window.gameDB.getUserById(userId);
+        if (!u) return;
+        window.gameDB.updateUserById(userId, { stats: { ...(u.stats||{}), level } });
+        window.gameDB.createAdminLog({ type: 'level-set', targetUserId: userId, details: { level }, adminId: window.gameDB.getUser().id, createdAt: new Date().toISOString() });
+        showNotification(`Рівень ${level} встановлено`, 'success');
+        openUserDetailModal(userId, 'manage');
+    });
+
+    q('umgmt-freeze-btn')?.addEventListener('click', () => {
+        const u = window.gameDB.getUserById(userId);
+        if (!u) return;
+        const frozen = !u.isFrozen;
+        window.gameDB.updateUserById(userId, { isFrozen: frozen });
+        window.gameDB.createAdminLog({ type: frozen ? 'account-freeze' : 'account-unfreeze', targetUserId: userId, adminId: window.gameDB.getUser().id, createdAt: new Date().toISOString() });
+        showNotification(frozen ? '🔐 Аккаунт заморожено' : '🔓 Аккаунт розморожено', frozen ? 'error' : 'success');
+        openUserDetailModal(userId, 'manage');
+    });
+
+    q('umgmt-admin-btn')?.addEventListener('click', () => {
+        const u = window.gameDB.getUserById(userId);
+        if (!u) return;
+        window.gameDB.setAdminAccessById(userId, !u.isAdmin, { adminId: window.gameDB.getUser().id });
+        showNotification(!u.isAdmin ? '👑 Адмін-доступ видано' : '👑 Адмін-доступ відкликано', 'success');
+        openUserDetailModal(userId, 'manage');
+    });
+
+    q('umgmt-hero-quick-btn')?.addEventListener('click', () => {
+        closeModal('user-detail-modal');
+        setTimeout(() => openGrantHeroModal(userId), 100);
+    });
+
+    q('umgmt-reset-mining-btn')?.addEventListener('click', () => {
+        const u = window.gameDB.getUserById(userId);
+        if (!u) return;
+        window.gameDB.updateUserById(userId, { stats: { ...(u.stats||{}), minedOre: 0, totalRnxEarned: 0 } });
+        window.gameDB.createAdminLog({ type: 'mining-reset', targetUserId: userId, adminId: window.gameDB.getUser().id, createdAt: new Date().toISOString() });
+        showNotification('⚙️ Майнінг скинуто', 'success');
+        openUserDetailModal(userId, 'manage');
+    });
+}
+
+function _renderUmgmtHeroesTab(user, bodyEl, t, locale) {
+    const userId = String(user.id || APP_STATE.selectedUserId);
+    const heroes = Array.isArray(user.heroes) ? user.heroes : [];
+
+    bodyEl.innerHTML = `
+        <div class="umgmt-section">
+            <div class="umgmt-section-hd">Додати героя</div>
+            <div class="umgmt-row">
+                <select class="umgmt-select" id="umgmt-hero-select">
+                    ${HEROES.map(h => { const lh = getLocalizedHeroData(h); return `<option value="${h.id}">${lh.name} · ${getHeroRarityLabel(h.rarityKey)}</option>`; }).join('')}
+                </select>
+                <input class="umgmt-input umgmt-input-sm" id="umgmt-hero-level" type="number" min="1" max="50" value="1" placeholder="Рів.">
             </div>
-        `;
-        operations.slice(0, 6).forEach((operation) => bodyEl.appendChild(createFinanceOperationCard(operation)));
-        return;
-    }
+            <button class="umgmt-btn umgmt-purple umgmt-full" id="umgmt-hero-add-btn">🤖 Додати героя</button>
+        </div>
+        <div class="umgmt-section">
+            <div class="umgmt-section-hd">Наявні герої (${heroes.length})</div>
+            <div id="umgmt-heroes-list">${heroes.length===0?'<div class="umgmt-empty">Героїв немає</div>':''}</div>
+        </div>`;
 
-    if (APP_STATE.selectedUserTab === 'heroes') {
-        bodyEl.innerHTML = '';
-        const heroes = Array.isArray(user.heroes) ? user.heroes : [];
-        if (!heroes.length) {
-            const empty = document.createElement('div');
-            empty.className = 'request-card';
-            empty.textContent = t.userNoHeroes;
-            bodyEl.appendChild(empty);
-            return;
-        }
-
-        heroes
-            .slice()
-            .sort((left, right) => Number(right.totalProfit || 0) - Number(left.totalProfit || 0))
-            .forEach((hero) => bodyEl.appendChild(createOwnedHeroCard(hero, { interactive: false, allHeroes: heroes })));
-        return;
-    }
-
-    if (APP_STATE.selectedUserTab === 'tasks') {
-        bodyEl.innerHTML = '';
-        const tasks = window.gameDB.getTasks();
-        if (!tasks.length) {
-            const empty = document.createElement('div');
-            empty.className = 'request-card';
-            empty.textContent = t.userNoTasks;
-            bodyEl.appendChild(empty);
-            return;
-        }
-
-        tasks.forEach((task) => {
+    if (heroes.length > 0) {
+        const listEl = document.getElementById('umgmt-heroes-list');
+        heroes.forEach(hero => {
+            const base = HEROES.find(h => h.id === hero.heroId);
+            const lh   = base ? getLocalizedHeroData(base) : null;
             const card = document.createElement('div');
-            card.className = 'request-card';
+            card.className = 'umgmt-hero-card';
+            card.innerHTML = `
+                <div class="umgmt-hero-info">
+                    <div class="umgmt-hero-name">${lh?.name || hero.heroId || 'Hero'}</div>
+                    <div class="umgmt-hero-meta">Рів. ${hero.level||1} · ${Number(hero.totalProfit||0).toFixed(2)} $RNX/год</div>
+                </div>
+                <button class="umgmt-btn umgmt-red umgmt-sm" data-iid="${hero.instanceId}">Видалити</button>`;
+            card.querySelector('[data-iid]').addEventListener('click', e => {
+                const iid = e.target.dataset.iid;
+                const u   = window.gameDB.getUserById(userId);
+                if (!u) return;
+                window.gameDB.updateUserById(userId, { heroes: (u.heroes||[]).filter(h => h.instanceId !== iid) });
+                window.gameDB.createAdminLog({ type: 'hero-removed', targetUserId: userId, details: { instanceId: iid }, adminId: window.gameDB.getUser().id, createdAt: new Date().toISOString() });
+                showNotification('Героя видалено', 'success');
+                openUserDetailModal(userId, 'heroes');
+            });
+            listEl.appendChild(card);
+        });
+    }
+
+    document.getElementById('umgmt-hero-add-btn')?.addEventListener('click', () => {
+        const heroId = document.getElementById('umgmt-hero-select')?.value;
+        const level  = parseInt(document.getElementById('umgmt-hero-level')?.value || 1);
+        const base   = HEROES.find(h => h.id === heroId);
+        if (!base) return showNotification('Героя не знайдено', 'error');
+        window.gameDB.addHeroToUser(userId, base, { adminId: window.gameDB.getUser().id, startLevel: Math.max(1, level) });
+        showNotification('🤖 Героя додано', 'success');
+        openUserDetailModal(userId, 'heroes');
+    });
+}
+
+function _renderUmgmtHistoryTab(user, bodyEl, t, locale) {
+    const userId = String(user.id || APP_STATE.selectedUserId);
+    const ops    = window.gameDB.getFinanceOperations().filter(op => String(op.userId) === userId);
+    const audit  = window.gameDB.getAdminLog().filter(e => String(e.targetUserId) === userId);
+    const items  = [...ops, ...audit].sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).slice(0,20);
+
+    bodyEl.innerHTML = '';
+    if (!items.length) { bodyEl.innerHTML = '<div class="umgmt-empty">Історія порожня</div>'; return; }
+
+    const wrap = document.createElement('div');
+    wrap.className = 'umgmt-section';
+    items.forEach(item => {
+        if ('status' in item) {
+            wrap.appendChild(createFinanceOperationCard(item));
+        } else {
+            const card = document.createElement('div');
+            card.className = 'request-card request-card-audit';
             card.innerHTML = `
                 <div class="request-card-head">
                     <div>
-                        <div class="request-card-title">${task.title}</div>
-                        <div class="request-card-meta">${task.description}</div>
+                        <div class="request-card-title">${getAuditTypeLabel(item.type, t)}</div>
+                        <div class="request-card-meta">${describeAuditEntry(item, locale)||'-'}</div>
                     </div>
-                    <span class="status-chip ${task.status === 'active' ? 'approved' : 'rejected'}">${task.status === 'active' ? t.taskStatusActive : t.taskStatusHidden}</span>
-                </div>
-                <div class="request-card-meta">${t.taskReward}: ${formatRnx(task.reward, locale)}</div>
-            `;
-            bodyEl.appendChild(card);
-        });
-        return;
-    }
-
-    bodyEl.innerHTML = '';
-    const userOperations = window.gameDB.getFinanceOperations().filter((item) => String(item.userId) === String(user.id));
-    const userHeroOperations = window.gameDB.getHeroOperations().filter((item) => String(item.userId) === String(user.id));
-    const userAudit = window.gameDB.getAdminLog().filter((item) => String(item.targetUserId) === String(user.id));
-    const historyItems = [...userOperations, ...userHeroOperations, ...userAudit]
-        .sort((left, right) => new Date(right.createdAt).getTime() - new Date(left.createdAt).getTime())
-        .slice(0, 12);
-
-    if (!historyItems.length) {
-        const empty = document.createElement('div');
-        empty.className = 'request-card';
-        empty.textContent = t.userNoHistory;
-        bodyEl.appendChild(empty);
-        return;
-    }
-
-    historyItems.forEach((item) => {
-        if ('status' in item) {
-            bodyEl.appendChild(createFinanceOperationCard(item));
-            return;
+                    <span class="request-card-meta">${formatRegistrationDate(item.createdAt, locale)}</span>
+                </div>`;
+            wrap.appendChild(card);
         }
-
-        const card = document.createElement('div');
-        card.className = 'request-card';
-        card.innerHTML = `
-            <div class="request-card-title">${getAuditTypeLabel(item.type, t)}</div>
-            <div class="request-card-meta">${describeAuditEntry(item, locale) || '-'}</div>
-            <div class="request-card-meta">${formatRegistrationDate(item.createdAt, locale)}</div>
-        `;
-        bodyEl.appendChild(card);
     });
+    bodyEl.appendChild(wrap);
 }
 
 function renderAdminUsersList() {
@@ -2865,52 +4041,32 @@ function renderAdminUsersList() {
         const onlineStatus = formatLastSeen(user.lastSeen, isUserOnline);
         const onlineDot = isUserOnline ? '<span class="online-dot online-dot-active"></span>' : '<span class="online-dot"></span>';
         const card = document.createElement('div');
-        card.className = 'user-card';
+        card.className = 'user-card admin-user-card';
+        card.style.cursor = 'pointer';
         card.innerHTML = `
             <div class="user-card-head">
                 <div>
                     <div class="user-card-name">${onlineDot} ${user.name || 'User'}</div>
                     <div class="user-card-meta">ID ${user.id || '-'} · ${user.username || '@user'}</div>
-                    <div class="user-card-meta">${Number(user.balanceBuy || 0).toFixed(2)} TON · ${getTranslations().levelLabel}: ${user.stats?.level || 1}</div>
+                    <div class="user-card-meta">${Number(user.balanceBuy || 0).toFixed(2)} TON · ${getTranslations().levelLabel}: ${user.stats?.level || 1}${user.isFrozen ? ' · <span style="color:#60a5fa">🔐 Заморожено</span>' : ''}</div>
                     <div class="user-card-meta user-card-last-seen">${onlineStatus}</div>
                 </div>
                 <span class="status-chip ${user.isAdmin ? 'approved' : 'pending'}">${user.isAdmin ? t.accessAdmin : t.accessUser}</span>
             </div>
+            <div class="umgmt-row" style="margin-top:10px;margin-bottom:0">
+                <button class="umgmt-btn umgmt-blue" style="flex:1" data-action="manage">⚙️ Управляти</button>
+                <button class="umgmt-btn umgmt-green" data-action="balance">+TON</button>
+                <button class="umgmt-btn umgmt-purple" data-action="hero">🤖</button>
+            </div>
         `;
 
-        const actions = document.createElement('div');
-        actions.className = 'request-actions';
-
-        const editBtn = document.createElement('button');
-        editBtn.className = 'action-btn';
-        editBtn.type = 'button';
-        editBtn.textContent = t.userCardTitle;
-        editBtn.addEventListener('click', () => openUserDetailModal(effectiveId));
-
-        const balanceBtn = document.createElement('button');
-        balanceBtn.className = 'action-btn';
-        balanceBtn.type = 'button';
-        balanceBtn.textContent = t.adminAddBalanceButton;
-        balanceBtn.addEventListener('click', () => openAdminBalanceModal('add', effectiveId));
-
-        const heroBtn = document.createElement('button');
-        heroBtn.className = 'action-btn';
-        heroBtn.type = 'button';
-        heroBtn.textContent = t.adminGrantHeroButton;
-        heroBtn.addEventListener('click', () => openGrantHeroModal(effectiveId));
-
-        const accessBtn = document.createElement('button');
-        accessBtn.className = `action-btn ${user.isAdmin ? 'action-btn-danger' : ''}`;
-        accessBtn.type = 'button';
-        accessBtn.textContent = user.isAdmin ? t.adminRevokeAccessButton : t.adminGrantAccessButton;
-        accessBtn.disabled = isCurrentUser;
-        accessBtn.addEventListener('click', () => openAdminAccessModal(effectiveId, user.isAdmin ? 'disabled' : 'enabled'));
-
-        actions.appendChild(editBtn);
-        actions.appendChild(balanceBtn);
-        actions.appendChild(heroBtn);
-        actions.appendChild(accessBtn);
-        card.appendChild(actions);
+        card.querySelector('[data-action="manage"]').addEventListener('click', (e) => { e.stopPropagation(); openUserDetailModal(effectiveId, 'manage'); });
+        card.querySelector('[data-action="balance"]').addEventListener('click', (e) => { e.stopPropagation(); openAdminBalanceModal('add', effectiveId); });
+        card.querySelector('[data-action="hero"]').addEventListener('click', (e) => { e.stopPropagation(); openGrantHeroModal(effectiveId); });
+        card.addEventListener('click', () => openUserDetailModal(effectiveId, 'manage'));
+        // scroll reveal stagger
+        card.setAttribute('data-reveal', '');
+        card.setAttribute('data-reveal-delay', String(Math.min(container.children.length + 1, 6)));
         container.appendChild(card);
     });
 }
@@ -3011,6 +4167,57 @@ function openDepositModal() {
 
     const modal = document.getElementById('deposit-flow-modal');
     if (!modal) return openFinanceRequestModal('deposit');
+    const depositCard = document.getElementById('deposit-modal-card');
+
+    if (depositCard && !document.getElementById('deposit-cinematic-banner')) {
+        const banner = document.createElement('section');
+        banner.id = 'deposit-cinematic-banner';
+        banner.className = 'deposit-cinematic-banner';
+        banner.innerHTML = `
+            <div class="deposit-cinematic-copy">
+                <span class="deposit-cinematic-kicker">SMART PAYMENT</span>
+                <h4 class="deposit-cinematic-title">Оплата під контролем</h4>
+                <p class="deposit-cinematic-subtitle" id="deposit-hero-subtitle">Оберіть мережу та суму, після чого система підготує точні реквізити для оплати.</p>
+                <div class="deposit-cinematic-chips">
+                    <div class="deposit-cinematic-chip"><span>Метод</span><strong id="deposit-hero-method">—</strong></div>
+                    <div class="deposit-cinematic-chip"><span>Сума</span><strong id="deposit-hero-amount">—</strong></div>
+                    <div class="deposit-cinematic-chip"><span>Статус</span><strong id="deposit-hero-status">Готово</strong></div>
+                </div>
+            </div>
+            <div class="deposit-cinematic-visual">
+                <div class="deposit-cinematic-ring"></div>
+                <div class="deposit-cinematic-badge" id="deposit-hero-speed">1–5 хв</div>
+                <img class="deposit-cinematic-figure" src="images/hero_neon_crusher.png" alt="" loading="lazy" decoding="async">
+            </div>
+        `;
+
+        const head = depositCard.querySelector('.deposit-modal-head');
+        if (head) {
+            head.insertAdjacentElement('afterend', banner);
+        } else {
+            depositCard.prepend(banner);
+        }
+    }
+
+    const updateDepositHeroBanner = (methodValue, amountValue = 0) => {
+        const selected = methods.find((item) => item.value === methodValue) || methods[0];
+        const isTon = methodValue === 'ton';
+        const amountText = amountValue > 0 ? `${amountValue} TON` : `${finance.min}-${finance.max} TON`;
+        const subtitle = isTon
+            ? 'TON-перекази відстежуються автоматично по коду платежу, тому важливо вказати точну суму.'
+            : 'Перевірте мережу, адресу та код платежу перед відправкою, щоб заявка пройшла без затримок.';
+
+        setText('deposit-hero-method', selected?.label || '—');
+        setText('deposit-hero-amount', amountText);
+        setText('deposit-hero-status', isTon ? 'Авто-детект' : 'Ручна перевірка');
+        setText('deposit-hero-speed', isTon ? 'до 5 хв' : '5–30 хв');
+        setText('deposit-hero-subtitle', subtitle);
+
+        const banner = document.getElementById('deposit-cinematic-banner');
+        if (banner) {
+            banner.classList.toggle('is-ton', isTon);
+        }
+    };
 
     // Reset to step 1
     ['deposit-step-1','deposit-step-2','deposit-step-3'].forEach((id, i) => {
@@ -3045,10 +4252,18 @@ function openDepositModal() {
             btn.addEventListener('click', () => {
                 grid.querySelectorAll('.deposit-method-btn').forEach(b => b.classList.remove('selected'));
                 btn.classList.add('selected');
+                updateDepositHeroBanner(m.value, Number(amountInput?.value || 0));
             });
             grid.appendChild(btn);
         });
     }
+    if (amountInput) {
+        amountInput.oninput = () => {
+            const currentMethod = grid?.querySelector('.deposit-method-btn.selected')?.dataset.method || methods[0].value;
+            updateDepositHeroBanner(currentMethod, Number(amountInput.value || 0));
+        };
+    }
+    updateDepositHeroBanner(methods[0].value, Number(amountInput?.value || 0));
 
     // Step 1 → Step 2
     const nextBtn = document.getElementById('deposit-step1-next');
@@ -3063,6 +4278,7 @@ function openDepositModal() {
             const methodLabel = selectedBtn ? selectedBtn.textContent : methods[0].label;
             const wallet = DEPOSIT_WALLETS[method] || '';
             const payCode = generatePaymentCode();
+            updateDepositHeroBanner(method, amount);
 
             // Fill step 2
             const el = (id) => document.getElementById(id);
@@ -3093,10 +4309,50 @@ function openDepositModal() {
             // Start timer
             startDepositTimer(DEPOSIT_TIMER_SECONDS, () => {
                 // Timer expired — go back to step 1
+                stopTonAutoDetect();
                 el('deposit-step-2').classList.add('hidden');
                 el('deposit-step-1').classList.remove('hidden');
                 showNotification('Час вийшов. Спробуйте ще раз.', 'error');
             });
+
+            // TON auto-detect
+            if (method === 'ton') {
+                startTonAutoDetect({ wallet, amount, payCode, onDetected: () => {
+                    stopDepositTimer();
+                    stopTonAutoDetect();
+                    const user = window.gameDB.getUser();
+                    window.gameDB.createRequest({
+                        type: 'deposit',
+                        userId: user.id,
+                        username: user.username,
+                        amount,
+                        method,
+                        requisites: wallet,
+                        comment: payCode,
+                        autoDetected: true
+                    });
+                    window.gameDB.applyReferralDepositBonus(user.id, amount);
+                    if (el('deposit-success-amount')) el('deposit-success-amount').textContent = `${amount} TON`;
+                    if (el('deposit-success-method')) el('deposit-success-method').textContent = methodLabel;
+                    if (el('deposit-success-code')) el('deposit-success-code').textContent = payCode;
+                    el('deposit-step-2').classList.add('hidden');
+                    el('deposit-step-3').classList.remove('hidden');
+                    triggerHaptic('medium');
+                    renderApp();
+                    showNotification('✅ Транзакцію виявлено! Баланс поповнено автоматично.', 'success', {
+                        persist: true, title: 'Поповнення TON', audience: 'user', userId: user.id
+                    });
+                    if (window.gameDB) {
+                        window.gameDB.createNotification({
+                            type: 'success',
+                            title: '🤖 [Авто] Нова заявка на поповнення',
+                            message: `${user.username || user.id} · ${amount} TON · TON (авто) · Код: ${payCode}`,
+                            audience: 'admin', userId: user.id
+                        });
+                        renderNotificationsCenter();
+                    }
+                }});
+            }
 
             // Step 2 → Step 3
             el('deposit-step2-next').onclick = () => {
@@ -3148,6 +4404,7 @@ function openDepositModal() {
             // Back
             el('deposit-step2-back').onclick = () => {
                 stopDepositTimer();
+                stopTonAutoDetect();
                 el('deposit-step-2').classList.add('hidden');
                 el('deposit-step-1').classList.remove('hidden');
             };
@@ -3157,8 +4414,8 @@ function openDepositModal() {
     // Close buttons
     const closeFn = () => {
         stopDepositTimer();
-        modal.classList.remove('modal-active');
-        document.body.classList.remove('modal-open');
+        stopTonAutoDetect();
+        closeModal('form-modal');
     };
     document.getElementById('deposit-modal-close').onclick = closeFn;
     document.getElementById('deposit-step3-close').onclick = () => { closeFn(); showNotification(t.requestCreated, 'success', { persist: true }); };
@@ -3203,6 +4460,73 @@ function stopDepositTimer() {
         clearInterval(_depositTimerInterval);
         _depositTimerInterval = null;
     }
+}
+
+// ─── TON Auto-Detect ────────────────────────────────────────────────────────
+let _tonAutoDetectInterval = null;
+
+function startTonAutoDetect({ wallet, amount, payCode, onDetected }) {
+    stopTonAutoDetect();
+    if (!wallet || !amount || !payCode || !onDetected) return;
+
+    // Inject badge into step-2
+    const step2 = document.getElementById('deposit-step-2');
+    if (step2 && !step2.querySelector('.deposit-auto-detect')) {
+        const badge = document.createElement('div');
+        badge.className = 'deposit-auto-detect';
+        badge.innerHTML = `<span class="deposit-auto-detect-dot"></span>Автовизначення транзакції...`;
+        const nextBtn = step2.querySelector('#deposit-step2-next');
+        if (nextBtn) step2.insertBefore(badge, nextBtn);
+        else step2.appendChild(badge);
+    }
+
+    const minNano = Math.floor(amount * 1e9);
+    const seenHashes = new Set();
+    let attempts = 0;
+    const MAX_ATTEMPTS = 72; // 72 * 10s = 12 min max
+
+    const poll = async () => {
+        attempts++;
+        if (attempts > MAX_ATTEMPTS) { stopTonAutoDetect(); return; }
+        try {
+            const url = `https://toncenter.com/api/v2/getTransactions?address=${encodeURIComponent(wallet)}&limit=20`;
+            const resp = await fetch(url, { signal: AbortSignal.timeout(8000) });
+            if (!resp.ok) return;
+            const json = await resp.json();
+            if (!json.ok || !Array.isArray(json.result)) return;
+
+            for (const tx of json.result) {
+                const hash = tx.transaction_id?.hash;
+                if (hash && seenHashes.has(hash)) continue;
+                if (hash) seenHashes.add(hash);
+
+                const inMsg = tx.in_msg;
+                if (!inMsg) continue;
+                const comment = inMsg.message || '';
+                const value = Number(inMsg.value || 0);
+
+                if (comment === payCode && value >= minNano) {
+                    onDetected();
+                    return;
+                }
+            }
+        } catch (_) {
+            // Network errors are non-fatal — keep polling
+        }
+    };
+
+    // Poll immediately, then every 10 seconds
+    poll();
+    _tonAutoDetectInterval = setInterval(poll, 10000);
+}
+
+function stopTonAutoDetect() {
+    if (_tonAutoDetectInterval) {
+        clearInterval(_tonAutoDetectInterval);
+        _tonAutoDetectInterval = null;
+    }
+    // Remove badge if present
+    document.querySelectorAll('.deposit-auto-detect').forEach(el => el.remove());
 }
 
 function openFinanceRequestModal(type) {
@@ -3798,6 +5122,7 @@ function getReferralBotLink(referralCode) {
 function renderReferralSection() {
     const container = document.getElementById('referral-content');
     if (!container || !window.gameDB) return;
+    if (document.getElementById('referral-section')?.classList.contains('hidden')) return;
 
     const t = getTranslations();
     const user = window.gameDB.getUser();
@@ -3815,7 +5140,19 @@ function renderReferralSection() {
         `<div class="summary-row"><span>${t.referralLevel} ${lvl.level}</span><strong>${lvl.percentage}%</strong></div>`
     ).join('');
 
-    container.innerHTML = `
+    const isUaRef = getCurrentLanguage() === 'ua';
+    const _fixedRnx = formatNumber(config.fixedReward || 0, locale);
+    const _lvl1pct = (config.levels && config.levels[0]) ? config.levels[0].percentage : 0;
+    const _referralCallout = `
+        <div class="referral-callout-banner">
+            <div class="referral-callout-icon">🤝</div>
+            <div class="referral-callout-body">
+                <strong>${isUaRef ? 'Запрошуй друзів — отримуй RNX' : 'Приглашай друзей — получай RNX'}</strong>
+                <span>${isUaRef ? `За кожного запрошеного: <b>${_fixedRnx} RNX</b> + <b>${_lvl1pct}%</b> від їх поповнень` : `За каждого приглашённого: <b>${_fixedRnx} RNX</b> + <b>${_lvl1pct}%</b> от их пополнений`}</span>
+            </div>
+        </div>`;
+
+    container.innerHTML = _referralCallout + `
         <div class="referral-link-block">
             <div class="info-card referral-link-card">
                 <span class="info-label">${t.referralLinkLabel || 'Реферальная ссылка'}</span>
@@ -3908,6 +5245,7 @@ function renderPromoSection() {
 function renderRatingSection() {
     const container = document.getElementById('rating-list');
     if (!container || !window.gameDB) return;
+    if (document.getElementById('rating-section')?.classList.contains('hidden')) return;
 
     const t = getTranslations();
     const locale = LANGUAGE_TO_LOCALE[getCurrentLanguage()] || 'ru-RU';
@@ -3916,41 +5254,140 @@ function renderRatingSection() {
 
     container.innerHTML = '';
 
+    // ── Cinematic banner ──
+    const topScore = leaderboard.length ? formatNumber(leaderboard[0].score, locale) : '0';
+    const myEntry = leaderboard.find((e) => String(e.id) === currentUserId);
+    const myPlace = myEntry ? `#${myEntry.position}` : (t.ratingNotRanked || '—');
+
+    const banner = document.createElement('section');
+    banner.className = 'rating-cinematic-banner';
+    banner.innerHTML = `
+        <div class="rating-cinematic-copy">
+            <span class="rating-cinematic-kicker">${t.ratingBannerKicker || 'TOP PLAYERS'}</span>
+            <h3 class="rating-cinematic-title">${t.ratingBannerTitle || t.ratingTitle}</h3>
+            <p class="rating-cinematic-subtitle">${t.ratingBannerSubtitle || t.ratingSubtitle}</p>
+            <div class="rating-cinematic-chips">
+                <div class="rating-cinematic-chip"><span>${t.ratingParticipantsLabel || 'Участников'}</span><strong>${formatNumber(leaderboard.length, locale)}</strong></div>
+                <div class="rating-cinematic-chip"><span>${t.ratingTopScoreLabel || 'Топ очки'}</span><strong>${topScore}</strong></div>
+                <div class="rating-cinematic-chip rating-cinematic-chip-you"><span>${t.ratingYourPlaceLabel || 'Ваше место'}</span><strong>${myPlace}</strong></div>
+            </div>
+        </div>
+        <div class="rating-cinematic-visual">
+            <div class="rating-cinematic-trophy">🏆</div>
+            <div class="rating-cinematic-glow"></div>
+        </div>
+    `;
+    container.appendChild(banner);
+
     if (!leaderboard.length) {
         const empty = document.createElement('div');
         empty.className = 'request-card';
-        empty.textContent = t.ratingEmpty || 'Рейтинг пока пуст.';
+        empty.style.textAlign = 'center';
+        empty.style.padding = '28px 16px';
+        empty.innerHTML = `<div style="font-size:32px;margin-bottom:10px;">🏅</div><div style="color:var(--muted);font-size:14px;">${t.ratingEmpty}</div>`;
         container.appendChild(empty);
         return;
     }
 
-    leaderboard.forEach((entry) => {
-        const isYou = String(entry.id) === currentUserId;
-        const _onlineMs = 5 * 60 * 1000;
-        const _isOnline = entry.lastSeen && (Date.now() - new Date(entry.lastSeen).getTime()) < _onlineMs;
-        const onlineStatus = formatLastSeen(entry.lastSeen, _isOnline);
-        const onlineDot = _isOnline ? '<span class="online-dot online-dot-active"></span>' : '<span class="online-dot"></span>';
-        const positionClass = entry.position <= 3 ? `rating-top-${entry.position}` : '';
-        const youBadge = isYou ? `<span class="rating-you-badge">${t.ratingYou || 'Вы'}</span>` : '';
+    // ── Podium (top 3) ──
+    const top3 = leaderboard.slice(0, Math.min(3, leaderboard.length));
+    if (top3.length >= 2) {
+        const podiumLabel = document.createElement('div');
+        podiumLabel.className = 'rating-section-label';
+        podiumLabel.textContent = t.ratingPodiumTitle || 'Пьедестал почёта';
+        container.appendChild(podiumLabel);
 
-        const card = document.createElement('div');
-        card.className = `rating-card ${positionClass} ${isYou ? 'rating-card-you' : ''} rating-card-enter`;
-        card.style.animationDelay = `${entry.position * 0.04}s`;
-        card.innerHTML = `
-            <div class="rating-position">${entry.position <= 3 ? ['🥇', '🥈', '🥉'][entry.position - 1] : `#${entry.position}`}</div>
-            <div class="rating-info">
-                <div class="rating-name">${onlineDot} ${entry.name} ${youBadge}</div>
-                <div class="rating-meta">${entry.username} · ${onlineStatus}</div>
+        const podium = document.createElement('div');
+        podium.className = 'rating-podium';
+
+        // Order: 2nd left, 1st center, 3rd right
+        const podiumOrder = top3.length === 3
+            ? [top3[1], top3[0], top3[2]]
+            : top3.length === 2
+            ? [top3[1], top3[0]]
+            : [top3[0]];
+        const positions = top3.length === 3 ? [2, 1, 3] : top3.length === 2 ? [2, 1] : [1];
+        const heights = { 1: 'tall', 2: 'mid', 3: 'short' };
+        const medals = ['🥇', '🥈', '🥉'];
+        const colors = { 1: 'gold', 2: 'silver', 3: 'bronze' };
+
+        podiumOrder.forEach((entry, idx) => {
+            const pos = positions[idx];
+            const isYou = String(entry.id) === currentUserId;
+            const col = document.createElement('div');
+            col.className = `rating-podium-col rating-podium-${heights[pos]} rating-podium-pos-${pos}`;
+            col.style.animationDelay = `${idx * 0.1}s`;
+            col.innerHTML = `
+                <div class="rating-podium-player">
+                    <div class="rating-podium-avatar rating-podium-avatar-${colors[pos]}">${(entry.name || '?')[0].toUpperCase()}</div>
+                    <div class="rating-podium-name">${entry.name || '—'}${isYou ? ` <span class="rating-you-badge">${t.ratingYou}</span>` : ''}</div>
+                    <div class="rating-podium-score">${formatNumber(entry.score, locale)}</div>
+                </div>
+                <div class="rating-podium-base rating-podium-base-${colors[pos]}">
+                    <span class="rating-podium-medal">${medals[pos - 1]}</span>
+                    <span class="rating-podium-rank">#${pos}</span>
+                </div>
+            `;
+            podium.appendChild(col);
+        });
+        container.appendChild(podium);
+    }
+
+    // ── Leaderboard (position 4+) ──
+    const rest = leaderboard.slice(top3.length >= 2 ? 3 : 0);
+    if (rest.length) {
+        const lbLabel = document.createElement('div');
+        lbLabel.className = 'rating-section-label';
+        lbLabel.textContent = t.ratingLeaderboardTitle || 'Таблица результатов';
+        container.appendChild(lbLabel);
+
+        const lbList = document.createElement('div');
+        lbList.className = 'rating-lb-list';
+
+        rest.forEach((entry, idx) => {
+            const isYou = String(entry.id) === currentUserId;
+            const _onlineMs = 5 * 60 * 1000;
+            const _isOnline = entry.lastSeen && (Date.now() - new Date(entry.lastSeen).getTime()) < _onlineMs;
+            const onlineDot = _isOnline ? '<span class="online-dot online-dot-active"></span>' : '<span class="online-dot"></span>';
+
+            const row = document.createElement('div');
+            row.className = `rating-lb-row${isYou ? ' rating-lb-row-you' : ''} rating-card-enter`;
+            row.style.animationDelay = `${idx * 0.04}s`;
+            row.innerHTML = `
+                <span class="rating-lb-pos">#${entry.position}</span>
+                <div class="rating-lb-info">
+                    <span class="rating-lb-name">${onlineDot} ${entry.name || '—'}${isYou ? ` <span class="rating-you-badge">${t.ratingYou}</span>` : ''}</span>
+                    <span class="rating-lb-sub">${entry.username || ''}</span>
+                </div>
+                <div class="rating-lb-stats">
+                    <span class="rating-lb-score">${formatNumber(entry.score, locale)}</span>
+                    <span class="rating-lb-extra">${entry.balance.toFixed(2)} TON · Lv${entry.level}</span>
+                </div>
+            `;
+            lbList.appendChild(row);
+        });
+        container.appendChild(lbList);
+    } else if (top3.length < 2) {
+        // Only 1 player — show as normal card
+        const only = leaderboard[0];
+        const isYou = String(only.id) === currentUserId;
+        const row = document.createElement('div');
+        row.className = `rating-lb-row${isYou ? ' rating-lb-row-you' : ''}`;
+        row.innerHTML = `
+            <span class="rating-lb-pos">🥇</span>
+            <div class="rating-lb-info">
+                <span class="rating-lb-name">${only.name || '—'}${isYou ? ` <span class="rating-you-badge">${t.ratingYou}</span>` : ''}</span>
+                <span class="rating-lb-sub">${only.username || ''}</span>
             </div>
-            <div class="rating-stats-col">
-                <div class="rating-stat-row"><span>${t.ratingScore || 'Очки'}</span><strong>${formatNumber(entry.score, locale)}</strong></div>
-                <div class="rating-stat-row"><span>${t.ratingBalance || 'Баланс'}</span><strong>${entry.balance.toFixed(2)} TON</strong></div>
-                <div class="rating-stat-row"><span>${t.ratingHeroes || 'Герои'}</span><strong>${entry.heroes}</strong></div>
-                <div class="rating-stat-row"><span>${t.ratingLevel || 'Уровень'}</span><strong>${entry.level}</strong></div>
+            <div class="rating-lb-stats">
+                <span class="rating-lb-score">${formatNumber(only.score, locale)}</span>
             </div>
         `;
-        container.appendChild(card);
-    });
+        const wrap = document.createElement('div');
+        wrap.className = 'rating-lb-list';
+        wrap.appendChild(row);
+        container.appendChild(wrap);
+    }
 }
 
 function handleNavigation(type) {
@@ -3963,12 +5400,15 @@ function handleNavigation(type) {
     const referralSection = document.getElementById('referral-section');
     const ratingSection = document.getElementById('rating-section');
     const menuSection = document.getElementById('menu-section');
+    const statsSection = document.getElementById('stats-section');
 
     // Determine slide direction
     const newIndex = NAV_ORDER.indexOf(type);
     const direction = newIndex === -1
         ? 'right'
         : (newIndex > APP_STATE.activeNavIndex ? 'right' : newIndex < APP_STATE.activeNavIndex ? 'left' : undefined);
+
+    syncHeaderDensity(type);
 
     if (shopSection) shopSection.classList.add('hidden');
     if (profileSection) profileSection.classList.add('hidden');
@@ -3979,6 +5419,16 @@ function handleNavigation(type) {
     if (referralSection) referralSection.classList.add('hidden');
     if (ratingSection) ratingSection.classList.add('hidden');
     if (menuSection) menuSection.classList.add('hidden');
+    if (statsSection) {
+        statsSection.classList.add('hidden');
+        // Reset animation flags so numbers re-animate on next visit
+        if (type !== 'stats') {
+            const hero = document.getElementById('stats-cinematic-hero');
+            if (hero) delete hero.dataset.animated;
+            const grid = document.getElementById('stats-cards-grid');
+            if (grid) delete grid.dataset.rendered;
+        }
+    }
 
     if (type === 'profile') {
         if (profileSection) showAppView(profileSection, direction);
@@ -4005,6 +5455,14 @@ function handleNavigation(type) {
         if (tasksSection) {
             showAppView(tasksSection, direction);
             renderTasks();
+        }
+        return;
+    }
+
+    if (type === 'stats') {
+        if (statsSection) {
+            showAppView(statsSection, direction);
+            renderStatisticsSection();
         }
         return;
     }
@@ -4118,9 +5576,52 @@ function updateAdminTabBadges() {
 }
 
 function populateAdminModal() {
+    if (!document.getElementById('admin-modal')?.classList.contains('modal-active')) return;
     const stats = window.gameDB.getDatabaseStats();
     const t = getTranslations();
     const locale = LANGUAGE_TO_LOCALE[getCurrentLanguage()] || 'ru-RU';
+    const adminModal = document.getElementById('admin-modal');
+    const adminStatsRow = adminModal ? adminModal.querySelector('.admin-stats-row') : null;
+
+    if (adminModal && adminStatsRow) {
+        let adminHero = document.getElementById('admin-cinematic-banner');
+        if (!adminHero) {
+            adminHero = document.createElement('section');
+            adminHero.id = 'admin-cinematic-banner';
+            adminHero.className = 'admin-cinematic-banner';
+            adminHero.innerHTML = `
+                <div class="admin-cinematic-copy">
+                    <span class="admin-cinematic-kicker">ROOT ACCESS</span>
+                    <h3 class="admin-cinematic-title">Контроль системи та фінансів</h3>
+                    <p class="admin-cinematic-subtitle">Керуйте користувачами, заявками та економікою проєкту з одного центру управління.</p>
+                    <div class="admin-cinematic-chips">
+                        <div class="admin-cinematic-chip"><span>Користувачі</span><strong id="admin-hero-users">0</strong></div>
+                        <div class="admin-cinematic-chip"><span>Онлайн</span><strong id="admin-hero-online">0</strong></div>
+                        <div class="admin-cinematic-chip"><span>Баланс</span><strong id="admin-hero-balance">0 TON</strong></div>
+                        <div class="admin-cinematic-chip"><span>Очікують</span><strong id="admin-hero-pending">0</strong></div>
+                    </div>
+                    <button class="admin-cinematic-btn" id="admin-hero-open-audit" type="button">Відкрити аудит</button>
+                </div>
+                <div class="admin-cinematic-visual">
+                    <div class="admin-cinematic-ring"></div>
+                    <div class="admin-cinematic-badge">SYSTEM CORE</div>
+                    <img class="admin-cinematic-figure" src="images/hero_iron_pulse.png" alt="" loading="lazy" decoding="async">
+                </div>
+            `;
+            adminStatsRow.insertAdjacentElement('beforebegin', adminHero);
+        }
+
+        setText('admin-hero-users', formatNumber(stats.totalUsers, locale));
+        setText('admin-hero-online', formatNumber(stats.realOnlineCount, locale));
+        setText('admin-hero-balance', `${Number(stats.totalBalance || 0).toFixed(2)} TON`);
+        setText('admin-hero-pending', formatNumber(stats.pendingRequests, locale));
+
+        const adminHeroBtn = document.getElementById('admin-hero-open-audit');
+        if (adminHeroBtn && !adminHeroBtn.dataset.bound) {
+            adminHeroBtn.dataset.bound = '1';
+            adminHeroBtn.addEventListener('click', () => openAuditScreen());
+        }
+    }
 
     setText('admin-total-users', formatNumber(stats.totalUsers, locale));
     setText('admin-last-updated', new Date(stats.lastUpdated).toLocaleString(locale));
@@ -4144,16 +5645,688 @@ function populateAdminModal() {
     renderAdminTasksList();
     renderAdminSupportList();
     updateAdminTabBadges();
+
+    // Load auto-payment settings
+    _loadAutopaySettings();
+
+    // Show alert dot if pending > 0
+    const pendingAlert = document.getElementById('admin-pending-alert');
+    if (pendingAlert) pendingAlert.classList.toggle('visible', (stats.pendingRequests || 0) > 0);
 }
 
 function openAdminModal() {
     openModal('admin-modal');
 }
 
+// ─── Statistics Section ────────────────────────────────────────────────────────
+function formatTimeAgo(isoString) {
+    if (!isoString) return '';
+    const diff = Math.round((Date.now() - new Date(isoString).getTime()) / 60000);
+    if (diff < 1) return 'Зараз';
+    if (diff < 60) return `${diff} хв тому`;
+    if (diff < 1440) return `${Math.round(diff / 60)} год тому`;
+    return `${Math.round(diff / 1440)} дн тому`;
+}
+
+function isInsideStatsPeriod(value, period = APP_STATE.statsPeriod || '7') {
+    if (!value || period === 'all') {
+        return true;
+    }
+
+    const timestamp = new Date(value).getTime();
+    const days = Number(period);
+
+    if (!Number.isFinite(timestamp) || !Number.isFinite(days)) {
+        return true;
+    }
+
+    return timestamp >= Date.now() - days * 24 * 60 * 60 * 1000;
+}
+
+function _sparkDailyBuckets(items, getTimeFn, getValFn, days) {
+    const now = Date.now();
+    const buckets = new Array(days).fill(0);
+    items.forEach(item => {
+        const t = new Date(getTimeFn(item)).getTime();
+        if (!isFinite(t)) return;
+        const dayAgo = Math.floor((now - t) / 86400000);
+        if (dayAgo >= 0 && dayAgo < days) buckets[days - 1 - dayAgo] += getValFn(item);
+    });
+    return buckets;
+}
+
+function buildSparklineSVG(points, lineColor, gradColor, uid) {
+    const W = 110, H = 48, PADT = 6, PADR = 8, PADB = 10, PADL = 4;
+    const n = points.length;
+    const min = Math.min(...points);
+    const max = Math.max(...points);
+    const range = max - min || 1;
+    const norm = points.map(v => (v - min) / range);
+    const xs = points.map((_, i) => PADL + (i / (n - 1)) * (W - PADL - PADR));
+    const ys = norm.map(v => PADT + (1 - v) * (H - PADT - PADB));
+    let linePath = `M ${xs[0].toFixed(1)},${ys[0].toFixed(1)}`;
+    for (let i = 0; i < n - 1; i++) {
+        const x0 = i > 0 ? xs[i-1] : xs[0], y0 = i > 0 ? ys[i-1] : ys[0];
+        const x1 = xs[i], y1 = ys[i];
+        const x2 = xs[i+1], y2 = ys[i+1];
+        const x3 = i < n-2 ? xs[i+2] : x2, y3 = i < n-2 ? ys[i+2] : y2;
+        const cp1x = x1 + (x2 - x0) / 6, cp1y = y1 + (y2 - y0) / 6;
+        const cp2x = x2 - (x3 - x1) / 6, cp2y = y2 - (y3 - y1) / 6;
+        linePath += ` C ${cp1x.toFixed(1)},${cp1y.toFixed(1)} ${cp2x.toFixed(1)},${cp2y.toFixed(1)} ${x2.toFixed(1)},${y2.toFixed(1)}`;
+    }
+    const lastX = xs[n - 1], lastY = ys[n - 1];
+    const areaPath = `${linePath} L ${lastX.toFixed(1)},${(H - PADB).toFixed(1)} L ${xs[0].toFixed(1)},${(H - PADB).toFixed(1)} Z`;
+    const gradId = `sg-${uid}`, glowId = `gg-${uid}`;
+    return `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" class="stats-card-spark-svg" data-sparkline="1"><defs><linearGradient id="${gradId}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${gradColor}" stop-opacity="0.45"/><stop offset="100%" stop-color="${gradColor}" stop-opacity="0"/></linearGradient><filter id="${glowId}" x="-30%" y="-80%" width="160%" height="260%"><feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path d="${areaPath}" fill="url(#${gradId})" class="spark-area"/><path d="${linePath}" fill="none" stroke="${lineColor}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="spark-line" filter="url(#${glowId})"/><circle cx="${lastX.toFixed(1)}" cy="${lastY.toFixed(1)}" r="5" fill="${lineColor}" opacity="0.2" class="spark-dot-outer"/><circle cx="${lastX.toFixed(1)}" cy="${lastY.toFixed(1)}" r="2.8" fill="${lineColor}" class="spark-dot" filter="url(#${glowId})"/></svg>`;
+}
+
+function renderStatisticsSection() {
+    if (!window.gameDB) return;
+    if (document.getElementById('stats-section')?.classList.contains('hidden')) return;
+    const stats = window.gameDB.getDatabaseStats();
+    const locale = LANGUAGE_TO_LOCALE[getCurrentLanguage()] || 'ru-RU';
+    const allUsers = window.gameDB.getAllUsers ? window.gameDB.getAllUsers() : [];
+    const today = new Date().toISOString().slice(0, 10);
+    const todayUsers = allUsers.filter(u => u.registrationDate && u.registrationDate.slice(0, 10) === today).length;
+    const statsSection = document.getElementById('stats-section');
+    const totalFlow = Number(stats.totalDeposits || 0) + Number(stats.totalWithdrawals || 0);
+
+    // ── Sparkline data
+    const allRequests = window.gameDB.getRequests ? window.gameDB.getRequests() : [];
+    const SPARK_DAYS = 7;
+    const userDailyBuckets = _sparkDailyBuckets(allUsers, u => u.registrationDate, () => 1, SPARK_DAYS);
+    let _cum = 0;
+    const userSparkRaw = userDailyBuckets.map(v => { _cum += v; return _cum; });
+    const finalUserSpark = userSparkRaw.some(v => v > 0) ? userSparkRaw : [12,18,24,32,42,56,72];
+    const todayDailyBuckets = _sparkDailyBuckets(allUsers, u => u.registrationDate, () => 1, SPARK_DAYS);
+    const finalTodaySpark = todayDailyBuckets.some(v => v > 0) ? todayDailyBuckets : [1,3,2,5,3,7,4];
+    const depositBuckets = _sparkDailyBuckets(
+        allRequests.filter(r => r.type === 'deposit'),
+        r => r.createdAt || r.updatedAt, r => Number(r.amount || 0), SPARK_DAYS);
+    const finalDepositSpark = depositBuckets.some(v => v > 0) ? depositBuckets : [80,140,110,220,180,310,260];
+    const withdrawBuckets = _sparkDailyBuckets(
+        allRequests.filter(r => r.type === 'withdraw' || r.type === 'withdrawal'),
+        r => r.createdAt || r.updatedAt, r => Number(r.amount || 0), SPARK_DAYS);
+    const finalWithdrawSpark = withdrawBuckets.some(v => v > 0) ? withdrawBuckets : [30,55,80,60,110,90,140];
+
+    syncStatsPeriodMenu();
+
+    if (statsSection) {
+        let hero = document.getElementById('stats-cinematic-hero');
+        if (!hero) {
+            hero = document.createElement('section');
+            hero.id = 'stats-cinematic-hero';
+            hero.className = 'stats-cinematic-hero';
+            hero.innerHTML = `
+                <div class="stats-cinematic-copy">
+                    <span class="stats-cinematic-kicker">LIVE CONTROL</span>
+                    <h3 class="stats-cinematic-title">Пульс проекту в реальному часі</h3>
+                    <p class="stats-cinematic-subtitle">Ключові метрики, рух TON та активність користувачів в одному центрі моніторингу.</p>
+                    <div class="stats-cinematic-chips">
+                        <div class="stats-cinematic-chip"><span>Користувачі</span><strong id="stats-hero-users">0</strong></div>
+                        <div class="stats-cinematic-chip"><span>Онлайн</span><strong id="stats-hero-online">0</strong></div>
+                        <div class="stats-cinematic-chip"><span>Оборот</span><strong id="stats-hero-total-flow">0 TON</strong></div>
+                        <div class="stats-cinematic-chip"><span>RNX</span><strong id="stats-hero-rnx">0</strong></div>
+                    </div>
+                    <button class="stats-cinematic-btn" id="stats-hero-history-btn" type="button">Історія операцій</button>
+                </div>
+                <div class="stats-cinematic-visual">
+                    <div class="stats-cinematic-ring"></div>
+                    <div class="stats-cinematic-label">REALTIME</div>
+                    <img class="stats-cinematic-figure" src="images/hero_omega_titan.png" alt="" loading="lazy" decoding="async">
+                </div>
+            `;
+            const firstLabel = statsSection.querySelector('.stats-section-label');
+            if (firstLabel) {
+                statsSection.insertBefore(hero, firstLabel);
+            } else {
+                statsSection.appendChild(hero);
+            }
+        }
+
+        const heroJustCreated = !hero.dataset.animated;
+        if (heroJustCreated) {
+            hero.dataset.animated = '1';
+            animateCountUp(document.getElementById('stats-hero-users'), Number(stats.totalUsers || 0), v => formatNumber(Math.round(v), locale));
+            animateCountUp(document.getElementById('stats-hero-online'), Number(stats.realOnlineCount || stats.onlineCount || 0), v => formatNumber(Math.round(v), locale));
+            animateCountUp(document.getElementById('stats-hero-total-flow'), totalFlow, v => `${v.toFixed(2)} TON`);
+            animateCountUp(document.getElementById('stats-hero-rnx'), Number(stats.totalRnx || 0), v => shortenLargeNumber(v));
+        } else {
+            setText('stats-hero-users', formatNumber(stats.totalUsers, locale));
+            setText('stats-hero-online', formatNumber(stats.realOnlineCount || stats.onlineCount, locale));
+            setText('stats-hero-total-flow', `${totalFlow.toLocaleString(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} TON`);
+            setText('stats-hero-rnx', shortenLargeNumber(stats.totalRnx));
+        }
+
+        const historyBtn = document.getElementById('stats-hero-history-btn');
+        if (historyBtn && !historyBtn.dataset.bound) {
+            historyBtn.dataset.bound = '1';
+            historyBtn.addEventListener('click', () => {
+                setActiveNavButton('menu');
+                handleNavigation('history');
+            });
+        }
+    }
+
+    // ── Cards
+    const cardsGrid = document.getElementById('stats-cards-grid');
+    if (cardsGrid) {
+        const cardsData = [
+            {
+                icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
+                iconClass: 'stats-card-icon-purple',
+                label: 'КОРИСТУВАЧІ',
+                rawValue: Number(stats.totalUsers || 0),
+                fmt: v => formatNumber(Math.round(v), locale),
+                sub: 'Всього зареєстровано',
+                unit: '',
+                sparkPoints: finalUserSpark,
+                sparkColor: '#a78bfa',
+                sparkGlow: '#8b5cf6',
+                sparkUid: 'sc0'
+            },
+            {
+                icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>`,
+                iconClass: 'stats-card-icon-blue',
+                label: 'КОРИСТУВАЧІ ЗА СЬОГОДНІ',
+                rawValue: Number(todayUsers || 0),
+                fmt: v => `+${Math.round(v)}`,
+                sub: 'Нових користувачів',
+                unit: '',
+                sparkPoints: finalTodaySpark,
+                sparkColor: '#93c5fd',
+                sparkGlow: '#60a5fa',
+                sparkUid: 'sc1'
+            },
+            {
+                icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>`,
+                iconClass: 'stats-card-icon-green',
+                label: 'ПОПОВНЕНО TON',
+                rawValue: Number(stats.totalDeposits || 0),
+                fmt: v => v.toLocaleString(locale, {minimumFractionDigits: 2, maximumFractionDigits: 2}),
+                sub: 'Загальна сума поповнень',
+                unit: 'TON',
+                sparkPoints: finalDepositSpark,
+                sparkColor: '#6ee7b7',
+                sparkGlow: '#34d399',
+                sparkUid: 'sc2'
+            },
+            {
+                icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
+                iconClass: 'stats-card-icon-amber',
+                label: 'ВИПЛАЧЕНО TON',
+                rawValue: Number(stats.totalWithdrawals || 0),
+                fmt: v => v.toLocaleString(locale, {minimumFractionDigits: 2, maximumFractionDigits: 2}),
+                sub: 'Загальна сума виплат',
+                unit: 'TON',
+                sparkPoints: finalWithdrawSpark,
+                sparkColor: '#fcd34d',
+                sparkGlow: '#f59e0b',
+                sparkUid: 'sc3'
+            }
+        ];
+
+        const alreadyRendered = cardsGrid.dataset.rendered === '1';
+        if (!alreadyRendered) {
+            cardsGrid.dataset.rendered = '1';
+            cardsGrid.innerHTML = cardsData.map((c, i) => `
+                <div class="stats-card" data-reveal data-reveal-delay="${i + 1}">
+                    <div class="stats-card-icon-wrap ${c.iconClass}">${c.icon}</div>
+                    <div class="stats-card-label">${c.label}</div>
+                    <span class="stats-card-value" data-card-idx="${i}">${c.unit ? `<span class="stats-ton"> ${c.unit}</span>` : ''}</span>
+                    <div class="stats-card-sub">${c.sub}</div>
+                    <div class="stats-card-spark">${buildSparklineSVG(c.sparkPoints, c.sparkColor, c.sparkGlow, c.sparkUid)}</div>
+                </div>
+            `).join('');
+            // Animate values after DOM insertion
+            cardsData.forEach((c, i) => {
+                const el = cardsGrid.querySelector(`[data-card-idx="${i}"]`);
+                if (!el) return;
+                const unitSpan = el.querySelector('.stats-ton');
+                animateCountUp(el, c.rawValue, v => {
+                    const txt = c.fmt(v);
+                    el.textContent = txt;
+                    if (c.unit && unitSpan) { el.appendChild(unitSpan); }
+                }, 1100 + i * 80);
+            });
+            // Animate sparkline draw left→right
+            cardsGrid.querySelectorAll('.spark-line').forEach((line, i) => {
+                try {
+                    const len = line.getTotalLength();
+                    line.style.strokeDasharray = len;
+                    line.style.strokeDashoffset = len;
+                    requestAnimationFrame(() => {
+                        line.style.transition = `stroke-dashoffset 1.4s cubic-bezier(0.4,0,0.2,1) ${0.35 + i * 0.12}s`;
+                        line.style.strokeDashoffset = '0';
+                    });
+                } catch (_e) {}
+            });
+        } else {
+            // Just update values without re-animating
+            cardsData.forEach((c, i) => {
+                const el = cardsGrid.querySelector(`[data-card-idx="${i}"]`);
+                if (!el) return;
+                const unitSpan = el.querySelector('.stats-ton');
+                const txt = c.fmt(c.rawValue);
+                el.textContent = txt;
+                if (c.unit && !el.querySelector('.stats-ton')) {
+                    const s = document.createElement('span');
+                    s.className = 'stats-ton';
+                    s.textContent = ` ${c.unit}`;
+                    el.appendChild(s);
+                } else if (unitSpan) {
+                    el.appendChild(unitSpan);
+                }
+            });
+        }
+    }
+
+    // ── Live events from recent requests
+    const eventsList = document.getElementById('stats-events-list');
+    if (eventsList) {
+        const requests = (window.gameDB.getRequests ? window.gameDB.getRequests() : [])
+            .filter((request) => isInsideStatsPeriod(request.createdAt || request.updatedAt))
+            .slice().reverse().slice(0, 8);
+        const notifications = (window.gameDB.data && Array.isArray(window.gameDB.data.notifications)
+            ? window.gameDB.data.notifications : []).slice().reverse().slice(0, 4);
+
+        // Combine requests + new registrations
+        const events = [];
+
+        requests.forEach(r => {
+            const isDeposit = r.type === 'deposit';
+            events.push({
+                time: r.createdAt || r.updatedAt || '',
+                icon: isDeposit ? '💳' : '🛡',
+                iconBg: isDeposit ? 'rgba(52,211,153,0.15)' : 'rgba(251,113,133,0.15)',
+                title: isDeposit ? 'Поповнення' : 'Виплата користувачу',
+                sub: isDeposit ? 'Поповнив баланс' : 'Успішна виплата',
+                user: r.username || `@user_${r.userId}`,
+                amount: `${isDeposit ? '+' : '-'}${Number(r.amount || 0).toFixed(2)} TON`,
+                amountClass: isDeposit ? 'positive' : 'negative'
+            });
+        });
+
+        allUsers.slice().reverse().slice(0, 6).forEach(u => {
+            if (u.registrationDate && isInsideStatsPeriod(u.registrationDate)) {
+                events.push({
+                    time: u.registrationDate || '',
+                    icon: '👤',
+                    iconBg: 'rgba(139,92,246,0.15)',
+                    title: 'Новий користувач',
+                    sub: 'Зареєструвався в проекті',
+                    user: u.username || `@user_${u.id}`,
+                    amount: '+1',
+                    amountClass: 'neutral'
+                });
+            }
+        });
+
+        // Sort by time desc
+        events.sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime());
+        const displayEvents = events.slice(0, 7);
+
+        if (!displayEvents.length) {
+            eventsList.innerHTML = `<div class="stats-event-row"><div class="stats-event-body"><div class="stats-event-title" style="color:var(--muted)">Подій поки немає</div></div></div>`;
+        } else {
+            eventsList.innerHTML = displayEvents.map(ev => `
+                <div class="stats-event-row">
+                    <div class="stats-event-time">${formatTimeAgo(ev.time)}</div>
+                    <div class="stats-event-icon stats-event-icon-chip" style="background:${ev.iconBg}">${ev.icon}</div>
+                    <div class="stats-event-body">
+                        <div class="stats-event-title">${ev.title}</div>
+                        <div class="stats-event-sub">${ev.sub}</div>
+                    </div>
+                    <div class="stats-event-user">${ev.user}</div>
+                    <div class="stats-event-amount ${ev.amountClass}">${ev.amount}</div>
+                </div>
+            `).join('');
+        }
+    }
+
+    // ── Bottom chips
+    const bottomRow = document.getElementById('stats-bottom-row');
+    if (bottomRow) {
+        const chips = [
+            { icon: '🟢', value: formatNumber(stats.realOnlineCount || stats.onlineCount, locale), label: 'Онлайн зараз' },
+            { icon: '🤖', value: formatNumber(stats.totalHeroes, locale), label: 'Активні роботи' },
+            { icon: '💎', value: shortenLargeNumber(stats.totalRnx), label: 'Видобуто RNX' },
+            { icon: '🛡', value: `${Number(stats.totalWithdrawals).toFixed(2)} T`, label: 'Виплачено сьогодні' }
+        ];
+        bottomRow.innerHTML = chips.map(ch => `
+            <div class="stats-bottom-chip">
+                <span class="stats-bottom-chip-icon">${ch.icon}</span>
+                <strong class="stats-bottom-chip-value">${ch.value}</strong>
+                <span class="stats-bottom-chip-label">${ch.label}</span>
+            </div>
+        `).join('');
+    }
+
+    // Period selector
+    const periodSelect = document.getElementById('stats-period-select');
+    if (periodSelect) {
+        periodSelect.value = APP_STATE.statsPeriod || '7';
+    }
+
+    // View all button
+    const viewAllBtn = document.getElementById('stats-view-all-btn');
+    if (viewAllBtn && !viewAllBtn.dataset.bound) {
+        viewAllBtn.dataset.bound = '1';
+        viewAllBtn.addEventListener('click', () => {
+            setActiveNavButton('menu');
+            handleNavigation('history');
+        });
+    }
+}
+
+function shortenLargeNumber(n) {
+    const num = Number(n || 0);
+    if (num >= 1e9) return (num / 1e9).toFixed(1) + 'B';
+    if (num >= 1e6) return (num / 1e6).toFixed(2) + 'M';
+    if (num >= 1e3) return (num / 1e3).toFixed(1) + 'K';
+    return String(num);
+}
+
+/**
+ * Animate a numeric count-up on a DOM element.
+ * @param {HTMLElement} el  Target element
+ * @param {number} target   Final numeric value
+ * @param {function} fmt    Formatter: (value: number) => string
+ * @param {number} [duration=900]  Animation ms
+ */
+function animateCountUp(el, target, fmt, duration) {
+    if (!el) return;
+    duration = duration || 900;
+    const start = performance.now();
+    const from = 0;
+    function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+    function tick(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        const current = from + (target - from) * easeOut(progress);
+        const result = fmt(current);
+        if (typeof result === 'string') el.textContent = result;
+        if (progress < 1) requestAnimationFrame(tick);
+        else {
+            const finalResult = fmt(target);
+            if (typeof finalResult === 'string') el.textContent = finalResult;
+        }
+    }
+    requestAnimationFrame(tick);
+}
+
+// ─── Support Center V2 ──────────────────────────────────────────────────────
+function renderSupportCenter() {
+    const body = document.getElementById('support-modal-body');
+    if (!body || !window.gameDB) return;
+    if (!document.getElementById('support-modal')?.classList.contains('modal-active')) return;
+
+    const view = APP_STATE.supportView || 'main';
+    const titleEl = document.getElementById('support-modal-title');
+    const closeBtn = document.getElementById('support-modal-close');
+    const isUa = getCurrentLanguage() === 'ua';
+
+    if (view === 'create') {
+        if (titleEl) titleEl.textContent = isUa ? 'НОВИЙ ТІКЕТ' : 'НОВЫЙ ТИКЕТ';
+        if (closeBtn) closeBtn.setAttribute('aria-label', isUa ? 'Назад' : 'Назад');
+        _renderSupportCreateView(body);
+        return;
+    }
+
+    if (titleEl) titleEl.textContent = isUa ? 'ПІДТРИМКА' : 'ПОДДЕРЖКА';
+    if (closeBtn) closeBtn.setAttribute('aria-label', 'Close');
+    _renderSupportMainView(body);
+}
+
+function _renderSupportMainView(body) {
+    const t = getTranslations();
+    const user = window.gameDB.getUser();
+    const isUa = getCurrentLanguage() === 'ua';
+
+    const ADMIN_TG = '@RoboNexus_team';
+    const ADMIN_TG_URL = 'https://t.me/RoboNexus_team';
+
+    const quickTopics = [
+        { icon: '💳', label: isUa ? 'Поповнення' : 'Пополнение', bg: 'rgba(52,211,153,0.15)', subject: isUa ? 'Поповнення балансу' : 'Пополнение баланса', category: 'finance' },
+        { icon: '💸', label: isUa ? 'Вивід' : 'Вывод', bg: 'rgba(251,113,133,0.15)', subject: isUa ? 'Вивід коштів' : 'Вывод средств', category: 'finance' },
+        { icon: '⚠️', label: isUa ? 'Проблема' : 'Проблема', bg: 'rgba(245,158,11,0.15)', subject: isUa ? 'Проблема з додатком' : 'Проблема с приложением', category: 'bug' },
+        { icon: '🤖', label: isUa ? 'Герої' : 'Герои', bg: 'rgba(139,92,246,0.15)', subject: isUa ? 'Питання про героїв' : 'Вопрос про героев', category: 'general' }
+    ];
+
+    const tickets = window.gameDB.getSupportTickets()
+        .filter(tk => !Boolean(user.isAdmin) ? String(tk.userId) === String(user.id) : true)
+        .filter(tk => tk.status !== 'closed').slice(0, 5);
+
+    body.innerHTML = `
+        <!-- NEW banner V22 -->
+        <div class="sup-banner">
+            <div class="sup-banner-top">
+                <span class="sup-live"><span class="sup-live-dot"></span>${isUa ? 'Онлайн' : 'Онлайн'}</span>
+                <span class="sup-kicker-badge">SUPPORT</span>
+            </div>
+            <h2 class="sup-title">${isUa ? 'Центр<br>підтримки' : 'Центр<br>поддержки'}</h2>
+            <p class="sup-subtitle">${isUa ? "Ми завжди на зв'язку і готові допомогти" : "Мы всегда на связи и готовы помочь"}</p>
+            <div class="sup-metrics">
+                <div class="sup-metric">
+                    <span>${isUa ? 'Відповідь' : 'Ответ'}</span>
+                    <strong>5–15 хв</strong>
+                </div>
+                <div class="sup-metric">
+                    <span>${isUa ? 'Активних тікетів' : 'Активных тикетов'}</span>
+                    <strong>${tickets.length}</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick topics -->
+        <div class="support-card">
+            <div class="support-section-label">${isUa ? 'Тема звернення' : 'Тема обращения'}</div>
+            <div class="sup-topics-grid">
+                ${quickTopics.map((tp, i) => `
+                    <button class="sup-topic-btn" data-topic-idx="${i}" type="button" style="--tp-color:${tp.bg}">
+                        <span class="sup-topic-ico">${tp.icon}</span>
+                        <span class="sup-topic-lbl">${tp.label}</span>
+                        <span class="sup-topic-arr">›</span>
+                    </button>
+                `).join('')}
+            </div>
+        </div>
+
+        <!-- Write CTA -->
+        <button class="sup-cta-btn" id="support-new-ticket-main" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="18" height="18"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            ${isUa ? 'Написати у підтримку' : 'Написать в поддержку'}
+        </button>
+
+        <!-- Telegram -->
+        <div class="support-card">
+            <div class="support-card-head">
+                <div class="support-card-icon" style="background:rgba(34,158,217,0.14);">
+                    <svg viewBox="0 0 24 24" fill="#229ED9" width="20" height="20"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.94 8.19l-2.03 9.57c-.15.67-.54.84-1.09.52l-3-2.21-1.45 1.4c-.16.16-.3.3-.6.3l.21-3.06 5.5-4.97c.24-.21-.05-.33-.37-.12L7.06 14.5l-2.96-.93c-.64-.2-.65-.64.14-.95l11.57-4.46c.53-.19 1 .13 1.03.63z"/></svg>
+                </div>
+                <div class="support-card-info">
+                    <div class="support-card-title">Telegram</div>
+                    <div class="support-tg-username">${ADMIN_TG}</div>
+                </div>
+                <button class="support-copy-btn" id="support-copy-tg" type="button" title="${isUa ? 'Скопіювати' : 'Скопировать'}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+            </div>
+            <a href="${ADMIN_TG_URL}" target="_blank" rel="noopener noreferrer" class="support-outline-btn">${isUa ? 'Відкрити чат' : 'Открыть чат'}</a>
+        </div>
+
+        <!-- FAQ -->
+        <div class="support-card">
+            <div class="support-card-head support-faq-trigger" id="support-faq-trigger" style="cursor:pointer;user-select:none;">
+                <div class="support-card-icon" style="background:rgba(139,92,246,0.12);">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" width="18" height="18"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                </div>
+                <div class="support-card-info">
+                    <div class="support-card-title">FAQ</div>
+                    <div class="support-card-subtitle">${isUa ? 'Часті питання' : 'Частые вопросы'}</div>
+                </div>
+                <span class="support-faq-chevron support-arrow">›</span>
+            </div>
+            <div id="support-faq-content" class="support-faq-body" style="display:none;"></div>
+        </div>
+
+        <!-- Disclaimer -->
+        <div class="support-disclaimer">
+            <div class="support-disclaimer-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" width="20" height="20"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div class="support-disclaimer-text">
+                <strong>${isUa ? 'Офіційна підтримка RoboNexus' : 'Официальная поддержка RoboNexus'}</strong>
+                <p>${isUa ? 'Ми ніколи не пишемо першими. Будь уважним до шахраїв!' : 'Мы никогда не пишем первыми. Будь осторожен с мошенниками!'}</p>
+            </div>
+        </div>
+
+        ${tickets.length ? `
+        <div class="support-card">
+            <div class="support-section-label">${isUa ? '🎫 Активні тікети' : '🎫 Активные тикеты'}</div>
+            <div id="support-ticket-list"></div>
+        </div>
+        ` : ''}
+    `;
+
+    // Render tickets
+    const ticketListEl = body.querySelector('#support-ticket-list');
+    if (ticketListEl && tickets.length) {
+        tickets.forEach(tk => ticketListEl.appendChild(createSupportTicketCard(tk, { adminMode: Boolean(user.isAdmin) })));
+    }
+
+    // Bind: copy TG
+    body.querySelector('#support-copy-tg')?.addEventListener('click', () => {
+        navigator.clipboard?.writeText(ADMIN_TG).then(() => showNotification(isUa ? 'Скопійовано' : 'Скопировано', 'success'));
+    });
+
+    // Bind: new ticket buttons
+    const openCreateView = (subject, category) => {
+        APP_STATE._supportPresetSubject = subject || '';
+        APP_STATE._supportPresetCategory = category || 'general';
+        APP_STATE.supportView = 'create';
+        renderSupportCenter();
+        body.scrollTop = 0;
+    };
+
+    body.querySelector('#support-new-ticket-main')?.addEventListener('click', () => openCreateView());
+    body.querySelectorAll('.sup-topic-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const idx = Number(btn.dataset.topicIdx);
+            const tp = quickTopics[idx];
+            if (tp) openCreateView(tp.subject, tp.category);
+        });
+    });
+
+    // Bind: FAQ accordion
+    const faqItems = [
+        { q: isUa ? 'Як поповнити баланс?' : 'Как пополнить баланс?', a: isUa ? 'Профіль → Поповнити. Оберіть TON або USDT.' : 'Профиль → Пополнить. Выберите TON или USDT.' },
+        { q: isUa ? 'Скільки часу займає зарахування?' : 'Сколько времени занимает зачисление?', a: isUa ? 'Ручне: 5–30 хв. Автоматичне TON: до 5 хвилин.' : 'Ручное: 5–30 мин. Автоматическое TON: до 5 минут.' },
+        { q: isUa ? 'Як вивести кошти?' : 'Как вывести средства?', a: isUa ? 'Профіль → Вивести. Мінімум 1 TON. Вкажи адресу гаманця.' : 'Профиль → Вывести. Минимум 1 TON. Укажи адрес кошелька.' },
+        { q: isUa ? 'Що таке $RNX?' : 'Что такое $RNX?', a: isUa ? 'RNX — внутрішній токен. Герої видобувають RNX, який обмінюється на TON.' : 'RNX — внутренний токен. Герои добывают RNX, который обменивается на TON.' },
+        { q: isUa ? 'Як запросити друга?' : 'Как пригласить друга?', a: isUa ? 'Меню → Реферальна програма. Скопіюй посилання і поділися.' : 'Меню → Реферальная программа. Скопируй ссылку и поделись.' }
+    ];
+    const faqContent = body.querySelector('#support-faq-content');
+    const faqTrigger = body.querySelector('#support-faq-trigger');
+    const faqChevron = body.querySelector('.support-faq-chevron');
+    if (faqContent) {
+        faqContent.innerHTML = faqItems.map((item, i) => `
+            <div class="support-faq-item${i === 0 ? ' first' : ''}">
+                <div class="support-faq-q">${item.q}</div>
+                <div class="support-faq-a">${item.a}</div>
+            </div>
+        `).join('');
+    }
+    let faqOpen = false;
+    faqTrigger?.addEventListener('click', () => {
+        faqOpen = !faqOpen;
+        if (faqContent) faqContent.style.display = faqOpen ? 'block' : 'none';
+        if (faqChevron) faqChevron.style.transform = faqOpen ? 'rotate(90deg)' : '';
+    });
+}
+
+function _renderSupportCreateView(body) {
+    const isUa = getCurrentLanguage() === 'ua';
+    const t = getTranslations();
+    const presetSubject = APP_STATE._supportPresetSubject || '';
+    const presetCategory = APP_STATE._supportPresetCategory || 'general';
+
+    const categoryOptions = getSupportCategoryOptions();
+    const priorityOptions = getSupportPriorityOptions();
+
+    body.innerHTML = `
+        <div class="support-create-form">
+            <div class="support-create-header">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#67e8f9" stroke-width="1.5" width="40" height="40"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <div>
+                    <strong>${isUa ? 'Нове звернення' : 'Новое обращение'}</strong>
+                    <span>${isUa ? 'Опишіть свою проблему — ми відповімо швидко' : 'Опишите проблему — ответим быстро'}</span>
+                </div>
+            </div>
+
+            <div class="support-form-group">
+                <label class="support-form-label" for="sc-subject">${isUa ? 'Тема' : 'Тема'}</label>
+                <input class="support-form-input" id="sc-subject" type="text" placeholder="${isUa ? 'Коротко опишіть питання' : 'Кратко опишите вопрос'}" value="${presetSubject.replace(/"/g, '&quot;')}" maxlength="80">
+            </div>
+
+            <div class="support-form-group">
+                <label class="support-form-label" for="sc-category">${isUa ? 'Категорія' : 'Категория'}</label>
+                <select class="support-form-select" id="sc-category">
+                    ${categoryOptions.map(opt => `<option value="${opt.value}"${opt.value === presetCategory ? ' selected' : ''}>${opt.label}</option>`).join('')}
+                </select>
+            </div>
+
+            <div class="support-form-group">
+                <label class="support-form-label" for="sc-priority">${isUa ? 'Пріоритет' : 'Приоритет'}</label>
+                <select class="support-form-select" id="sc-priority">
+                    ${priorityOptions.map(opt => `<option value="${opt.value}">${opt.label}</option>`).join('')}
+                </select>
+            </div>
+
+            <div class="support-form-group">
+                <label class="support-form-label" for="sc-message">${isUa ? 'Повідомлення' : 'Сообщение'}</label>
+                <textarea class="support-form-textarea" id="sc-message" rows="5" placeholder="${isUa ? 'Детально опишіть ситуацію...' : 'Подробно опишите ситуацию...'}"></textarea>
+            </div>
+
+            <button class="support-write-btn" id="sc-submit" type="button">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                ${isUa ? 'Надіслати звернення' : 'Отправить обращение'}
+            </button>
+        </div>
+    `;
+
+    body.querySelector('#sc-submit')?.addEventListener('click', () => {
+        const subject = body.querySelector('#sc-subject')?.value?.trim();
+        const category = body.querySelector('#sc-category')?.value;
+        const priority = body.querySelector('#sc-priority')?.value;
+        const message = body.querySelector('#sc-message')?.value?.trim();
+
+        if (!subject) { showNotification(isUa ? 'Вкажіть тему' : 'Укажите тему', 'error'); return; }
+        if (!message) { showNotification(isUa ? 'Введіть повідомлення' : 'Введите сообщение', 'error'); return; }
+
+        const user = window.gameDB.getUser();
+        window.gameDB.createSupportTicket({
+            userId: getActorId(),
+            username: user.username,
+            userName: user.name,
+            subject,
+            category,
+            priority,
+            message,
+            authorRole: 'user'
+        });
+
+        showNotification(t.supportCreateDone || (isUa ? 'Тікет створено!' : 'Тикет создан!'), 'success');
+        APP_STATE.supportView = 'main';
+        APP_STATE._supportPresetSubject = '';
+        APP_STATE._supportPresetCategory = 'general';
+        renderSupportCenter();
+        body.scrollTop = 0;
+    });
+}
+
+
 function closeAdminModal() {
-    const el = document.getElementById('admin-modal');
-    if (el) el.classList.remove('modal-active');
-    refreshModalBodyLock();
+    closeModal('admin-modal');
 }
 
 function exportData() {
@@ -4463,13 +6636,19 @@ const HEROES = [
         id: 'h_starter',
         name: { ru: 'Starter Bot', ua: 'Starter Bot' },
         role: { ru: 'Тестовый', ua: 'Тестовий' },
+        rarityLabel: { ru: 'Тестовый', ua: 'Тестовий' },
         rarityKey: 'starter',
         price: 0,
         baseProfitPerHour: 12.5,   // 300 RNX/день ÷ 24 г
-        durationHours: 1,          // 1 година: тестове нарахування раз на цикл
+        durationHours: 360,        // 15 днів
         growthRate: 0,
         baseUpgradePrice: 0,
         isTestHero: true,
+        rules: [
+            { ru: 'Доступен один раз', ua: 'Доступний один раз' },
+            { ru: 'Без возможности вывода', ua: 'Без можливості виведення' },
+            { ru: 'Прибыль начисляется только на баланс покупок', ua: 'Прибуток зараховується лише на баланс покупок' }
+        ],
         description: {
             ru: 'Базовый стартовый робот для первого знакомства с RoboNexus. Помогает быстро войти в систему и начать зарабатывать. Доступен один раз. Прибыль только на баланс покупок.',
             ua: 'Базовий стартовий робот для першого знайомства з RoboNexus. Допомагає швидко увійти в систему та почати заробляти. Доступний один раз. Прибуток лише на баланс покупок.'
@@ -4482,10 +6661,11 @@ const HEROES = [
         id: 'h1',
         name: { ru: 'Flux Rover', ua: 'Flux Rover' },
         role: { ru: 'Разведчик', ua: 'Розвідник' },
+        rarityLabel: { ru: 'Обычный', ua: 'Звичайний' },
         rarityKey: 'common',
         price: 5,
         baseProfitPerHour: 37.5,   // 900 RNX/день ÷ 24 г
-        durationHours: 24,         // 1 день
+        durationHours: 2400,       // 100 днів
         growthRate: 0,
         baseUpgradePrice: 2,
         description: {
@@ -4499,10 +6679,11 @@ const HEROES = [
         id: 'h2',
         name: { ru: 'Iron Pulse', ua: 'Iron Pulse' },
         role: { ru: 'Боец', ua: 'Боєць' },
+        rarityLabel: { ru: 'Обычный', ua: 'Звичайний' },
         rarityKey: 'common',
         price: 8,
         baseProfitPerHour: 62.5,   // 1500 RNX/день ÷ 24 г
-        durationHours: 24,         // 1 день
+        durationHours: 2400,       // 100 днів
         growthRate: 0,
         baseUpgradePrice: 4,
         description: {
@@ -4516,10 +6697,11 @@ const HEROES = [
         id: 'h3',
         name: { ru: 'Core Digger', ua: 'Core Digger' },
         role: { ru: 'Шахтёр', ua: 'Шахтар' },
+        rarityLabel: { ru: 'Улучшенный', ua: 'Покращений' },
         rarityKey: 'rare',
         price: 12,
         baseProfitPerHour: 100,    // 2400 RNX/день ÷ 24 г
-        durationHours: 24,         // 1 день
+        durationHours: 2280,       // 95 днів
         growthRate: 0,
         baseUpgradePrice: 6,
         description: {
@@ -4533,10 +6715,11 @@ const HEROES = [
         id: 'h4',
         name: { ru: 'Neon Crusher', ua: 'Neon Crusher' },
         role: { ru: 'Тяжёлый мех', ua: 'Важкий мех' },
+        rarityLabel: { ru: 'Редкий', ua: 'Рідкісний' },
         rarityKey: 'epic',
         price: 20,
         baseProfitPerHour: 195.83, // 4700 RNX/день ÷ 24 г
-        durationHours: 24,         // 1 день
+        durationHours: 2160,       // 90 днів
         growthRate: 0,
         baseUpgradePrice: 10,
         description: {
@@ -4550,10 +6733,11 @@ const HEROES = [
         id: 'h5',
         name: { ru: 'Omega Titan', ua: 'Omega Titan' },
         role: { ru: 'Титан', ua: 'Титан' },
+        rarityLabel: { ru: 'Элитный', ua: 'Елітний' },
         rarityKey: 'epic',
         price: 50,
         baseProfitPerHour: 541.67, // 13000 RNX/день ÷ 24 г
-        durationHours: 24,         // 1 день
+        durationHours: 1920,       // 80 днів
         growthRate: 0,
         baseUpgradePrice: 25,
         description: {
@@ -4567,10 +6751,11 @@ const HEROES = [
         id: 'h6',
         name: { ru: 'Stellar Prime', ua: 'Stellar Prime' },
         role: { ru: 'Легенда', ua: 'Легенда' },
+        rarityLabel: { ru: 'Легендарный', ua: 'Легендарний' },
         rarityKey: 'legendary',
         price: 120,
         baseProfitPerHour: 1291.67, // 31000 RNX/день ÷ 24 г
-        durationHours: 24,          // 1 день
+        durationHours: 1680,        // 70 днів
         growthRate: 0,
         baseUpgradePrice: 60,
         description: {
@@ -4581,6 +6766,8 @@ const HEROES = [
         image: 'images/hero_stellar_prime.png'
     })
 ];
+
+window.HEROES = HEROES;
 
 function getHeroById(heroId) {
     return HEROES.find((hero) => hero.id === heroId) || null;
@@ -4613,12 +6800,15 @@ function getFilteredHeroTemplates() {
 function renderShop() {
     const container = document.getElementById('shop-container');
     if (!container) return;
+    if (document.getElementById('shop-section')?.classList.contains('hidden')) return;
 
     const heroText = getHeroTextSet();
     const locale = LANGUAGE_TO_LOCALE[getCurrentLanguage()] || 'ru-RU';
+    const isUa = getCurrentLanguage() === 'ua';
     const filterBar = ensureShopFilters(container);
     const filters = [
         { id: 'all', label: heroText.allRarities },
+        { id: 'starter', label: heroText.starter },
         { id: 'common', label: heroText.common },
         { id: 'rare', label: heroText.rare },
         { id: 'epic', label: heroText.epic },
@@ -4642,6 +6832,70 @@ function renderShop() {
 
     const ownedHeroes = getPurchasedHeroes();
     const visibleHeroes = getFilteredHeroTemplates();
+    const shopSection = document.getElementById('shop-section');
+    const cheapestHero = HEROES.reduce((cheapest, hero) => Number(hero.price || 0) < Number(cheapest?.price ?? Infinity) ? hero : cheapest, null);
+    const topDailyProfit = visibleHeroes.reduce((max, hero) => Math.max(max, Math.round(Number(hero.baseProfitPerHour || 0) * 24)), 0);
+
+    if (shopSection) {
+        let shopHero = document.getElementById('shop-cinematic-banner');
+        if (!shopHero) {
+            shopHero = document.createElement('section');
+            shopHero.id = 'shop-cinematic-banner';
+            shopHero.className = 'shop-cinematic-banner';
+            shopHero.innerHTML = `
+                <div class="shop-cinematic-copy">
+                    <span class="shop-cinematic-kicker">ROBONEXUS ARMORY</span>
+                    <h3 class="shop-cinematic-title">${isUa ? 'Вітрина героїв нового покоління' : 'Витрина героев нового поколения'}</h3>
+                    <p class="shop-cinematic-subtitle">${isUa ? 'Обирайте бійців, титанов і легенд з єдиної преміальної колекції та збирайте власний прибутковий загін.' : 'Выбирайте бойцов, титанов и легенд из единой премиальной коллекции и собирайте собственный прибыльный отряд.'}</p>
+                    <div class="shop-cinematic-chips">
+                        <div class="shop-cinematic-chip"><span>${isUa ? 'У каталозі' : 'В каталоге'}</span><strong id="shop-hero-total">0</strong></div>
+                        <div class="shop-cinematic-chip"><span>${isUa ? 'Ваших' : 'Ваших'}</span><strong id="shop-hero-owned">0</strong></div>
+                        <div class="shop-cinematic-chip"><span>${isUa ? 'Старт від' : 'Старт от'}</span><strong id="shop-hero-cheap">0 TON</strong></div>
+                        <div class="shop-cinematic-chip"><span>${isUa ? 'Пік за день' : 'Пик за день'}</span><strong id="shop-hero-profit">0 RNX</strong></div>
+                    </div>
+                    <div class="shop-cinematic-actions">
+                        <button class="shop-cinematic-btn shop-cinematic-btn-primary" id="shop-open-my-heroes" type="button">${isUa ? 'Моя колекція' : 'Моя коллекция'}</button>
+                        <button class="shop-cinematic-btn shop-cinematic-btn-secondary" id="shop-open-stats" type="button">${isUa ? 'Статистика' : 'Статистика'}</button>
+                    </div>
+                </div>
+                <div class="shop-cinematic-visual">
+                    <div class="shop-cinematic-glow"></div>
+                    <div class="shop-cinematic-badge">ARMORY</div>
+                    <img class="shop-cinematic-figure" src="images/bot_welcome.jpg" alt="" loading="lazy" decoding="async">
+                </div>
+            `;
+            const head = shopSection.querySelector('.shop-head');
+            if (head) {
+                head.insertAdjacentElement('afterend', shopHero);
+            } else {
+                shopSection.prepend(shopHero);
+            }
+        }
+
+        setText('shop-hero-total', formatNumber(HEROES.length, locale));
+        setText('shop-hero-owned', formatNumber(ownedHeroes.length, locale));
+        setText('shop-hero-cheap', `${formatNumber(cheapestHero?.price || 0, locale)} TON`);
+        setText('shop-hero-profit', `${formatNumber(topDailyProfit, locale)} RNX`);
+
+        const openMyHeroesBtn = document.getElementById('shop-open-my-heroes');
+        if (openMyHeroesBtn && !openMyHeroesBtn.dataset.bound) {
+            openMyHeroesBtn.dataset.bound = '1';
+            openMyHeroesBtn.addEventListener('click', () => {
+                setActiveNavButton('mines');
+                handleNavigation('mines');
+            });
+        }
+
+        const openStatsBtn = document.getElementById('shop-open-stats');
+        if (openStatsBtn && !openStatsBtn.dataset.bound) {
+            openStatsBtn.dataset.bound = '1';
+            openStatsBtn.addEventListener('click', () => {
+                setActiveNavButton('stats');
+                handleNavigation('stats');
+            });
+        }
+    }
+
     container.innerHTML = '';
 
     /* Show skeleton while heroes render */
@@ -4664,35 +6918,45 @@ function renderShop() {
 }
 
 function _renderShopCards(container, visibleHeroes, ownedHeroes, heroText, locale) {
+    const isUa = getCurrentLanguage() === 'ua';
     visibleHeroes.forEach((hero) => {
         const localizedHero = getLocalizedHeroData(hero);
         const projectedHero = enrichHeroWithEconomy(window.gameDB.normalizeHero(localizedHero), ownedHeroes);
         const ownedCount = ownedHeroes.filter((item) => item.heroId === hero.id || item.id === hero.id).length;
         const detailsOpened = APP_STATE.selectedShopHeroId === hero.id;
+        const isStarter = Boolean(hero.isTestHero);
         const card = document.createElement('article');
         card.className = `hero-card rarity-${hero.rarityKey}`;
         card.innerHTML = `
             <div class="hero-card-media">
+                <div class="hero-card-media-grid"></div>
+                <div class="hero-card-media-orb"></div>
                 <img class="hero-img" src="${localizedHero.image}" alt="${localizedHero.name}">
-                <span class="hero-rarity-chip rarity-${hero.rarityKey}">${getHeroRarityLabel(hero.rarityKey)}</span>
-                <span class="hero-owned-chip">x${ownedCount}</span>
+                <span class="hero-rarity-chip rarity-${hero.rarityKey}">${getHeroRarityLabel(localizedHero)}</span>
+                <span class="hero-owned-chip${ownedCount > 0 ? ' hero-owned-chip-owned' : ''}">${ownedCount > 0 ? `✓ ${ownedCount}` : isUa ? 'Немає' : 'Нет'}</span>
+                <span class="hero-card-spotlight hero-card-spotlight-${isStarter ? 'starter' : 'premium'}">${isStarter ? '⚗ ТЕСТ' : '★ PREMIUM'}</span>
             </div>
             <div class="hero-card-body">
                 <div class="hero-meta hero-meta-vertical">
                     <div>
                         <div class="hero-title">${localizedHero.name}</div>
-                        <div class="hero-sub">${heroText.role}: ${localizedHero.role} · ${heroText.level}: 1</div>
+                        <div class="hero-sub">${heroText.rarity}: ${getHeroRarityLabel(localizedHero)} · ${heroText.role}: ${localizedHero.role}</div>
                     </div>
                     <div class="hero-price-block">
+                        <span class="hero-price-label">${heroText.price}</span>
                         <span class="hero-price-value">${formatCurrency(hero.price, locale)}</span>
                     </div>
                 </div>
                 <p class="hero-description">${localizedHero.description}</p>
                 <div class="hero-stats-grid">
-                    <div class="hero-stat-tile"><span>${heroText.currentIncome}</span><strong>${formatRnx(projectedHero.boostedProfitPerHour, locale)}</strong></div>
+                    <div class="hero-stat-tile"><span>${heroText.currentIncome}</span><strong>${formatHeroDailyProfit(projectedHero, locale)}</strong></div>
                     <div class="hero-stat-tile"><span>${heroText.totalIncome}</span><strong>${formatRnx(projectedHero.boostedTotalProfit, locale)}</strong></div>
-                    <div class="hero-stat-tile"><span>${heroText.duration}</span><strong>${hero.durationHours}h</strong></div>
-                    <div class="hero-stat-tile"><span>${heroText.nextUpgrade}</span><strong>${formatCurrency(projectedHero.nextUpgradeCost, locale)}</strong></div>
+                    <div class="hero-stat-tile"><span>${heroText.duration}</span><strong>${formatHeroDuration(hero.durationHours, locale)}</strong></div>
+                    <div class="hero-stat-tile hero-stat-roi"><span>${isUa ? 'Окупність' : 'Окупаемость'}</span><strong>${(() => { const rnxRate = (window.gameDB && typeof window.gameDB.getRnxRate === 'function') ? window.gameDB.getRnxRate() : 10000; const dailyRnx = (projectedHero.boostedProfitPerHour || 0) * 24; const roiDays = dailyRnx > 0 ? Math.ceil((hero.price * rnxRate) / dailyRnx) : null; return roiDays ? `~${formatNumber(roiDays, locale)} ${isUa ? 'дн' : 'дн'}` : '—'; })()}</strong></div>
+                </div>
+                <div class="hero-inline-flags">
+                    <span class="hero-inline-flag">${isUa ? 'Клас' : 'Класс'}: ${localizedHero.role}</span>
+                    <span class="hero-inline-flag hero-synergy-flag" title="${isUa ? 'Синергія: бонус за роботу з героями схожого класу/рарності. Що більше героїв — то вищий бонус до доходу.' : 'Синергия: бонус за совместную работу героев схожего класса/редкости. Чем больше героев — тем выше бонус к доходу.'}">${isUa ? 'Синергія' : 'Синергия'} +${Math.round(projectedHero.synergyBonus * 100)}% ℹ</span>
                 </div>
                 <div class="hero-actions-row">
                     <button class="hero-secondary-btn" type="button" data-hero-details="${hero.id}">${detailsOpened ? heroText.collapse : heroText.details}</button>
@@ -4701,10 +6965,10 @@ function _renderShopCards(container, visibleHeroes, ownedHeroes, heroText, local
                 ${detailsOpened ? `
                     <div class="hero-detail-panel">
                         <div class="hero-detail-line"><span>${heroText.detailsTitle}</span><strong>${localizedHero.description}</strong></div>
-                        <div class="hero-detail-line"><span>${heroText.growth}</span><strong>+${Math.round((hero.growthRate || 0) * 100)}%</strong></div>
-                        <div class="hero-detail-line"><span>${heroText.power}</span><strong>${formatNumber(hero.price + projectedHero.boostedTotalProfit, locale)}</strong></div>
+                        <div class="hero-detail-line"><span>${heroText.price}</span><strong>${formatCurrency(hero.price, locale)}</strong></div>
                         <div class="hero-detail-line"><span>${heroText.synergy}</span><strong>+${Math.round(projectedHero.synergyBonus * 100)}%</strong></div>
                         <div class="hero-detail-line"><span>${heroText.source}</span><strong>${heroText.shopSource}</strong></div>
+                        ${localizedHero.rules?.length ? `<div class="hero-detail-line"><span>${heroText.rules}</span><strong>${localizedHero.rules.map((rule) => escapeHTML(rule)).join(' • ')}</strong></div>` : ''}
                     </div>
                 ` : ''}
             </div>
@@ -4720,9 +6984,15 @@ function _renderShopCards(container, visibleHeroes, ownedHeroes, heroText, local
 
         const buyButton = card.querySelector('[data-hero-buy]');
         if (buyButton) {
-            buyButton.addEventListener('click', () => buyHero(hero.id));
+            buyButton.addEventListener('click', () => {
+                triggerHaptic('medium');
+                buyHero(hero.id);
+            });
         }
 
+        // scroll reveal stagger
+        card.setAttribute('data-reveal', '');
+        card.setAttribute('data-reveal-delay', String(Math.min(visibleHeroes.indexOf(hero) + 1, 6)));
         container.appendChild(card);
     });
 }
@@ -4739,8 +7009,7 @@ function buyHero(heroId) {
         const ownedHeroes = getPurchasedHeroes();
         const alreadyHasTest = ownedHeroes.some(h => h.heroId === hero.id || h.id === hero.id);
         if (alreadyHasTest) {
-            const msg = getCurrentLanguage() === 'ua' ? 'Тестовий герой вже отримано' : 'Тестовый герой уже получен';
-            return showNotification(msg, 'error');
+            return showNotification(heroText.testHeroClaimed, 'error');
         }
     }
 
@@ -4761,6 +7030,12 @@ function upgradeHero(heroInstanceId, userId = '__current__') {
     const heroText = getHeroTextSet();
     const result = window.gameDB.levelUpHeroForUser(userId, heroInstanceId, { source: 'upgrade' });
     if (!result.success) {
+        if (result.reason === 'test-hero-not-upgradeable') {
+            return showNotification(heroText.testHeroNoUpgrade, 'error');
+        }
+        if (result.reason === 'max-level-reached') {
+            return showNotification(heroText.maxLevelReached, 'info');
+        }
         return showNotification(getTranslations().notEnough, 'error');
     }
 
@@ -4812,6 +7087,7 @@ function renderHeroDetailModal() {
     const sellButton = document.getElementById('hero-detail-sell');
     const reissueButton = document.getElementById('hero-detail-reissue');
     if (!body || !title || !label || !upgradeButton || !sellButton || !reissueButton) return;
+    if (!document.getElementById('hero-detail-modal')?.classList.contains('modal-active')) return;
 
     const heroText = getHeroTextSet();
     const locale = LANGUAGE_TO_LOCALE[getCurrentLanguage()] || 'ru-RU';
@@ -4838,8 +7114,15 @@ function renderHeroDetailModal() {
     };
     const rc = rarityColors[displayHero.rarityKey] || rarityColors.common;
     title.textContent = displayHero.name;
-    label.textContent = `${getHeroRarityLabel(displayHero.rarityKey)} · ${heroText.level} ${displayHero.level}`;
-    upgradeButton.textContent = `${heroText.upgrade} · ${formatCurrency(displayHero.nextUpgradeCost, locale)}`;
+    label.textContent = `${getHeroRarityLabel(displayHero)} · ${heroText.level} ${displayHero.level}`;
+    const isMaxLevel = Number(displayHero.level || 1) >= 10;
+    const isTestHero = Boolean(displayHero.isTestHero);
+    const upgradeLocked = isTestHero || isMaxLevel;
+    upgradeButton.textContent = upgradeLocked
+        ? (isTestHero ? heroText.noUpgradeBtn : heroText.maxLevelBtn)
+        : `${heroText.upgrade} · ${formatCurrency(displayHero.nextUpgradeCost, locale)}`;
+    upgradeButton.disabled = upgradeLocked;
+    upgradeButton.classList.toggle('upgrade-locked', upgradeLocked);
     sellButton.textContent = `${heroText.sell} · ${formatCurrency(displayHero.sellValue || 0, locale)}`;
     reissueButton.textContent = `${heroText.reissue} · ${formatCurrency(displayHero.reissueCost || 0, locale)}`;
     body.innerHTML = `
@@ -4848,7 +7131,7 @@ function renderHeroDetailModal() {
                 <div class="hero-profile-glow"></div>
                 <img src="${displayHero.image}" alt="${displayHero.name}">
                 <div class="hero-profile-badges">
-                    <span class="hero-rarity-chip rarity-${displayHero.rarityKey}">${getHeroRarityLabel(displayHero.rarityKey)}</span>
+                    <span class="hero-rarity-chip rarity-${displayHero.rarityKey}">${getHeroRarityLabel(displayHero)}</span>
                     <span class="hero-level-badge" style="background: linear-gradient(135deg, ${rc.accent}cc, ${rc.accent}88); color:#fff;">LVL ${displayHero.level}</span>
                 </div>
                 <div class="hero-visual-caption">
@@ -4864,15 +7147,15 @@ function renderHeroDetailModal() {
                     </div>
                     <p class="hero-description">${displayHero.description}</p>
                     <div class="hero-stats-grid hero-profile-stats premium-hero-stats">
-                        <div class="hero-stat-tile"><span>${heroText.currentIncome}</span><strong style="color:${rc.accent}">${formatRnx(displayHero.boostedProfitPerHour, locale)}</strong></div>
+                        <div class="hero-stat-tile"><span>${heroText.price}</span><strong>${formatCurrency(displayHero.price || 0, locale)}</strong></div>
+                        <div class="hero-stat-tile"><span>${heroText.currentIncome}</span><strong style="color:${rc.accent}">${formatHeroDailyProfit(displayHero, locale)}</strong></div>
+                        <div class="hero-stat-tile"><span>${heroText.duration}</span><strong>${formatHeroDuration(displayHero.durationHours || 24, locale)}</strong></div>
                         <div class="hero-stat-tile"><span>${heroText.cycleIncome}</span><strong>${formatRnx(displayHero.boostedTotalProfit, locale)}</strong></div>
-                        <div class="hero-stat-tile"><span>${heroText.accruedNow}</span><strong>${formatRnx(displayHero.accruedCurrentCycle || 0, locale)}</strong></div>
-                        <div class="hero-stat-tile"><span>${heroText.lifetime}</span><strong>${formatRnx(displayHero.lifetimeEarnings || 0, locale)}</strong></div>
                     </div>
                 </div>
                 <div class="hero-detail-progress-card">
                     <div class="hero-detail-progress-head">
-                        <span class="hero-detail-progress-label">${cyclePct >= 100 ? heroText.cycleReady : heroText.timer}</span>
+                        <span class="hero-detail-progress-label">${cyclePct >= 100 ? heroText.cycleReady : heroText.miningProgress}</span>
                         <strong class="hero-detail-progress-value" style="color:${rc.accent}">${cyclePct}%</strong>
                     </div>
                     <div class="hero-cycle-track hero-detail-track">
@@ -4880,14 +7163,16 @@ function renderHeroDetailModal() {
                     </div>
                     <div class="hero-detail-progress-meta">
                         <strong class="hero-detail-progress-timer${cyclePct >= 100 ? ' cycle-ready' : ''}" data-hero-countdown="${displayHero.cycleEndsAt}">${displayHero.countdown}</strong>
-                        <span class="hero-detail-progress-payout">${heroText.nextPayout}: ${formatRnx(displayHero.boostedTotalProfit, locale)}</span>
+                        <span class="hero-detail-progress-payout">${heroText.accruedNow}: ${formatRnx(displayHero.accruedCurrentCycle || 0, locale)}</span>
                     </div>
                 </div>
                 <div class="hero-detail-panel hero-profile-panel premium-hero-panel">
+                    <div class="hero-detail-line"><span>${heroText.lifetime}</span><strong>${formatRnx(displayHero.lifetimeEarnings || 0, locale)}</strong></div>
                     <div class="hero-detail-line"><span>${heroText.rarityCombo}</span><strong>+${Math.round(synergy.rarityBonus * 100)}%</strong></div>
                     <div class="hero-detail-line"><span>${heroText.classCombo}</span><strong>+${Math.round(synergy.classBonus * 100)}%</strong></div>
                     <div class="hero-detail-line"><span>${heroText.synergy}</span><strong>+${synergyPct}%</strong></div>
-                    <div class="hero-detail-line"><span>${heroText.duration}</span><strong>${displayHero.durationHours || 24}h</strong></div>
+                    <div class="hero-detail-line"><span>${heroText.duration}</span><strong>${formatHeroDuration(displayHero.durationHours || 24, locale)}</strong></div>
+                    ${displayHero.rules?.length ? `<div class="hero-detail-line"><span>${heroText.rules}</span><strong>${displayHero.rules.map((rule) => escapeHTML(rule)).join(' • ')}</strong></div>` : ''}
                 </div>
                 <div class="hero-detail-chip-row">
                     <span class="hero-detail-chip">${heroText.nextUpgrade}: ${formatCurrency(displayHero.nextUpgradeCost, locale)}</span>
@@ -4907,66 +7192,48 @@ function createOwnedHeroCard(hero, options = {}) {
     const card = document.createElement('article');
     const interactive = options.interactive !== false;
 
-    const rarityColors = {
-        starter: { from: '#0f2b1e', to: '#0a1a12', accent: '#34d399', border: 'rgba(52,211,153,0.25)' },
-        common:  { from: '#1a2540', to: '#0e1625', accent: '#67e8f9', border: 'rgba(103,232,249,0.22)' },
-        rare:    { from: '#1e1a40', to: '#120f2a', accent: '#a78bfa', border: 'rgba(167,139,250,0.28)' },
-        epic:    { from: '#2a1040', to: '#1a0828', accent: '#e879f9', border: 'rgba(232,121,249,0.30)' },
-        legendary: { from: '#2a1f00', to: '#1a1300', accent: '#fbbf24', border: 'rgba(251,191,36,0.32)' }
-    };
-    const rc = rarityColors[displayHero.rarityKey] || rarityColors.common;
-
     const cyclePct = Math.min(100, Math.round(Number(displayHero.cycleProgress || 0) * 100));
+    const rarityKey = displayHero.rarityKey || 'common';
 
-    card.className = `my-hero-item rarity-${displayHero.rarityKey}`;
-    card.style.cssText = `
-        background: linear-gradient(135deg, ${rc.from} 0%, ${rc.to} 100%);
-        border-color: ${rc.border};
-    `;
+    card.className = `my-hero-item hero-card owned-hero-card rarity-${rarityKey}`;
+
     card.innerHTML = `
-        <div class="my-hero-media">
-            <div class="my-hero-art-frame">
-                <img src="${displayHero.image}" alt="${displayHero.name}" loading="lazy">
-                <span class="hero-rarity-chip rarity-${displayHero.rarityKey}">${getHeroRarityLabel(displayHero.rarityKey)}</span>
-            </div>
+        <div class="hero-card-media">
+            <img class="hero-img" src="${displayHero.image}" alt="${displayHero.name}" loading="lazy">
+            <span class="hero-rarity-chip rarity-${rarityKey}">${getHeroRarityLabel(displayHero)}</span>
+            <span class="hero-owned-chip owned-lvl-badge">LVL ${displayHero.level || 1}</span>
         </div>
-        <div class="hero-stats-col">
-            <div class="my-hero-topline">
-                <div class="my-hero-name-block">
-                    <strong class="my-hero-name">${displayHero.name}</strong>
-                    <span class="my-hero-role">${displayHero.role || '-'}</span>
-                </div>
-                <span class="hero-level-badge" style="background: linear-gradient(135deg, ${rc.accent}cc, ${rc.accent}88); color: #fff;">LVL ${displayHero.level || 1}</span>
-            </div>
-            <div class="hero-income-row">
-                <div class="hero-income-block">
-                    <span class="hero-income-label">${heroText.currentIncome}</span>
-                    <span class="hero-income-value" style="color:${rc.accent}">${formatRnx(displayHero.boostedProfitPerHour, locale)}<span class="hero-income-unit">/ч</span></span>
-                </div>
-                <div class="hero-income-block">
-                    <span class="hero-income-label">За цикл</span>
-                    <span class="hero-income-value">${formatRnx(displayHero.boostedTotalProfit, locale)}</span>
+        <div class="hero-card-body">
+            <div class="hero-meta">
+                <div>
+                    <div class="hero-title">${displayHero.name}</div>
+                    <div class="hero-sub">${displayHero.role || ''}</div>
                 </div>
             </div>
-            <div class="hero-cycle-wrap">
-                <div class="hero-cycle-header">
-                    <span class="hero-cycle-label">${cyclePct >= 100 ? '⚡ Готово к выплате!' : 'Добыча RNX'}</span>
-                    <span class="hero-cycle-pct" style="color:${rc.accent}">${cyclePct}%</span>
+            <div class="hero-stats-grid">
+                <div class="hero-stat-tile"><span>${heroText.currentIncome}</span><strong>${formatHeroDailyProfit(displayHero, locale)}</strong></div>
+                <div class="hero-stat-tile"><span>${heroText.totalIncome}</span><strong>${formatRnx(displayHero.boostedTotalProfit, locale)}</strong></div>
+                <div class="hero-stat-tile"><span>${heroText.duration}</span><strong>${formatHeroDuration(displayHero.durationHours || 24, locale)}</strong></div>
+                <div class="hero-stat-tile"><span>${heroText.synergy}</span><strong>+${Math.round(displayHero.synergyBonus * 100)}%</strong></div>
+            </div>
+            <div class="owned-cycle-block${cyclePct >= 100 ? ' cycle-done' : ''}">
+                <div class="owned-cycle-top">
+                    <span class="owned-cycle-label">${cyclePct >= 100 ? heroText.readyForClaim : heroText.miningProgress}</span>
+                    <span class="owned-cycle-pct">${cyclePct}%</span>
                 </div>
-                <div class="hero-cycle-track">
-                    <div class="hero-cycle-bar" style="width:${cyclePct}%; background: linear-gradient(90deg, ${rc.accent}55, ${rc.accent}); box-shadow: 0 0 8px ${rc.accent}50;"></div>
+                <div class="owned-cycle-track">
+                    <div class="owned-cycle-bar" style="width:${cyclePct}%"></div>
                 </div>
-                <div class="hero-cycle-footer">
-                    <span class="hero-cycle-countdown${cyclePct >= 100 ? ' cycle-ready' : ''}" data-hero-countdown="${displayHero.cycleEndsAt}">${displayHero.countdown}</span>
-                    <span class="hero-cycle-accrued" style="color:${rc.accent}">накоплено ${formatRnx(displayHero.accruedCurrentCycle || 0, locale)}</span>
+                <div class="owned-cycle-bottom">
+                    <span class="owned-cycle-countdown${cyclePct >= 100 ? ' cycle-ready' : ''}" data-hero-countdown="${displayHero.cycleEndsAt}">${displayHero.countdown}</span>
+                    <span class="owned-cycle-accrued">${heroText.accruedLabel} ${formatRnx(displayHero.accruedCurrentCycle || 0, locale)}</span>
                 </div>
             </div>
-            <div class="hero-meta-row">
-                <span class="hero-meta-chip">За жизнь: ${formatRnx(displayHero.lifetimeEarnings || 0, locale)}</span>
-                <span class="hero-meta-chip">Синергия: +${Math.round(displayHero.synergyBonus * 100)}%</span>
-                <span class="hero-meta-chip">Апгрейд: ${formatCurrency(displayHero.nextUpgradeCost, locale)}</span>
-            </div>
-            ${interactive ? `<div class="hero-actions-row"><button class="hero-secondary-btn hero-view-btn" type="button">${heroText.details}</button><button class="buy-btn hero-upgrade-btn" type="button" style="background: linear-gradient(135deg, ${rc.accent}cc, ${rc.accent}88);">${heroText.upgrade}</button></div>` : ''}
+            ${interactive ? `
+            <div class="hero-actions-row">
+                <button class="hero-secondary-btn hero-view-btn" type="button">${heroText.details}</button>
+                <button class="buy-btn hero-upgrade-btn${(displayHero.isTestHero || Number(displayHero.level || 1) >= 10) ? ' upgrade-locked' : ''}" type="button"${(displayHero.isTestHero || Number(displayHero.level || 1) >= 10) ? ' disabled' : ''}>${displayHero.isTestHero ? heroText.noUpgradeBtn : Number(displayHero.level || 1) >= 10 ? heroText.maxLevelBtn : heroText.upgrade}</button>
+            </div>` : ''}
         </div>
     `;
 
@@ -4985,26 +7252,105 @@ function renderMyHeroes() {
     const countEl = document.getElementById('my-heroes-count');
     const incomeEl = document.getElementById('my-heroes-income');
     if (!list) return;
+    if (document.getElementById('my-heroes-section')?.classList.contains('hidden')) return;
 
     const heroText = getHeroTextSet();
+    const isUa = getCurrentLanguage() === 'ua';
+    const locale = LANGUAGE_TO_LOCALE[getCurrentLanguage()] || 'ru-RU';
     const heroes = getPurchasedHeroes().slice().sort((left, right) => Number(right.totalProfit || 0) - Number(left.totalProfit || 0));
     const synergy = getHeroSynergySummary(heroes);
     list.innerHTML = '';
 
     if (!heroes.length) {
         const empty = document.createElement('div');
-        empty.className = 'request-card';
-        empty.textContent = heroText.noHeroes;
+        empty.className = 'my-heroes-empty-state';
+        empty.innerHTML = `
+            <div class="my-heroes-empty-icon">🤖</div>
+            <h4 class="my-heroes-empty-title">${isUa ? 'Колекція ще порожня' : 'Коллекция пока пуста'}</h4>
+            <p class="my-heroes-empty-text">${heroText.noHeroes}</p>
+            <button class="my-heroes-empty-btn" type="button">${isUa ? 'Відкрити магазин' : 'Открыть магазин'}</button>
+        `;
+        const openShopBtn = empty.querySelector('.my-heroes-empty-btn');
+        if (openShopBtn) {
+            openShopBtn.addEventListener('click', () => {
+                setActiveNavButton('shop');
+                handleNavigation('shop');
+            });
+        }
         list.appendChild(empty);
     }
 
     const enrichedHeroes = heroes.map((hero) => enrichHeroWithEconomy(hero, heroes));
     const projectedIncome = enrichedHeroes.reduce((sum, hero) => sum + Number(hero.boostedTotalProfit || 0), 0);
     const nextCycleHero = enrichedHeroes.slice().sort((left, right) => new Date(left.cycleEndsAt).getTime() - new Date(right.cycleEndsAt).getTime())[0];
-    heroes.forEach((hero) => list.appendChild(createOwnedHeroCard(hero, { allHeroes: heroes })));
+    const leadHero = enrichedHeroes[0] || null;
+    const myHeroesShell = list.parentElement;
+
+    if (myHeroesShell) {
+        let heroBanner = document.getElementById('my-heroes-cinematic-banner');
+        if (!heroBanner) {
+            heroBanner = document.createElement('section');
+            heroBanner.id = 'my-heroes-cinematic-banner';
+            heroBanner.className = 'my-heroes-cinematic-banner';
+            heroBanner.innerHTML = `
+                <div class="my-heroes-cinematic-copy">
+                    <span class="my-heroes-cinematic-kicker">ELITE GARAGE</span>
+                    <h3 class="my-heroes-cinematic-title">Колекція героїв під вашим контролем</h3>
+                    <p class="my-heroes-cinematic-subtitle">Відстежуйте лідера колекції, сумарний дохід та найближчий цикл без зайвих переходів.</p>
+                    <div class="my-heroes-cinematic-chips">
+                        <div class="my-heroes-cinematic-chip"><span>Героїв</span><strong id="my-heroes-hero-count">0</strong></div>
+                        <div class="my-heroes-cinematic-chip"><span>Дохід</span><strong id="my-heroes-hero-income">0 RNX</strong></div>
+                        <div class="my-heroes-cinematic-chip"><span>Бонус</span><strong id="my-heroes-hero-bonus">0%</strong></div>
+                        <div class="my-heroes-cinematic-chip"><span>Наступний цикл</span><strong id="my-heroes-hero-next">--:--:--</strong></div>
+                    </div>
+                    <button class="my-heroes-cinematic-btn" id="my-heroes-top-hero-btn" type="button">Деталі лідера</button>
+                </div>
+                <div class="my-heroes-cinematic-visual">
+                    <div class="my-heroes-cinematic-ring"></div>
+                    <div class="my-heroes-cinematic-badge" id="my-heroes-banner-rarity">Колекція</div>
+                    <img class="my-heroes-cinematic-figure" id="my-heroes-banner-image" src="images/hero_starter.png" alt="" loading="lazy" decoding="async">
+                </div>
+            `;
+            myHeroesShell.insertBefore(heroBanner, list);
+        }
+
+        setText('my-heroes-hero-count', formatNumber(heroes.length, locale));
+        setText('my-heroes-hero-income', `${projectedIncome.toLocaleString(locale)} RNX`);
+        setText('my-heroes-hero-bonus', `${Math.round(synergy.totalBonus * 100)}%`);
+        setText('my-heroes-hero-next', nextCycleHero ? formatCountdown(nextCycleHero.cycleEndsAt) : '--:--:--');
+        setText('my-heroes-banner-rarity', leadHero ? getHeroRarityLabel(leadHero) : (isUa ? 'Старт колекції' : 'Старт коллекции'));
+
+        const heroImage = document.getElementById('my-heroes-banner-image');
+        if (heroImage) {
+            heroImage.src = leadHero ? leadHero.image : 'images/hero_starter.png';
+        }
+
+        const topHeroBtn = document.getElementById('my-heroes-top-hero-btn');
+        if (topHeroBtn) {
+            topHeroBtn.disabled = false;
+            topHeroBtn.textContent = leadHero
+                ? (isUa ? 'Деталі лідера' : 'Детали лидера')
+                : (isUa ? 'Відкрити магазин' : 'Открыть магазин');
+            topHeroBtn.onclick = () => {
+                if (leadHero) {
+                    openHeroDetailModal(leadHero.instanceId);
+                    return;
+                }
+                setActiveNavButton('shop');
+                handleNavigation('shop');
+            };
+        }
+    }
+
+    heroes.forEach((hero, idx) => {
+        const card = createOwnedHeroCard(hero, { allHeroes: heroes });
+        card.setAttribute('data-reveal', '');
+        card.setAttribute('data-reveal-delay', String(Math.min(idx + 1, 6)));
+        list.appendChild(card);
+    });
 
     if (countEl) countEl.textContent = String(heroes.length || 0);
-    if (incomeEl) incomeEl.textContent = `${projectedIncome.toLocaleString('ru-RU')} $RNX`;
+    if (incomeEl) incomeEl.textContent = `${projectedIncome.toLocaleString(locale)} $RNX`;
     setText('my-heroes-bonus', `${Math.round(synergy.totalBonus * 100)}%`);
     const nextPayoutEl = document.getElementById('my-heroes-next-payout');
     if (nextPayoutEl) {
@@ -5160,3 +7506,536 @@ function escapeHTML(str) {
     div.textContent = str;
     return div.innerHTML;
 }
+
+// ═══════════════════════════════════════════════════════════════════════════
+// LIVE MINING OVERLAY
+// ═══════════════════════════════════════════════════════════════════════════
+(function initLiveMiningOverlay() {
+    'use strict';
+
+    let _lmInterval  = null;
+    let _sessionEarned = 0;
+    let _tagTickCount  = 0;
+    let _prevCycleProgress = {};
+
+    /* ── helpers ── */
+    function _enrichedHeroes() {
+        if (!window.gameDB) return [];
+        const _u = window.gameDB.getUser();
+        const _h = Array.isArray(_u.heroes) ? _u.heroes : [];
+        return _h.map(function(h) { return enrichHeroWithEconomy(h, _h); });
+    }
+
+    function _isUa() { return getCurrentLanguage() === 'ua'; }
+
+    function _fmt(n) { return formatNumber(Math.round(n)); }
+
+    /* ── open ── */
+    function _open() {
+        const overlay = document.getElementById('live-mining-overlay');
+        if (!overlay) return;
+        _sessionEarned = 0;
+        _tagTickCount  = 0;
+        _prevCycleProgress = {};
+        overlay.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        _updateLang();
+        _renderHeroes();
+        _initCircuitCanvas();
+        _startTick();
+    }
+
+    /* ── close ── */
+    function _close() {
+        const overlay = document.getElementById('live-mining-overlay');
+        if (!overlay || overlay.classList.contains('hidden') || overlay.classList.contains('lm-closing')) return;
+        _stopTick();
+        var _cvs = document.getElementById('lm-circuit-canvas');
+        if (_cvs && _cvs._stopAnim) _cvs._stopAnim();
+        overlay.classList.add('lm-closing');
+        let done = false;
+        const finish = () => {
+            if (done) return;
+            done = true;
+            overlay.classList.remove('lm-closing');
+            overlay.classList.add('hidden');
+            document.body.style.overflow = '';
+        };
+        const sheet = overlay.querySelector('.lm-sheet');
+        if (sheet) sheet.addEventListener('animationend', finish, { once: true });
+        setTimeout(finish, 380);
+    }
+
+    /* ── tick (500ms) ── */
+    function _startTick() {
+        _stopTick();
+        _lmInterval = setInterval(_tick, 500);
+    }
+    function _stopTick() {
+        if (_lmInterval) { clearInterval(_lmInterval); _lmInterval = null; }
+    }
+
+    /* ══════════════════════════════════════════════════
+       WOW EFFECTS — circuit canvas, float tags, particles, tilt
+    ══════════════════════════════════════════════════ */
+
+    function _initCircuitCanvas() {
+        var sheet = document.querySelector('#live-mining-overlay .lm-sheet');
+        if (!sheet) return;
+        var old = document.getElementById('lm-circuit-canvas');
+        if (old) { if (old._stopAnim) old._stopAnim(); old.remove(); }
+        var canvas = document.createElement('canvas');
+        canvas.id = 'lm-circuit-canvas';
+        sheet.insertBefore(canvas, sheet.firstChild);
+        var ctx = canvas.getContext('2d');
+        var W = 0, H = 0;
+        function resize() {
+            W = canvas.width  = sheet.offsetWidth  || 360;
+            H = canvas.height = sheet.offsetHeight || 620;
+        }
+        resize();
+        setTimeout(resize, 160);
+        var STEP = 46;
+        var COL = Math.ceil(W / STEP) + 1;
+        var ROW = Math.ceil(H / STEP) + 1;
+        var nodes = [];
+        for (var ri = 0; ri < ROW; ri++) {
+            for (var ci = 0; ci < COL; ci++) {
+                nodes.push({ x: ci * STEP + (Math.random() - 0.5) * 12, y: ri * STEP + (Math.random() - 0.5) * 12 });
+            }
+        }
+        var edges = [];
+        for (var ri2 = 0; ri2 < ROW; ri2++) {
+            for (var ci2 = 0; ci2 < COL; ci2++) {
+                var nIdx = ri2 * COL + ci2;
+                if (ci2 < COL - 1 && Math.random() > 0.28) edges.push([nodes[nIdx], nodes[nIdx + 1]]);
+                if (ri2 < ROW - 1 && Math.random() > 0.32) edges.push([nodes[nIdx], nodes[nIdx + COL]]);
+            }
+        }
+        var sigs = [];
+        var SIG_COL = ['#34d399','#67e8f9','#34d399','#67e8f9','#a78bfa'];
+        function spawnSig() {
+            if (!edges.length || sigs.length >= 15) return;
+            var e = edges[Math.floor(Math.random() * edges.length)];
+            var fwd = Math.random() > 0.5;
+            sigs.push({ n1: fwd ? e[0] : e[1], n2: fwd ? e[1] : e[0], t: 0,
+                spd: 0.007 + Math.random() * 0.012,
+                col: SIG_COL[Math.floor(Math.random() * SIG_COL.length)],
+                sz: 1.6 + Math.random() * 1.5 });
+        }
+        for (var si = 0; si < 9; si++) spawnSig();
+        var frame = 0, animId;
+        function draw() {
+            animId = requestAnimationFrame(draw);
+            ctx.clearRect(0, 0, W, H);
+            frame++;
+            if (frame % 60 === 0) spawnSig();
+            edges.forEach(function(e) {
+                ctx.beginPath(); ctx.moveTo(e[0].x, e[0].y); ctx.lineTo(e[1].x, e[1].y);
+                ctx.strokeStyle = 'rgba(52,211,153,0.055)'; ctx.lineWidth = 0.8; ctx.stroke();
+            });
+            nodes.forEach(function(n) {
+                ctx.beginPath(); ctx.arc(n.x, n.y, 1.3, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(103,232,249,0.1)'; ctx.fill();
+            });
+            for (var i = sigs.length - 1; i >= 0; i--) {
+                var s = sigs[i];
+                s.t = Math.min(1, s.t + s.spd);
+                var x = s.n1.x + (s.n2.x - s.n1.x) * s.t;
+                var y = s.n1.y + (s.n2.y - s.n1.y) * s.t;
+                var t0 = Math.max(0, s.t - 0.18);
+                var tx = s.n1.x + (s.n2.x - s.n1.x) * t0;
+                var ty = s.n1.y + (s.n2.y - s.n1.y) * t0;
+                if (t0 < s.t) {
+                    var g = ctx.createLinearGradient(tx, ty, x, y);
+                    g.addColorStop(0, s.col + '00');
+                    g.addColorStop(1, s.col + 'cc');
+                    ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(x, y);
+                    ctx.strokeStyle = g; ctx.lineWidth = s.sz * 0.7; ctx.stroke();
+                }
+                ctx.save();
+                ctx.beginPath(); ctx.arc(x, y, s.sz, 0, Math.PI * 2);
+                ctx.fillStyle = s.col; ctx.shadowBlur = 14; ctx.shadowColor = s.col; ctx.fill();
+                ctx.restore();
+                if (s.t >= 1) sigs.splice(i, 1);
+            }
+        }
+        draw();
+        canvas._stopAnim = function() { cancelAnimationFrame(animId); };
+    }
+
+    function _spawnFloatTag(amt) {
+        var widget = document.querySelector('#live-mining-overlay .lm-income-widget');
+        if (!widget) return;
+        var wr = widget.getBoundingClientRect();
+        var tag = document.createElement('div');
+        tag.className = 'lm-float-tag';
+        tag.textContent = '+' + amt.toFixed(4) + ' $RNX';
+        tag.style.cssText = 'position:fixed;left:' +
+            (wr.left + wr.width * (0.2 + Math.random() * 0.5)) + 'px;top:' +
+            (wr.top + wr.height * 0.25) + 'px;z-index:10000;';
+        document.body.appendChild(tag);
+        tag.addEventListener('animationend', function() { tag.remove(); });
+    }
+
+    function _spawnParticles(el) {
+        var rect = el.getBoundingClientRect();
+        var cx = rect.left + rect.width * 0.65;
+        var cy = rect.top  + rect.height * 0.4;
+        var colors = ['#34d399','#67e8f9','#fbbf24','#6ee7b7','#a78bfa'];
+        for (var pi = 0; pi < 10; pi++) {
+            var p = document.createElement('div');
+            p.className = 'lm-particle';
+            var ang = -Math.PI / 2 + (Math.random() - 0.5) * Math.PI * 1.5;
+            var dist = 28 + Math.random() * 46;
+            var c = colors[Math.floor(Math.random() * colors.length)];
+            p.style.cssText = 'position:fixed;width:5px;height:5px;border-radius:50%;pointer-events:none;z-index:9999;' +
+                '--px:' + (Math.cos(ang) * dist) + 'px;--py:' + (Math.sin(ang) * dist) + 'px;' +
+                'left:' + cx + 'px;top:' + cy + 'px;background:' + c + ';box-shadow:0 0 6px ' + c + ';' +
+                'animation:lm-particle-fly 0.85s cubic-bezier(0.22,1,0.36,1) forwards';
+            document.body.appendChild(p);
+            p.addEventListener('animationend', function() { if (p.parentNode) p.remove(); });
+        }
+    }
+
+    function _initTilt(card) {
+        var shine = document.createElement('div');
+        shine.className = 'lm-tilt-shine';
+        card.appendChild(shine);
+        var rafId = null;
+        card.addEventListener('pointermove', function(e) {
+            if (rafId) cancelAnimationFrame(rafId);
+            rafId = requestAnimationFrame(function() {
+                var rect = card.getBoundingClientRect();
+                var x = (e.clientX - rect.left) / rect.width  - 0.5;
+                var y = (e.clientY - rect.top)  / rect.height - 0.5;
+                card.style.transform = 'perspective(520px) rotateY(' + (x * 14) + 'deg) rotateX(' + (-y * 10) + 'deg) translateZ(6px)';
+                card.style.boxShadow = '0 18px 44px rgba(0,0,0,0.45),0 0 22px rgba(52,211,153,0.2)';
+                shine.style.background = 'radial-gradient(circle at ' + ((x + 0.5) * 100) + '% ' + ((y + 0.5) * 100) + '%, rgba(255,255,255,0.09) 0%, transparent 65%)';
+                shine.style.opacity = '1';
+            });
+        });
+        card.addEventListener('pointerleave', function() {
+            if (rafId) cancelAnimationFrame(rafId);
+            card.style.transform = '';
+            card.style.boxShadow = '';
+            shine.style.opacity = '0';
+        });
+    }
+
+    function _tick() {
+        const overlay = document.getElementById('live-mining-overlay');
+        if (!overlay || overlay.classList.contains('hidden')) { _stopTick(); return; }
+
+        const heroes = _enrichedHeroes();
+        const totalPerSec = heroes.reduce(function(s, h) { return s + (h.boostedProfitPerHour || 0) / 3600; }, 0);
+        const earnedThisTick = totalPerSec * 0.5;
+        _sessionEarned += earnedThisTick;
+        _tagTickCount++;
+
+        var rateEl = document.getElementById('lm-total-rate');
+        var sessEl = document.getElementById('lm-session-earned');
+        if (rateEl) {
+            rateEl.textContent = totalPerSec.toFixed(4) + ' $RNX';
+            if (_tagTickCount % 4 === 0 && totalPerSec > 0) {
+                rateEl.classList.remove('rate-pop');
+                void rateEl.offsetWidth;
+                rateEl.classList.add('rate-pop');
+                rateEl.addEventListener('animationend', function() { rateEl.classList.remove('rate-pop'); }, { once: true });
+            }
+        }
+        if (sessEl) sessEl.textContent = _sessionEarned.toFixed(3);
+
+        if (_tagTickCount % 4 === 0 && earnedThisTick > 0) {
+            _spawnFloatTag(earnedThisTick * 4);
+        }
+
+        heroes.forEach(function(h, idx) {
+            var prog    = Math.min(100, Math.round((h.cycleProgress || 0) * 100));
+            var accrued = h.accruedCurrentCycle || 0;
+            var fillEl  = document.getElementById('lm-fill-' + idx);
+            var accEl   = document.getElementById('lm-accrued-' + idx);
+            var cdEl    = document.getElementById('lm-cd-' + idx);
+            var prevProg = _prevCycleProgress[idx] !== undefined ? _prevCycleProgress[idx] : -1;
+            if (prevProg >= 90 && prog < 10 && fillEl) {
+                fillEl.classList.remove('cycle-complete');
+                void fillEl.offsetWidth;
+                fillEl.classList.add('cycle-complete');
+                var card = fillEl.closest ? fillEl.closest('.lm-hero-card') : null;
+                if (card) _spawnParticles(card);
+            }
+            _prevCycleProgress[idx] = prog;
+            if (fillEl) fillEl.style.width = prog + '%';
+            if (accEl)  accEl.textContent  = '+' + _fmt(accrued) + ' $RNX';
+            if (cdEl)   cdEl.textContent   = h.countdown || '--:--:--';
+        });
+    }
+
+    /* ── translate labels ── */
+    function _updateLang() {
+        var ua = _isUa();
+        var el = function(id) { return document.getElementById(id); };
+        var set = function(id, v) { var e = el(id); if (e) e.textContent = v; };
+        set('lm-title',         ua ? 'Ферма — реальний час'  : 'Ферма — реальное время');
+        set('lm-rate-label',    ua ? 'Дохід за секунду'        : 'Доход в секунду');
+        set('lm-session-label', ua ? 'За сесію'                : 'За сессию');
+        set('lm-daily-label',   ua ? 'На добу'                 : 'В сутки');
+        set('lm-empty-title',   ua ? 'Немає активних героїв'   : 'Нет активных героев');
+        set('lm-empty-sub',     ua ? 'Купіть героя в магазині' : 'Купите героя в магазине');
+        var btnTxt = document.getElementById('prf-live-btn-text');
+        var btnSub = document.getElementById('prf-live-btn-sub');
+        if (btnTxt) btnTxt.textContent = 'Ферма';
+        if (btnSub) btnSub.textContent = ua ? 'у реальному часі' : 'в реальном времени';
+    }
+
+    /* ── render heroes list ── */
+    function _renderHeroes() {
+        var heroes  = _enrichedHeroes();
+        var listEl  = document.getElementById('lm-heroes-list');
+        var emptyEl = document.getElementById('lm-no-heroes');
+        var rateEl  = document.getElementById('lm-total-rate');
+        var dailyEl = document.getElementById('lm-daily-total');
+        if (!listEl) return;
+
+        if (!heroes.length) {
+            listEl.innerHTML = '';
+            if (emptyEl) { emptyEl.classList.remove('hidden'); listEl.appendChild(emptyEl); }
+            return;
+        }
+        if (emptyEl) emptyEl.classList.add('hidden');
+
+        var totalPerSec = heroes.reduce(function(s,h){ return s + (h.boostedProfitPerHour||0)/3600; }, 0);
+        var dailyTotal  = heroes.reduce(function(s,h){ return s + (h.boostedProfitPerHour||0)*24; }, 0);
+        if (rateEl)  rateEl.textContent  = totalPerSec.toFixed(4) + ' $RNX';
+        if (dailyEl) dailyEl.textContent = _fmt(dailyTotal);
+
+        var synergy   = typeof getHeroSynergySummary === 'function' ? getHeroSynergySummary(heroes) : { totalBonus: 0 };
+        var synPct    = Math.round((synergy.totalBonus || 0) * 100);
+        var ua        = _isUa();
+
+        listEl.innerHTML = '';
+
+        heroes.forEach(function(h, idx) {
+            var ratePerSec = (h.boostedProfitPerHour || 0) / 3600;
+            var prog       = Math.min(100, Math.round((h.cycleProgress || 0) * 100));
+            var accrued    = Math.round(h.accruedCurrentCycle || 0);
+            var rarity     = h.rarityKey || 'common';
+            var rarityLbl  = h.rarityLabel || rarity;
+            var bgColor    = (h.palette && h.palette[0]) || '#1a2332';
+            var accentColor = rarity === 'legendary' ? '#fbbf24' : rarity === 'epic' ? '#fb923c' : rarity === 'rare' ? '#a78bfa' : '#34d399';
+            var imgTag     = h.image
+                ? '<img src="' + h.image + '" alt="' + (h.name||'') + '" onerror="this.parentNode.innerHTML=\'🤖\'" style="width:100%;height:100%;object-fit:cover;border-radius:11px;">'
+                : '<span style="font-size:24px">🤖</span>';
+
+            var card = document.createElement('div');
+            card.className = 'lm-hero-card';
+            card.innerHTML =
+                '<div class="lm-hero-top">' +
+                  '<div class="lm-hero-avatar" style="background:' + bgColor + '">' + imgTag + '</div>' +
+                  '<div class="lm-hero-info">' +
+                    '<div class="lm-hero-name">' + (h.name || '—') + '</div>' +
+                    '<div class="lm-hero-rarity ' + rarity + '">' + rarityLbl + '</div>' +
+                  '</div>' +
+                  '<div class="lm-hero-rate">' +
+                    '<div class="lm-hero-rate-val" id="lm-fill-rate-' + idx + '" style="color:' + accentColor + ';text-shadow:0 0 10px ' + accentColor + '66">+' + ratePerSec.toFixed(4) + '</div>' +
+                    '<div class="lm-hero-rate-lbl">$RNX/сек</div>' +
+                  '</div>' +
+                '</div>' +
+                '<div class="lm-hero-progress-wrap">' +
+                  '<div class="lm-hero-progress-fill" id="lm-fill-' + idx + '" style="width:' + prog + '%;background:linear-gradient(90deg,' + accentColor + '88,' + accentColor + ')"></div>' +
+                '</div>' +
+                '<div class="lm-hero-meta">' +
+                  '<span class="lm-hero-accrued" id="lm-accrued-' + idx + '" style="color:' + accentColor + '">+' + _fmt(accrued) + ' $RNX</span>' +
+                  '<span class="lm-hero-countdown" id="lm-cd-' + idx + '">' + (h.countdown || '--:--:--') + '</span>' +
+                '</div>';
+            listEl.appendChild(card);
+            _initTilt(card);
+        });
+
+        if (synPct > 0) {
+            var badge = document.createElement('div');
+            badge.className = 'lm-synergy-badge';
+            badge.textContent = '⚡ ' + (ua ? 'Синергія' : 'Синергия') + ' +' + synPct + '%';
+            listEl.appendChild(badge);
+        }
+
+        // append empty el back so it stays in DOM
+        if (emptyEl) listEl.appendChild(emptyEl);
+    }
+
+    /* ── bind events after DOM ready ── */
+    function _bindEvents() {
+        var btn      = document.getElementById('prf-live-mining-btn');
+        var closeBtn = document.getElementById('lm-close-btn');
+        var backdrop = document.getElementById('lm-backdrop');
+        if (btn)      btn.addEventListener('click',   _open);
+        if (closeBtn) closeBtn.addEventListener('click', _close);
+        if (backdrop) backdrop.addEventListener('click', _close);
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', _bindEvents);
+    } else {
+        _bindEvents();
+    }
+})();
+
+/* ═══════════════════════════════════════════════════════════════
+   GLOBAL POLISH — scroll reveal, ripple, number counter
+═══════════════════════════════════════════════════════════════ */
+
+// ── 1. SCROLL REVEAL ──────────────────────────────────────────
+(function initScrollReveal() {
+    'use strict';
+    if (!('IntersectionObserver' in window)) return;
+
+    const obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+                obs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.08, rootMargin: '0px 0px -24px 0px' });
+
+    function observe(root) {
+        (root || document).querySelectorAll('[data-reveal]').forEach(function(el) {
+            if (!el.classList.contains('revealed')) obs.observe(el);
+        });
+    }
+
+    // Initial scan + re-scan after each navigation
+    document.addEventListener('DOMContentLoaded', function() { observe(); });
+    if (document.readyState !== 'loading') observe();
+
+    // Re-observe after dynamic renders (hook onto MutationObserver)
+    var mo = new MutationObserver(function(muts) {
+        muts.forEach(function(m) {
+            m.addedNodes.forEach(function(n) {
+                if (n.nodeType !== 1) return;
+                if (n.hasAttribute && n.hasAttribute('data-reveal')) obs.observe(n);
+                observe(n);
+            });
+        });
+    });
+    mo.observe(document.body, { childList: true, subtree: true });
+
+    window.scrollRevealObserve = observe;
+})();
+
+// ── 2. RIPPLE EFFECT ─────────────────────────────────────────
+(function initRipple() {
+    'use strict';
+    var RIPPLE_SELECTORS = [
+        '.hero-buy-btn', '.deposit-btn', '.withdraw-btn', '.exchange-btn',
+        '.admin-action-btn', '.umgmt-btn', '.lm-close-btn',
+        '.prf-action-btn', '.form-submit-btn',
+        '.admin-tabs [data-admin-tab]',
+        '.umgmt-tabs button'
+    ].join(',');
+
+    function addRipple(e) {
+        var btn = e.currentTarget;
+        if (btn.disabled) return;
+        if (!btn.classList.contains('ripple-host')) btn.classList.add('ripple-host');
+        var rect = btn.getBoundingClientRect();
+        var x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+        var y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+        var wave = document.createElement('span');
+        wave.className = 'ripple-wave';
+        wave.style.cssText = 'top:' + y + 'px;left:' + x + 'px;';
+        btn.appendChild(wave);
+        wave.addEventListener('animationend', function() { wave.remove(); });
+    }
+
+    function attachRipple(root) {
+        (root || document).querySelectorAll(RIPPLE_SELECTORS).forEach(function(btn) {
+            if (btn._rippleAttached) return;
+            btn._rippleAttached = true;
+            btn.addEventListener('mousedown', addRipple);
+            btn.addEventListener('touchstart', addRipple, { passive: true });
+        });
+    }
+
+    if (document.readyState !== 'loading') attachRipple();
+    document.addEventListener('DOMContentLoaded', function() { attachRipple(); });
+
+    var moR = new MutationObserver(function(muts) {
+        muts.forEach(function(m) {
+            m.addedNodes.forEach(function(n) {
+                if (n.nodeType !== 1) return;
+                attachRipple(n);
+            });
+        });
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+        moR.observe(document.body, { childList: true, subtree: true });
+    });
+    window.attachRipple = attachRipple;
+})();
+
+// ── 3. NUMBER COUNTER ANIMATION ──────────────────────────────
+(function initCountUp() {
+    'use strict';
+
+    /**
+     * Animate numeric text content of an element from its current value to newVal.
+     * @param {HTMLElement} el
+     * @param {number} newVal
+     * @param {object} opts  - { suffix, prefix, decimals, duration, locale }
+     */
+    function countUp(el, newVal, opts) {
+        if (!el) return;
+        opts = opts || {};
+        var duration = opts.duration || 700;
+        var decimals = opts.decimals != null ? opts.decimals : 0;
+        var suffix   = opts.suffix  || '';
+        var prefix   = opts.prefix  || '';
+        var locale   = opts.locale  || 'uk-UA';
+        var startVal = parseFloat(String(el.textContent).replace(/[^0-9.,-]/g, '').replace(',', '.')) || 0;
+        if (Math.abs(newVal - startVal) < 0.001) return; // no change
+
+        var start = null;
+        function step(ts) {
+            if (!start) start = ts;
+            var progress = Math.min((ts - start) / duration, 1);
+            // ease-out-quint
+            var ease = 1 - Math.pow(1 - progress, 5);
+            var current = startVal + (newVal - startVal) * ease;
+            var disp = decimals > 0
+                ? current.toFixed(decimals)
+                : Math.round(current).toLocaleString(locale);
+            el.textContent = prefix + disp + suffix;
+            if (progress < 1) requestAnimationFrame(step);
+            else {
+                el.textContent = prefix + (decimals > 0 ? newVal.toFixed(decimals) : newVal.toLocaleString(locale)) + suffix;
+                el.classList.remove('num-updated');
+                void el.offsetWidth;
+                el.classList.add('num-updated');
+                el.addEventListener('animationend', function() { el.classList.remove('num-updated'); }, { once: true });
+            }
+        }
+        requestAnimationFrame(step);
+    }
+
+    window.countUp = countUp;
+})();
+
+// ── 4. DATA-REVEAL on key profile elements (stamp once) ────────
+(function stampRevealAttrs() {
+    'use strict';
+    function stamp() {
+        // Profile cards
+        var cards = ['.prf-hero-card', '.prf-balance-card', '.prf-stats-section',
+                     '.prf-referral-card', '.prf-finance-section', '.onboard-banner'];
+        cards.forEach(function(sel, i) {
+            var el = document.querySelector(sel);
+            if (el && !el.hasAttribute('data-reveal')) {
+                el.setAttribute('data-reveal', '');
+                el.setAttribute('data-reveal-delay', String(i + 1));
+            }
+        });
+    }
+    if (document.readyState !== 'loading') stamp();
+    else document.addEventListener('DOMContentLoaded', stamp);
+})();

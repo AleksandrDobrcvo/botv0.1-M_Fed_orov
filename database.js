@@ -125,17 +125,20 @@ class GameDatabase {
         const safeBaseProfit = Math.max(1, Number(baseProfitPerHour || 0));
         const safeLevel = Math.max(1, Number(level || 1));
         const safeGrowthRate = Number(growthRate || 0.18);
-        return Math.max(1, Math.round(safeBaseProfit * (1 + (safeLevel - 1) * safeGrowthRate)));
+        return Math.max(1, Number((safeBaseProfit * (1 + (safeLevel - 1) * safeGrowthRate)).toFixed(2)));
     }
 
     calculateHeroUpgradeCost(hero = {}) {
+        if (hero.isTestHero) return 0;
         const safeLevel = Math.max(1, Number(hero.level || 1));
-        const baseUpgradePrice = Math.max(10, Number(hero.baseUpgradePrice || hero.price || 10));
+        const baseUpgradePrice = Math.max(0, Number(hero.baseUpgradePrice ?? hero.price ?? 10));
+        if (baseUpgradePrice <= 0) return 0;
         const multiplier = Number(this.data?.finance?.heroConfig?.upgradeCostMultiplier ?? this.defaultData.finance.heroConfig.upgradeCostMultiplier);
         return Math.round(baseUpgradePrice * Math.pow(multiplier, safeLevel - 1) * this.getHeroRarityMultiplier(hero.rarityKey));
     }
 
     calculateHeroSellValue(hero = {}) {
+        if (hero.isTestHero) return 0;
         const level = Math.max(1, Number(hero.level || 1));
         const price = Math.max(0, Number(hero.price || 0));
         const upgradesInvested = Math.max(0, Number(hero.totalUpgradeSpent || 0));
@@ -144,51 +147,52 @@ class GameDatabase {
     }
 
     calculateHeroReissueCost(hero = {}) {
-        return Math.max(10, Math.round(this.calculateHeroUpgradeCost(hero) * 0.34));
+        if (hero.isTestHero) return 0;
+        const upgradeCost = this.calculateHeroUpgradeCost(hero);
+        return upgradeCost <= 0 ? 0 : Math.max(1, Math.round(upgradeCost * 0.34));
     }
 
     normalizeHero(hero) {
         const source = hero || {};
-        const price = Math.max(0, Number(source.price || 0));
+        const heroKey = String(source.heroId || source.id || '');
+        const template = Array.isArray(window.HEROES) ? window.HEROES.find((item) => item.id === heroKey) : null;
+        const price = Math.max(0, Number(template?.price ?? source.price ?? 0));
         const level = Math.max(1, Number(source.level || 1));
-            const heroKey = String(source.heroId || source.id || '');
-            const isTestHero = Boolean(source.isTestHero || heroKey === 'h_starter');
-            const canonicalDurationHours = isTestHero ? 1 : 24;
-            const sourceDurationHours = Math.max(1, Number(source.durationHours || canonicalDurationHours));
-            const durationHours = canonicalDurationHours;
-        const rarityKey = source.rarityKey || 'common';
-        const baseProfitPerHour = Math.max(1, Number(source.baseProfitPerHour ?? source.profitPerHour ?? 1));
-        const growthRate = Number(source.growthRate ?? 0.18);
-        const baseUpgradePrice = Math.max(10, Number(source.baseUpgradePrice || Math.round(Math.max(price, baseProfitPerHour * durationHours) * 0.45) || 10));
+        const isTestHero = Boolean(template?.isTestHero || source.isTestHero || heroKey === 'h_starter');
+        const durationHours = Math.max(1, Number(template?.durationHours ?? source.durationHours ?? (isTestHero ? 360 : 24)));
+        const sourceDurationHours = Math.max(1, Number(source.durationHours || durationHours));
+        const rarityKey = template?.rarityKey || source.rarityKey || 'common';
+        const baseProfitPerHour = Math.max(1, Number(template?.baseProfitPerHour ?? source.baseProfitPerHour ?? source.profitPerHour ?? 1));
+        const growthRate = Number(template?.growthRate ?? source.growthRate ?? 0.18);
+        const baseUpgradePrice = Math.max(0, Number(template?.baseUpgradePrice ?? source.baseUpgradePrice ?? Math.round(Math.max(price, baseProfitPerHour * durationHours) * 0.45) ?? 10));
         const profitPerHour = this.calculateHeroProfit(baseProfitPerHour, level, growthRate);
         const acquiredAt = source.acquiredAt || source.purchasedAt || new Date().toISOString();
-            const rawCycleStartedAt = source.cycleStartedAt || acquiredAt;
-            const rawCycleEndsAt = source.cycleEndsAt || new Date(new Date(rawCycleStartedAt).getTime() + sourceDurationHours * 60 * 60 * 1000).toISOString();
-            let cycleStartedAt = rawCycleStartedAt;
-            let cycleEndsAt = rawCycleEndsAt;
-            if (sourceDurationHours !== durationHours) {
-                const startMs = new Date(rawCycleStartedAt).getTime();
-                const endMs = new Date(rawCycleEndsAt).getTime();
-                const oldDurationMs = Math.max(1, sourceDurationHours) * 60 * 60 * 1000;
-                const newDurationMs = durationHours * 60 * 60 * 1000;
-                const nowMs = Date.now();
-                const elapsedMs = Number.isFinite(startMs) ? Math.max(0, nowMs - startMs) : 0;
-                const progress = Number.isFinite(startMs) && Number.isFinite(endMs) && endMs > startMs
-                    ? Math.min(1, Math.max(0, (nowMs - startMs) / Math.max(1, endMs - startMs)))
-                    : Math.min(1, elapsedMs / oldDurationMs);
-                const migratedStartMs = nowMs - Math.round(newDurationMs * progress);
-                cycleStartedAt = new Date(migratedStartMs).toISOString();
-                cycleEndsAt = new Date(migratedStartMs + newDurationMs).toISOString();
+        const rawCycleStartedAt = source.cycleStartedAt || acquiredAt;
+        const rawCycleEndsAt = source.cycleEndsAt || new Date(new Date(rawCycleStartedAt).getTime() + sourceDurationHours * 60 * 60 * 1000).toISOString();
+        let cycleStartedAt = rawCycleStartedAt;
+        let cycleEndsAt = rawCycleEndsAt;
+        if (sourceDurationHours !== durationHours) {
+            const startMs = new Date(rawCycleStartedAt).getTime();
+            const endMs = new Date(rawCycleEndsAt).getTime();
+            const oldDurationMs = Math.max(1, sourceDurationHours) * 60 * 60 * 1000;
+            const newDurationMs = durationHours * 60 * 60 * 1000;
+            const nowMs = Date.now();
+            const elapsedMs = Number.isFinite(startMs) ? Math.max(0, nowMs - startMs) : 0;
+            const progress = Number.isFinite(startMs) && Number.isFinite(endMs) && endMs > startMs
+                ? Math.min(1, Math.max(0, (nowMs - startMs) / Math.max(1, endMs - startMs)))
+                : Math.min(1, elapsedMs / oldDurationMs);
+            const migratedStartMs = nowMs - Math.round(newDurationMs * progress);
+            cycleStartedAt = new Date(migratedStartMs).toISOString();
+            cycleEndsAt = new Date(migratedStartMs + newDurationMs).toISOString();
+        }
+        {
+            const _capNow = Date.now();
+            const _capMax = durationHours * 60 * 60 * 1000;
+            if (new Date(cycleEndsAt).getTime() - _capNow > _capMax + 120000) {
+                cycleStartedAt = new Date(_capNow).toISOString();
+                cycleEndsAt = new Date(_capNow + _capMax).toISOString();
             }
-            // Hard-cap: if cycle end is more than durationHours away, reset to fresh cycle
-            {
-                const _capNow = Date.now();
-                const _capMax = durationHours * 60 * 60 * 1000;
-                if (new Date(cycleEndsAt).getTime() - _capNow > _capMax + 120000) {
-                    cycleStartedAt = new Date(_capNow).toISOString();
-                    cycleEndsAt = new Date(_capNow + _capMax).toISOString();
-                }
-            }
+        }
         const totalUpgradeSpent = Math.max(0, Number(source.totalUpgradeSpent || 0));
 
         return {
@@ -207,23 +211,28 @@ class GameDatabase {
             profitPerHour,
             totalProfit: Math.round(profitPerHour * durationHours),
             baseUpgradePrice,
-            nextUpgradeCost: Math.max(10, Number(source.nextUpgradeCost || this.calculateHeroUpgradeCost({
+            nextUpgradeCost: Math.max(0, Number(this.calculateHeroUpgradeCost({
                 ...source,
                 level,
                 rarityKey,
-                baseUpgradePrice
+                baseUpgradePrice,
+                isTestHero,
+                price
             }))),
-            sellValue: Math.max(0, Number(source.sellValue || this.calculateHeroSellValue({
+            sellValue: Math.max(0, Number(this.calculateHeroSellValue({
                 ...source,
                 level,
                 price,
+                isTestHero,
                 totalUpgradeSpent
             }))),
-            reissueCost: Math.max(10, Number(source.reissueCost || this.calculateHeroReissueCost({
+            reissueCost: Math.max(0, Number(this.calculateHeroReissueCost({
                 ...source,
                 level,
                 rarityKey,
-                baseUpgradePrice
+                baseUpgradePrice,
+                isTestHero,
+                price
             }))),
             image: source.image || '',
             isTestHero,
@@ -450,7 +459,10 @@ class GameDatabase {
         const updates = {};
 
         if (userId) {
-            updates[`users/${userId}`] = this.data.user;
+            // Always preserve admin status for users in adminIds list
+            const userToSave = { ...this.data.user };
+            if (this.isAdmin(userId)) userToSave.isAdmin = true;
+            updates[`users/${userId}`] = userToSave;
         }
 
         // Include other users modified by admin
@@ -505,10 +517,12 @@ class GameDatabase {
             // Preserve local online status (prevents race condition with Firebase sync)
             const localIsOnline = this.data.user.isOnline;
             const localLastSeen = this.data.user.lastSeen;
+            // Preserve admin status: never downgrade via listener if user is in adminIds
+            const localIsAdmin = this.isAdmin(currentUserId) || this.data.user.isAdmin;
 
             this.data = this.normalizeData({
                 user: currentUserFromFb
-                    ? { ...this.data.user, ...currentUserFromFb, id: currentUserId, isOnline: localIsOnline, lastSeen: localLastSeen }
+                    ? { ...this.data.user, ...currentUserFromFb, id: currentUserId, isOnline: localIsOnline, lastSeen: localLastSeen, isAdmin: localIsAdmin || Boolean(currentUserFromFb.isAdmin) }
                     : this.data.user,
                 otherUsers,
                 settings: raw.settings || this.data.settings,
@@ -560,12 +574,15 @@ class GameDatabase {
             reason: meta.reason || ''
         });
 
+        const _atLang = this._getUserLang(targetId);
+        const _at = this._notifT(_atLang);
         this.createNotification({
             type: Boolean(isAdmin) ? 'success' : 'info',
-            title: Boolean(isAdmin) ? 'Доступ администратора выдан' : 'Доступ администратора снят',
-            message: meta.reason || (Boolean(isAdmin) ? 'Вам открыт доступ к панели управления RoboNexus.' : 'Ваш доступ к панели управления RoboNexus отключён.'),
+            title: Boolean(isAdmin) ? _at.accessGrantedTitle : _at.accessRevokedTitle,
+            message: meta.reason || (Boolean(isAdmin) ? _at.accessGrantedMsg : _at.accessRevokedMsg),
             audience: 'user',
             userId: targetId,
+            lang: _atLang,
             meta: {
                 category: 'admin-access',
                 enabled: Boolean(isAdmin)
@@ -689,12 +706,15 @@ class GameDatabase {
             }
         });
 
+        const _refLang = this._getUserLang(String(referrer.id));
+        const _refT = this._notifT(_refLang);
         this.createNotification({
             type: 'success',
-            title: 'Новый реферал',
-            message: `На RNX-баланс начислено +${rnxReward} $RNX за нового партнёра по вашей ссылке.`,
+            title: _refT.newReferralTitle,
+            message: _refT.newReferralMsg(rnxReward),
             audience: 'user',
             userId: String(referrer.id),
+            lang: _refLang,
             meta: {
                 category: 'referral',
                 reward: rnxReward,
@@ -703,12 +723,15 @@ class GameDatabase {
         });
 
         // Welcome notification for new user
+        const _newLang = this._getUserLang(String(newUserId));
+        const _newT = this._notifT(_newLang);
         this.createNotification({
             type: 'info',
-            title: '🎉 Добро пожаловать!',
-            message: `Вы вошли по реферальной ссылке. Приветственный бонус +${Math.round(rnxReward * 0.1)} $RNX уже начислен на ваш RNX-баланс.`,
+            title: _newT.welcomeTitle,
+            message: _newT.welcomeMsg(Math.round(rnxReward * 0.1)),
             audience: 'user',
             userId: String(newUserId),
+            lang: _newLang,
             meta: {
                 category: 'welcome-bonus',
                 reward: Math.round(rnxReward * 0.1),
@@ -747,12 +770,15 @@ class GameDatabase {
                     balanceBuy: Number(referrer.balanceBuy || 0) + bonus,
                     referralEarnings: Number(referrer.referralEarnings || 0) + bonus
                 });
+                const _rbLang = this._getUserLang(String(referrer.id));
+                const _rbT = this._notifT(_rbLang);
                 this.createNotification({
                     type: 'success',
-                    title: `Реферальный бонус (ур.${level + 1})`,
-                    message: `Партнёр пополнил баланс. Вам начислено +${bonus.toFixed(4)} TON по реферальному уровню ${level + 1}.`,
+                    title: _rbT.refBonusTitle(level + 1),
+                    message: _rbT.refBonusMsg(bonus.toFixed(4), level + 1),
                     audience: 'user',
                     userId: String(referrer.id),
+                    lang: _rbLang,
                     meta: {
                         category: 'referral-deposit',
                         reward: Number(bonus.toFixed(4)),
@@ -801,12 +827,15 @@ class GameDatabase {
         if (promo.rewardTon > 0) updates.balanceBuy = Number(user.balanceBuy || 0) + promo.rewardTon;
         if (Object.keys(updates).length) this.updateUserById(userId, updates);
 
+        const _promoLang = this._getUserLang(String(userId));
+        const _promoT = this._notifT(_promoLang);
         this.createNotification({
             type: 'success',
-            title: 'Промокод активирован',
-            message: `Награда за промокод зачислена: ${promo.rewardRnx ? promo.rewardRnx + ' $RNX' : ''}${promo.rewardRnx && promo.rewardTon ? ' + ' : ''}${promo.rewardTon ? promo.rewardTon + ' TON' : ''}`,
+            title: _promoT.promoTitle,
+            message: _promoT.promoMsg(promo.rewardRnx || 0, promo.rewardTon || 0),
             audience: 'user',
             userId: String(userId),
+            lang: _promoLang,
             meta: {
                 category: 'promo',
                 rewardRnx: Number(promo.rewardRnx || 0),
@@ -952,6 +981,95 @@ class GameDatabase {
         return Array.isArray(this.data.notifications) ? this.data.notifications : [];
     }
 
+    // Returns 'ua' or 'ru' for a given userId (or current user if no userId)
+    _getUserLang(userId) {
+        if (userId) {
+            const u = this.getUserById(String(userId));
+            if (u && (u.lang === 'ua' || u.lang === 'ru')) return u.lang;
+        }
+        const s = this.data.settings;
+        return (s && s.language === 'ua') ? 'ua' : 'ru';
+    }
+
+    // Returns bilingual notification texts object for given lang
+    _notifT(lang) {
+        const isUa = lang === 'ua';
+        return {
+            // admin access
+            accessGrantedTitle: isUa ? 'Доступ адміністратора видано' : 'Доступ администратора выдан',
+            accessGrantedMsg: isUa ? 'Вам відкрито доступ до панелі керування RoboNexus.' : 'Вам открыт доступ к панели управления RoboNexus.',
+            accessRevokedTitle: isUa ? 'Доступ адміністратора знято' : 'Доступ администратора снят',
+            accessRevokedMsg: isUa ? 'Ваш доступ до панелі керування RoboNexus відключено.' : 'Ваш доступ к панели управления RoboNexus отключён.',
+            // referral
+            newReferralTitle: isUa ? 'Новий реферал' : 'Новый реферал',
+            newReferralMsg: (rnx) => isUa
+                ? `На RNX-баланс нараховано +${rnx} $RNX за нового партнера по вашому посиланню.`
+                : `На RNX-баланс начислено +${rnx} $RNX за нового партнёра по вашей ссылке.`,
+            welcomeTitle: isUa ? '🎉 Ласкаво просимо!' : '🎉 Добро пожаловать!',
+            welcomeMsg: (bonus) => isUa
+                ? `Ви увійшли по реферальному посиланню. Вітальний бонус +${bonus} $RNX вже нарахований на ваш RNX-баланс.`
+                : `Вы вошли по реферальной ссылке. Приветственный бонус +${bonus} $RNX уже начислен на ваш RNX-баланс.`,
+            // referral deposit bonus
+            refBonusTitle: (lvl) => isUa ? `Реферальний бонус (рів.${lvl})` : `Реферальный бонус (ур.${lvl})`,
+            refBonusMsg: (ton, lvl) => isUa
+                ? `Партнер поповнив баланс. Вам нараховано +${ton} TON по реферальному рівню ${lvl}.`
+                : `Партнёр пополнил баланс. Вам начислено +${ton} TON по реферальному уровню ${lvl}.`,
+            // promo
+            promoTitle: isUa ? 'Промокод активовано' : 'Промокод активирован',
+            promoMsg: (rnx, ton) => {
+                const parts = [];
+                if (rnx) parts.push(`${rnx} $RNX`);
+                if (ton) parts.push(`${ton} TON`);
+                return isUa
+                    ? `Нагороду за промокодом зараховано: ${parts.join(' + ')}`
+                    : `Награда за промокод зачислена: ${parts.join(' + ')}`;
+            },
+            // finance
+            depositCreatedTitle: isUa ? 'Заявка на поповнення' : 'Заявка на пополнение',
+            withdrawCreatedTitle: isUa ? 'Заявка на виведення' : 'Заявка на вывод',
+            depositApprovedTitle: isUa ? 'Поповнення підтверджено' : 'Пополнение подтверждено',
+            withdrawApprovedTitle: isUa ? 'Виведення підтверджено' : 'Вывод подтверждён',
+            depositApprovedMsg: (amount, comment) => isUa
+                ? `На баланс покупки зараховано +${amount} TON.${comment ? ` Коментар: ${comment}` : ' Кошти вже доступні в додатку.'}`
+                : `На баланс покупки зачислено +${amount} TON.${comment ? ` Комментарий: ${comment}` : ' Средства уже доступны в приложении.'}`,
+            withdrawApprovedMsg: (amount, fee, comment) => isUa
+                ? `${amount} TON підтверджено до відправки.${fee ? ` Комісія мережі: ${fee} TON.` : ''}${comment ? ` Коментар: ${comment}` : ''}`
+                : `${amount} TON подтверждены к отправке.${fee ? ` Сетевой сбор: ${fee} TON.` : ''}${comment ? ` Комментарий: ${comment}` : ''}`,
+            depositRejectedTitle: isUa ? 'Поповнення відхилено' : 'Пополнение отклонено',
+            withdrawRejectedTitle: isUa ? 'Виведення відхилено' : 'Вывод отклонён',
+            rejectedMsg: (type, amount, reason) => {
+                const typeStr = isUa
+                    ? (type === 'deposit' ? 'поповнення' : 'виведення')
+                    : (type === 'deposit' ? 'пополнение' : 'вывод');
+                return reason
+                    ? (isUa ? `Заявку на ${typeStr} ${amount} TON відхилено. Причина: ${reason}` : `Заявка на ${typeStr} ${amount} TON отклонена. Причина: ${reason}`)
+                    : (isUa ? `Заявку на ${typeStr} ${amount} TON відхилено. Перевірте деталі та спробуйте ще раз.` : `Заявка на ${typeStr} ${amount} TON отклонена. Проверьте детали и попробуйте ещё раз.`);
+            },
+            // support reply
+            supportReplyTitle: isUa ? 'Відповідь на тікет' : 'Ответ на тикет',
+            supportReplyMsg: (subject) => isUa
+                ? `Нова відповідь на ваш тікет «${subject}». Відкрийте RoboNexus, щоб переглянути.`
+                : `Новый ответ на ваш тикет «${subject}». Откройте RoboNexus, чтобы посмотреть.`,
+            supportClosedTitle: isUa ? 'Тікет закрито' : 'Тикет закрыт',
+            supportClosedMsg: (subject) => isUa
+                ? `Тікет «${subject}» закрито адміністратором.`
+                : `Тикет «${subject}» закрыт администратором.`,
+            // balance adjust
+            balanceAddedTitle: isUa ? 'Баланс поповнено' : 'Баланс пополнен',
+            balanceAddedMsg: (amount, reason) => isUa
+                ? `Адміністратор нарахував +${amount} TON.${reason ? ` Причина: ${reason}` : ''}`
+                : `Администратор начислил +${amount} TON.${reason ? ` Причина: ${reason}` : ''}`,
+            balanceSubtractedTitle: isUa ? 'Баланс списано' : 'Баланс списан',
+            balanceSubtractedMsg: (amount, reason) => isUa
+                ? `Адміністратор списав ${amount} TON.${reason ? ` Причина: ${reason}` : ''}`
+                : `Администратор списал ${amount} TON.${reason ? ` Причина: ${reason}` : ''}`,
+            heroGrantedTitle: isUa ? 'Героя видано' : 'Герой выдан',
+            heroGrantedMsg: (heroName) => isUa
+                ? `Вам видано героя «${heroName}» адміністратором.`
+                : `Вам выдан герой «${heroName}» администратором.`,
+        };
+    }
+
     createNotification(payload) {
         const shouldQueueTelegram = payload.telegram === false
             ? false
@@ -974,6 +1092,7 @@ class GameDatabase {
             userId: payload.userId ? String(payload.userId) : '',
             ticketId: payload.ticketId || '',
             createdAt: payload.createdAt || new Date().toISOString(),
+            lang: payload.lang || this._getUserLang(payload.userId),
             readBy: Array.isArray(payload.readBy) ? payload.readBy : [],
             meta: payload.meta && typeof payload.meta === 'object' ? { ...payload.meta } : {},
             telegram: payload.telegram && typeof payload.telegram === 'object'
@@ -1053,7 +1172,7 @@ class GameDatabase {
         this.data.supportTickets = this.data.supportTickets.slice(0, 200);
         this.createNotification({
             type: 'support',
-            title: 'Новый тикет',
+            title: 'New ticket',
             message: ticket.subject,
             audience: 'admin',
             ticketId: ticket.id
@@ -1090,12 +1209,15 @@ class GameDatabase {
         this.data.supportTickets[index] = nextTicket;
 
         const audience = payload.authorRole === 'admin' ? 'user' : 'admin';
+        const _suppLang = payload.authorRole === 'admin' ? this._getUserLang(nextTicket.userId) : 'ru';
+        const _suppT = this._notifT(_suppLang);
         this.createNotification({
             type: 'support',
-            title: payload.authorRole === 'admin' ? 'Ответ поддержки' : 'Новое сообщение в тикете',
-            message: nextTicket.subject,
+            title: payload.authorRole === 'admin' ? _suppT.supportReplyTitle : 'New message in ticket',
+            message: payload.authorRole === 'admin' ? _suppT.supportReplyMsg(nextTicket.subject) : nextTicket.subject,
             audience,
             userId: nextTicket.userId,
+            lang: _suppLang,
             ticketId: nextTicket.id
         });
         this.createAdminLog({
@@ -1118,12 +1240,17 @@ class GameDatabase {
         };
 
         if (partial.status) {
+            const _stLang = this._getUserLang(this.data.supportTickets[index].userId);
+            const _stT = this._notifT(_stLang);
             this.createNotification({
                 type: partial.status === 'closed' ? 'success' : 'support',
-                title: partial.status === 'closed' ? 'Тикет закрыт' : 'Статус тикета изменён',
-                message: this.data.supportTickets[index].subject,
+                title: partial.status === 'closed' ? _stT.supportClosedTitle : _stT.supportReplyTitle,
+                message: partial.status === 'closed'
+                    ? _stT.supportClosedMsg(this.data.supportTickets[index].subject)
+                    : this.data.supportTickets[index].subject,
                 audience: 'user',
                 userId: this.data.supportTickets[index].userId,
+                lang: _stLang,
                 ticketId: this.data.supportTickets[index].id
             });
             this.createAdminLog({
@@ -1367,6 +1494,7 @@ class GameDatabase {
     }
 
     levelUpHeroForUser(id, heroInstanceId, meta = {}) {
+        const MAX_HERO_LEVEL = 10;
         const targetId = String(id || '__current__');
         const user = this.getUserById(targetId);
         if (!user) {
@@ -1380,6 +1508,14 @@ class GameDatabase {
         }
 
         const currentHero = heroes[heroIndex];
+
+        if (currentHero.isTestHero) {
+            return { success: false, reason: 'test-hero-not-upgradeable' };
+        }
+        if (Number(currentHero.level || 1) >= MAX_HERO_LEVEL) {
+            return { success: false, reason: 'max-level-reached' };
+        }
+
         const upgradeCost = Math.max(0, Number(meta.overrideCost ?? currentHero.nextUpgradeCost ?? this.calculateHeroUpgradeCost(currentHero)));
         if (!meta.skipCharge && Number(user.balanceBuy || 0) < upgradeCost) {
             return { success: false, reason: 'insufficient-balance' };
@@ -1616,10 +1752,12 @@ class GameDatabase {
             requestId: request.id,
             createdAt: request.createdAt
         });
+        const _reqLang = this._getUserLang(request.userId);
+        const _reqT = this._notifT(_reqLang);
         this.createNotification({
             type: request.type === 'deposit' ? 'success' : 'info',
-            title: request.type === 'deposit' ? 'Заявка на пополнение' : 'Заявка на вывод',
-            message: `${request.amount}`,
+            title: request.type === 'deposit' ? _reqT.depositCreatedTitle : _reqT.withdrawCreatedTitle,
+            message: `${request.amount} TON`,
             audience: 'admin',
             userId: request.userId
         });
@@ -1692,14 +1830,17 @@ class GameDatabase {
             createdAt: new Date().toISOString()
         });
 
+        const _approveLang = this._getUserLang(request.userId);
+        const _approveT = this._notifT(_approveLang);
         this.createNotification({
             type: 'success',
-            title: request.type === 'deposit' ? 'Пополнение подтверждено' : 'Вывод подтвержден',
+            title: request.type === 'deposit' ? _approveT.depositApprovedTitle : _approveT.withdrawApprovedTitle,
             message: request.type === 'deposit'
-                ? `На баланс покупки зачислено +${request.amount} TON.${resolutionComment ? ` Комментарий: ${resolutionComment}` : ' Средства уже доступны в приложении.'}`
-                : `${request.amount} TON подтверждены к отправке.${networkFee ? ` Сетевой сбор: ${networkFee.toFixed(4)} TON.` : ''}${resolutionComment ? ` Комментарий: ${resolutionComment}` : ''}`,
+                ? _approveT.depositApprovedMsg(request.amount, resolutionComment)
+                : _approveT.withdrawApprovedMsg(request.amount, networkFee ? networkFee.toFixed(4) : null, resolutionComment),
             audience: 'user',
             userId: request.userId,
+            lang: _approveLang,
             meta: {
                 category: 'finance-approved',
                 requestType: request.type,
@@ -1745,14 +1886,15 @@ class GameDatabase {
             createdAt: new Date().toISOString()
         });
 
+        const _rejLang = this._getUserLang(request.userId);
+        const _rejT = this._notifT(_rejLang);
         this.createNotification({
             type: 'error',
-            title: request.type === 'deposit' ? 'Пополнение отклонено' : 'Вывод отклонён',
-            message: resolutionComment
-                ? `Заявка на ${request.type === 'deposit' ? 'пополнение' : 'вывод'} ${request.amount} TON отклонена. Причина: ${resolutionComment}`
-                : `Заявка на ${request.type === 'deposit' ? 'пополнение' : 'вывод'} ${request.amount} TON отклонена. Проверьте детали и попробуйте ещё раз.`,
+            title: request.type === 'deposit' ? _rejT.depositRejectedTitle : _rejT.withdrawRejectedTitle,
+            message: _rejT.rejectedMsg(request.type, request.amount, resolutionComment),
             audience: 'user',
             userId: request.userId,
+            lang: _rejLang,
             meta: {
                 category: 'finance-rejected',
                 requestType: request.type,
