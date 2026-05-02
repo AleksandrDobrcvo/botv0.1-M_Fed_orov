@@ -18973,4 +18973,103 @@ body.is-nav-busy .prf-ring-svg {
     transform: translateZ(0);
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   PERFORMANCE LAYER v2 — ещё больше оптимизаций (визуал сохранён)
+   • body.is-scrolling — пауза тяжёлых анимаций пока скроллим
+   • html.mid-fx       — мобильные устройства: лёгкие смягчения
+   • content-visibility: auto на длинных списках героев
+   • снижение backdrop-filter blur (главный killer GPU на Android)
+═══════════════════════════════════════════════════════════════ */
 
+/* 8. ─── PAUSE DURING SCROLL ─── главное для плавного скролла */
+body.is-scrolling .prf-hero-card::before,
+body.is-scrolling .prf-avatar-wrap::before,
+body.is-scrolling .prf-ring-svg,
+body.is-scrolling .lm-income-widget::after,
+body.is-scrolling .lm-hero-progress-fill::after,
+body.is-scrolling .lm-synergy-badge::after,
+body.is-scrolling .ambient-orb-a,
+body.is-scrolling .ambient-orb-b,
+body.is-scrolling .ambient-orb-c,
+body.is-scrolling .bg-aurora,
+body.is-scrolling .profile-onboarding-banner::before,
+body.is-scrolling .prf-ref-block::before,
+body.is-scrolling .prf-live-btn::after,
+body.is-scrolling .prf-xp-bar .level-progress-fill::after,
+body.is-scrolling .header-badge,
+body.is-scrolling .lm-live-dot::before {
+    animation-play-state: paused !important;
+}
+/* Прячем тяжёлые transitions hover'а пока скроллим */
+body.is-scrolling .lm-hero-card,
+body.is-scrolling .hero-card,
+body.is-scrolling .my-hero-item,
+body.is-scrolling .owned-hero-card {
+    transition: none !important;
+}
+
+/* 9. ─── CONTENT VISIBILITY ─── ленивая отрисовка длинных списков
+       (карточка занимает фиксированную intrinsic-size, рисуется только когда близко к экрану) */
+.my-hero-item,
+.owned-hero-card,
+.hero-card,
+.lm-hero-card {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 180px;
+}
+.lm-hero-card { contain-intrinsic-size: 1px 220px; }
+
+/* 10. ─── MID-FX MODE ─── (любой мобильник: touch + small viewport)
+        Сохраняем всё визуально, но облегчаем самые дорогие эффекты. */
+
+/* Снижаем backdrop-filter blur — главный пожиратель GPU на Android */
+html.mid-fx .lm-backdrop {
+    backdrop-filter: blur(10px) saturate(1.2) !important;
+    -webkit-backdrop-filter: blur(10px) saturate(1.2) !important;
+}
+html.mid-fx .modal-overlay,
+html.mid-fx .update-overlay {
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+}
+html.mid-fx .hero-slim-bar,
+html.mid-fx .bottom-nav {
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+}
+
+/* Замедляем дорогие infinite-анимации (визуально почти то же, GPU-нагрузка ниже) */
+html.mid-fx .prf-hero-card::before { animation-duration: 38s !important; }
+html.mid-fx .prf-avatar-wrap::before { animation-duration: 14s !important; }
+html.mid-fx .prf-ring-svg { animation-duration: 18s !important; }
+html.mid-fx .bg-aurora { animation-duration: 28s !important; }
+html.mid-fx .ambient-orb-a,
+html.mid-fx .ambient-orb-b,
+html.mid-fx .ambient-orb-c { animation-duration: 36s !important; }
+
+/* Убираем дорогие splash-particles на мобилке (они тяжёлые, видны 0.6 сек) */
+html.mid-fx .splash-particle { display: none; }
+
+/* 11. ─── SCROLL CONTAINMENT ─── главный скролл-контейнер */
+.app-shell {
+    contain: paint;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* 12. ─── REDUCE EXPENSIVE blur(40+) ─── глобально (визуально почти то же) */
+.modal-overlay,
+.update-overlay {
+    /* было blur(40px) — слишком дорого. blur(20px) выглядит почти идентично. */
+}
+
+/* 13. ─── DISABLE TILT-3D HOVER ON TOUCH ─── (JS-side тоже отключён) */
+@media (hover: none), (pointer: coarse) {
+    .lm-tilt-shine { display: none !important; }
+    .lm-hero-card { transform: none !important; }
+}
+
+/* 14. ─── PROMOTE SCROLL-ZONE — отдельный layer для жидкого скролла */
+main.app-shell, .lm-body {
+    transform: translateZ(0);
+}

@@ -13,9 +13,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=20260502c">
+    <link rel="stylesheet" href="styles.css?v=20260502d">
     <script>
-    /* ── Lightweight low-end detector: enables body.low-fx for cheaper visuals ── */
+    /* ── Lightweight low-end detector + scroll/nav pause ── */
     (function(){
         try {
             var nav = navigator || {};
@@ -30,10 +30,27 @@
             if (lowEnd) {
                 document.documentElement.classList.add('low-fx');
             }
-            /* Pause CSS animations while tab is hidden — saves battery & GPU */
+            /* MID-FX: любой реальный мобильник (touch + small screen) — лёгкие оптимизации,
+               но визуал сохраняется. Это главный режим для Telegram-юзеров. */
+            var isTouch = ('ontouchstart' in window) || (nav.maxTouchPoints > 0);
+            if (isTouch && Math.min(screen.width||9999, screen.height||9999) < 900) {
+                document.documentElement.classList.add('mid-fx');
+            }
+            /* Pause CSS animations while tab is hidden */
             document.addEventListener('visibilitychange', function(){
                 document.documentElement.classList.toggle('tab-hidden', document.hidden);
             });
+            /* Pause heavy animations during scroll — даёт ровный 60fps скролл */
+            var scrollTimer = null;
+            function onScroll() {
+                if (!document.body) return;
+                document.body.classList.add('is-scrolling');
+                if (scrollTimer) clearTimeout(scrollTimer);
+                scrollTimer = setTimeout(function(){
+                    document.body.classList.remove('is-scrolling');
+                }, 140);
+            }
+            window.addEventListener('scroll', onScroll, { passive: true, capture: true });
         } catch(e) { /* ignore */ }
     })();
     </script>
@@ -1202,6 +1219,6 @@
 
     <script src="db_config.js"></script>
     <script src="database.js"></script>
-    <script src="script.js?v=20260502c"></script>
+    <script src="script.js?v=20260502d"></script>
 </body>
 </html>

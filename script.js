@@ -7639,9 +7639,20 @@ function escapeHTML(str) {
                 sz: 1.6 + Math.random() * 1.5 });
         }
         for (var si = 0; si < 9; si++) spawnSig();
-        var frame = 0, animId;
-        function draw() {
+        var frame = 0, animId, lastDraw = 0;
+        var TARGET_FPS = 30;                         // было 60 — хватит 30 для лёгкой схемы
+        var FRAME_MIN = 1000 / TARGET_FPS;
+        function draw(ts) {
             animId = requestAnimationFrame(draw);
+            // Пауза пока вкладка свёрнута / оверлей спрятан / идёт скролл
+            if (document.hidden) return;
+            var ovHidden = canvas.parentNode &&
+                canvas.parentNode.parentNode &&
+                canvas.parentNode.parentNode.classList.contains('hidden');
+            if (ovHidden) return;
+            if (document.body && document.body.classList.contains('is-scrolling')) return;
+            if (ts && ts - lastDraw < FRAME_MIN) return;
+            lastDraw = ts || 0;
             ctx.clearRect(0, 0, W, H);
             frame++;
             if (frame % 60 === 0) spawnSig();
@@ -7714,6 +7725,9 @@ function escapeHTML(str) {
     }
 
     function _initTilt(card) {
+        // 3D-tilt тяжёл: включаем только на desktop без тача.
+        if (window.matchMedia && window.matchMedia('(hover: none), (pointer: coarse)').matches) return;
+        if (document.documentElement.classList.contains('low-fx')) return;
         var shine = document.createElement('div');
         shine.className = 'lm-tilt-shine';
         card.appendChild(shine);
