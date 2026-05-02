@@ -1,0 +1,8 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^python -c \"\nwith open\\(r'c:\\\\Users\\\\fxcze\\\\OneDrive\\\\Pulpit\\\\botv0\\.1 M_Fed_orov\\\\script\\.js', 'r', encoding='utf-8'\\) as f:\n    lines = f\\.readlines\\(\\)\n\n# Find lines\nfor i, l in enumerate\\(lines\\):\n    if 'exportData_DISABLED_DUPLICATE' in l or \\('function closeAdminModal' in l and i > 5265\\):\n        print\\(f'\\{i\\+1\\}: \\{l\\.rstrip\\(\\)\\}'\\)\n\"\n$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}

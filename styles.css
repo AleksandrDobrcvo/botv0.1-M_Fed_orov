@@ -19073,3 +19073,363 @@ html.mid-fx .splash-particle { display: none; }
 main.app-shell, .lm-body {
     transform: translateZ(0);
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   HERO UPGRADE PREVIEW V2 — понятная прокачка
+   Объясняем игроку: что улучшится, насколько, сколько стоит,
+   хватает ли баланса и за сколько окупится.
+═══════════════════════════════════════════════════════════════ */
+
+.hero-upgrade-preview {
+    --hero-accent: #67e8f9;
+    --hero-border: rgba(103, 232, 249, 0.24);
+    --hero-glow:   rgba(103, 232, 249, 0.20);
+    position: relative;
+    margin-bottom: 14px;
+    padding: 16px 16px 14px;
+    border-radius: 18px;
+    background:
+        radial-gradient(ellipse 80% 100% at 0% 0%, var(--hero-glow), transparent 65%),
+        linear-gradient(155deg, rgba(14, 22, 38, 0.85), rgba(8, 14, 26, 0.92));
+    border: 1px solid var(--hero-border);
+    box-shadow:
+        0 12px 32px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    overflow: hidden;
+    contain: layout paint style;
+}
+.hero-upgrade-preview::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(180deg, transparent 70%, var(--hero-glow));
+    opacity: 0.35;
+}
+
+.hu-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 1;
+}
+.hu-kicker {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+}
+.hu-from-to {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    color: #e8f4ff;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+}
+.hu-arrow {
+    color: var(--hero-accent);
+    margin: 0 4px;
+    font-weight: 900;
+}
+
+.hu-delta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 14px;
+    position: relative;
+    z-index: 1;
+}
+@media (max-width: 480px) {
+    .hu-delta-grid { grid-template-columns: 1fr; gap: 6px; }
+}
+
+.hu-delta-tile {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-areas:
+        'label label label'
+        'from arrow to'
+        'plus plus plus';
+    align-items: center;
+    gap: 4px 6px;
+    padding: 10px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+.hu-delta-label {
+    grid-area: label;
+    font-size: 10.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: rgba(255, 255, 255, 0.45);
+    margin-bottom: 2px;
+}
+.hu-delta-from {
+    grid-area: from;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.55);
+    text-align: right;
+}
+.hu-delta-arrow {
+    grid-area: arrow;
+    font-size: 12px;
+    color: var(--hero-accent);
+    font-weight: 900;
+    text-align: center;
+}
+.hu-delta-to {
+    grid-area: to;
+    font-size: 13.5px;
+    font-weight: 800;
+    color: #e8f4ff;
+    text-align: left;
+}
+.hu-delta-plus {
+    grid-area: plus;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--hero-accent);
+    text-align: center;
+    margin-top: 4px;
+    padding: 3px 6px;
+    border-radius: 6px;
+    background: color-mix(in srgb, var(--hero-accent) 12%, transparent);
+}
+
+.hu-cost-row {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    position: relative;
+    z-index: 1;
+}
+.hu-cost-row.is-deficit {
+    background: linear-gradient(135deg, rgba(251, 113, 133, 0.07), rgba(251, 113, 133, 0.03));
+    border-color: rgba(251, 113, 133, 0.25);
+}
+.hu-cost-row.is-enough {
+    background: linear-gradient(135deg, rgba(52, 211, 153, 0.06), rgba(52, 211, 153, 0.02));
+    border-color: rgba(52, 211, 153, 0.22);
+}
+.hu-cost-block {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+.hu-cost-label {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.45);
+}
+.hu-cost-value {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 17px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 0.02em;
+}
+.hu-cost-row.is-deficit .hu-balance-value { color: #fb7185; }
+.hu-cost-row.is-enough  .hu-balance-value { color: #34d399; }
+.hu-cost-divider {
+    width: 1px;
+    background: rgba(255, 255, 255, 0.08);
+    flex-shrink: 0;
+}
+
+.hu-status-row {
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 1;
+}
+.hu-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px 12px;
+    border-radius: 10px;
+}
+.hu-status-ok {
+    color: #6ee7b7;
+    background: rgba(52, 211, 153, 0.08);
+    border: 1px solid rgba(52, 211, 153, 0.18);
+}
+.hu-status-warn {
+    color: #fda4af;
+    background: rgba(251, 113, 133, 0.08);
+    border: 1px solid rgba(251, 113, 133, 0.20);
+}
+.hu-status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+    box-shadow: 0 0 6px currentColor;
+}
+.hu-topup-btn {
+    margin-left: auto;
+    padding: 5px 12px;
+    border: 1px solid rgba(251, 113, 133, 0.4);
+    background: rgba(251, 113, 133, 0.12);
+    color: #fda4af;
+    border-radius: 8px;
+    font-size: 11.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+}
+.hu-topup-btn:hover {
+    background: rgba(251, 113, 133, 0.22);
+    transform: translateY(-1px);
+}
+
+.hu-level-bar {
+    position: relative;
+    height: 10px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    overflow: hidden;
+    z-index: 1;
+}
+.hu-level-fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: 0 0 12px var(--hero-glow);
+}
+.hu-level-ticks {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    align-items: center;
+    pointer-events: none;
+}
+.hu-tick {
+    width: 2px;
+    height: 5px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 1px;
+}
+.hu-tick.hu-tick-on {
+    background: rgba(255, 255, 255, 0.45);
+}
+.hu-tick.hu-tick-current {
+    background: #ffffff;
+    box-shadow: 0 0 6px var(--hero-accent);
+    height: 7px;
+}
+
+.hu-level-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 6px;
+    font-size: 11.5px;
+    color: rgba(255, 255, 255, 0.55);
+    position: relative;
+    z-index: 1;
+}
+.hu-level-meta strong {
+    color: #fff;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+}
+
+/* Locked / max state */
+.hero-upgrade-preview.hero-upgrade-locked,
+.hero-upgrade-preview.hero-upgrade-maxed {
+    text-align: center;
+    padding: 18px 16px;
+    background: linear-gradient(155deg, rgba(14, 22, 38, 0.6), rgba(8, 14, 26, 0.7));
+}
+.hero-upgrade-preview.hero-upgrade-maxed {
+    border-color: rgba(251, 191, 36, 0.32);
+    background:
+        radial-gradient(ellipse 100% 100% at 50% 0%, rgba(251, 191, 36, 0.10), transparent 65%),
+        linear-gradient(155deg, rgba(14, 22, 38, 0.6), rgba(8, 14, 26, 0.7));
+}
+.hu-locked-icon {
+    font-size: 32px;
+    margin-bottom: 6px;
+    opacity: 0.85;
+}
+.hu-locked-text {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 12px;
+}
+.hero-upgrade-preview.hero-upgrade-maxed .hu-level-bar { margin-top: 12px; }
+
+/* CTA-кнопка прокачки в футере модалки */
+.action-btn.hero-detail-upgrade-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    line-height: 1.2;
+    font-weight: 700;
+}
+.upgrade-cta-cost {
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.22);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 12.5px;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+}
+.action-btn.hero-detail-upgrade-cta.upgrade-deficit {
+    background: linear-gradient(135deg, rgba(251, 113, 133, 0.85), rgba(244, 63, 94, 0.85));
+    color: #fff;
+    cursor: not-allowed;
+}
+.action-btn.hero-detail-upgrade-cta:disabled {
+    opacity: 0.7;
+}
+
+/* Карточки «Мои герои» — мини-блок прокачки */
+.hero-upgrade-btn { line-height: 1.15; }
+.hero-upgrade-btn .huc-main {
+    display: block;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+.hero-upgrade-btn .huc-meta {
+    display: block;
+    margin-top: 2px;
+    font-size: 10.5px;
+    font-weight: 600;
+    opacity: 0.85;
+}
+

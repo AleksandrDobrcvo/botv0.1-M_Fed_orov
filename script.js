@@ -2298,7 +2298,36 @@ function getHeroTextSet() {
         maxLevelBtn: isUa ? 'МАКС. РІВЕНЬ' : 'МАКС. УРОВЕНЬ',
         incomeCreditedTitle: isUa ? 'Прибуток зараховано' : 'Прибыль начислена',
         incomeCreditedMessage: isUa ? 'На ваш RNX-баланс зараховано' : 'На ваш RNX-баланс зачислено',
-        heroesTriggered: isUa ? 'Спрацювало героїв' : 'Сработало героев'
+        heroesTriggered: isUa ? 'Спрацювало героїв' : 'Сработало героев',
+        // ── UPGRADE V2 — понятная прокачка ──
+        upgradePreviewTitle:    isUa ? 'Що дасть прокачка' : 'Что даст прокачка',
+        upgradeFromTo:          isUa ? 'Поточний → Новий' : 'Текущий → Новый',
+        upgradeProfitHour:      isUa ? 'Прибуток / година' : 'Прибыль / час',
+        upgradeProfitDay:       isUa ? 'Прибуток / 24 г' : 'Прибыль / 24 ч',
+        upgradeProfitCycle:     isUa ? 'Прибуток за цикл' : 'Прибыль за цикл',
+        upgradePower:           isUa ? 'Сила героя' : 'Сила героя',
+        upgradeCostLabel:       isUa ? 'Ціна прокачки' : 'Цена прокачки',
+        upgradeYourBalance:     isUa ? 'Ваш баланс' : 'Ваш баланс',
+        upgradeEnoughBalance:   isUa ? 'Балансу вистачає' : 'Баланса достаточно',
+        upgradeNeedMore:        isUa ? 'Не вистачає' : 'Не хватает',
+        upgradeRoiLabel:        isUa ? 'Окупність' : 'Окупаемость',
+        upgradeRoiValue:        isUa ? 'циклів' : 'циклов',
+        upgradeLevelProgress:   isUa ? 'Прогрес рівня' : 'Прогресс уровня',
+        upgradeMaxLevelHint:    isUa ? 'Цей герой досяг макс. рівня (10)' : 'Этот герой достиг макс. уровня (10)',
+        upgradeTestHeroHint:    isUa ? 'Тестовий герой не прокачується' : 'Тестовый герой не прокачивается',
+        upgradeNoNeedHint:      isUa ? 'Прокачка безкоштовна' : 'Прокачка бесплатна',
+        upgradeBuyButton:       isUa ? 'Прокачати за' : 'Прокачать за',
+        upgradeAfterPlus:       isUa ? 'після прокачки' : 'после прокачки',
+        upgradeDeltaLabel:      isUa ? 'Приріст' : 'Прирост',
+        upgradeTopUpAction:     isUa ? 'Поповнити баланс' : 'Пополнить баланс',
+        // ── Карточки героев — мини-предпросмотр ──
+        cardUpgradeHint:        isUa ? 'Покращити' : 'Улучшить',
+        cardUpgradeFor:         isUa ? 'за' : 'за',
+        // ── Sell / Reissue confirmations ──
+        sellConfirmTitle:       isUa ? 'Продати героя?' : 'Продать героя?',
+        sellConfirmText:        isUa ? 'Ви отримаєте {amount} TON. Дія незворотна.' : 'Вы получите {amount} TON. Действие необратимо.',
+        reissueConfirmTitle:    isUa ? 'Перевидати героя?' : 'Переиздать героя?',
+        reissueConfirmText:     isUa ? 'Скине цикл і поверне героя в магазин за {amount} TON.' : 'Сбросит цикл и вернёт героя в магазин за {amount} TON.'
     };
 }
 
@@ -7063,6 +7092,15 @@ function upgradeHero(heroInstanceId, userId = '__current__') {
 
 function sellHero(heroInstanceId, userId = '__current__') {
     const heroText = getHeroTextSet();
+    // Подтверждение перед продажей (защита от случайного клика)
+    const heroes = getPurchasedHeroes();
+    const target = heroes.find((h) => String(h.instanceId) === String(heroInstanceId));
+    if (target && !target.isTestHero) {
+        const enriched = enrichHeroWithEconomy(target, heroes);
+        const locale = LANGUAGE_TO_LOCALE[getCurrentLanguage()] || 'ru-RU';
+        const confirmText = heroText.sellConfirmText.replace('{amount}', formatCurrency(enriched.sellValue || 0, locale).replace(' TON', ''));
+        if (!window.confirm(`${heroText.sellConfirmTitle}\n\n${confirmText}`)) return;
+    }
     const result = window.gameDB.sellHeroForUser(userId, heroInstanceId, { source: 'sell' });
     if (!result.success) {
         return showNotification(getTranslations().formValidationError, 'error');
@@ -7077,6 +7115,15 @@ function sellHero(heroInstanceId, userId = '__current__') {
 
 function reissueHero(heroInstanceId, userId = '__current__') {
     const heroText = getHeroTextSet();
+    // Подтверждение перед переизданием
+    const heroes = getPurchasedHeroes();
+    const target = heroes.find((h) => String(h.instanceId) === String(heroInstanceId));
+    if (target && !target.isTestHero) {
+        const enriched = enrichHeroWithEconomy(target, heroes);
+        const locale = LANGUAGE_TO_LOCALE[getCurrentLanguage()] || 'ru-RU';
+        const confirmText = heroText.reissueConfirmText.replace('{amount}', formatCurrency(enriched.reissueCost || 0, locale).replace(' TON', ''));
+        if (!window.confirm(`${heroText.reissueConfirmTitle}\n\n${confirmText}`)) return;
+    }
     const result = window.gameDB.reissueHeroForUser(userId, heroInstanceId, { source: 'reissue' });
     if (!result.success) {
         return showNotification(getTranslations().notEnough, 'error');
@@ -7130,16 +7177,132 @@ function renderHeroDetailModal() {
     const rc = rarityColors[displayHero.rarityKey] || rarityColors.common;
     title.textContent = displayHero.name;
     label.textContent = `${getHeroRarityLabel(displayHero)} · ${heroText.level} ${displayHero.level}`;
-    const isMaxLevel = Number(displayHero.level || 1) >= 10;
+    const MAX_LEVEL = 10;
+    const currentLevel = Number(displayHero.level || 1);
+    const isMaxLevel = currentLevel >= MAX_LEVEL;
     const isTestHero = Boolean(displayHero.isTestHero);
     const upgradeLocked = isTestHero || isMaxLevel;
-    upgradeButton.textContent = upgradeLocked
-        ? (isTestHero ? heroText.noUpgradeBtn : heroText.maxLevelBtn)
-        : `${heroText.upgrade} · ${formatCurrency(displayHero.nextUpgradeCost, locale)}`;
-    upgradeButton.disabled = upgradeLocked;
+
+    // ── Считаем превью прокачки ──
+    const baseProfit  = Number(displayHero.baseProfitPerHour || displayHero.profitPerHour || 0);
+    const growthRate  = Number(displayHero.growthRate || 0.18);
+    const durationH   = Number(displayHero.durationHours || 24);
+    const synMult     = synergy.multiplier || 1;
+    const curProfitH  = baseProfit * (1 + (currentLevel - 1) * growthRate);
+    const nxtProfitH  = baseProfit * (1 + (currentLevel)     * growthRate);
+    const curBoostedH = curProfitH * synMult;
+    const nxtBoostedH = nxtProfitH * synMult;
+    const curDay      = curBoostedH * 24;
+    const nxtDay      = nxtBoostedH * 24;
+    const deltaDay    = nxtDay - curDay;
+    const curCycle    = curBoostedH * durationH;
+    const nxtCycle    = nxtBoostedH * durationH;
+    const deltaPct    = curProfitH > 0 ? Math.round(((nxtProfitH - curProfitH) / curProfitH) * 100) : 0;
+    const upgradeCost = Number(displayHero.nextUpgradeCost || 0);
+    const userBalance = Number((window.gameDB?.getUser?.() || {}).balanceBuy || 0);
+    const balanceEnough = userBalance >= upgradeCost;
+    const balanceDeficit = Math.max(0, upgradeCost - userBalance);
+    const roiCycles = deltaDay > 0
+        ? Math.max(1, Math.ceil(upgradeCost / (deltaDay * (durationH / 24))))
+        : null;
+    const levelProgressPct = Math.round((currentLevel / MAX_LEVEL) * 100);
+    const locale2 = locale;
+
+    // Текст кнопки прокачки
+    upgradeButton.classList.add('hero-detail-upgrade-cta');
+    if (upgradeLocked) {
+        upgradeButton.textContent = isTestHero ? heroText.noUpgradeBtn : heroText.maxLevelBtn;
+    } else if (!balanceEnough) {
+        upgradeButton.innerHTML = `<span class="upgrade-cta-main">${heroText.upgradeNeedMore}: ${formatCurrency(balanceDeficit, locale2)}</span>`;
+    } else {
+        upgradeButton.innerHTML = `<span class="upgrade-cta-main">${heroText.upgrade}</span><span class="upgrade-cta-cost">${formatCurrency(upgradeCost, locale2)}</span>`;
+    }
+    upgradeButton.disabled = upgradeLocked || !balanceEnough;
     upgradeButton.classList.toggle('upgrade-locked', upgradeLocked);
+    upgradeButton.classList.toggle('upgrade-deficit', !upgradeLocked && !balanceEnough);
+
     sellButton.textContent = `${heroText.sell} · ${formatCurrency(displayHero.sellValue || 0, locale)}`;
     reissueButton.textContent = `${heroText.reissue} · ${formatCurrency(displayHero.reissueCost || 0, locale)}`;
+
+    // ── Блок предпросмотра прокачки (HTML) ──
+    let upgradePreviewHTML = '';
+    if (isTestHero) {
+        upgradePreviewHTML = `
+            <div class="hero-upgrade-preview hero-upgrade-locked">
+                <div class="hu-locked-icon">🧪</div>
+                <div class="hu-locked-text">${heroText.upgradeTestHeroHint}</div>
+            </div>`;
+    } else if (isMaxLevel) {
+        upgradePreviewHTML = `
+            <div class="hero-upgrade-preview hero-upgrade-maxed">
+                <div class="hu-locked-icon">👑</div>
+                <div class="hu-locked-text">${heroText.upgradeMaxLevelHint}</div>
+                <div class="hu-level-bar"><div class="hu-level-fill" style="width:100%; background:linear-gradient(90deg, ${rc.accent}, #fbbf24)"></div></div>
+                <div class="hu-level-meta"><span>${heroText.upgradeLevelProgress}</span><strong>${currentLevel} / ${MAX_LEVEL}</strong></div>
+            </div>`;
+    } else {
+        upgradePreviewHTML = `
+        <div class="hero-upgrade-preview" style="--hero-accent:${rc.accent}; --hero-border:${rc.border}; --hero-glow:${rc.glow};">
+            <div class="hu-head">
+                <span class="hu-kicker">${heroText.upgradePreviewTitle}</span>
+                <span class="hu-from-to">LVL ${currentLevel} <span class="hu-arrow">→</span> LVL ${currentLevel + 1}</span>
+            </div>
+
+            <div class="hu-delta-grid">
+                <div class="hu-delta-tile">
+                    <div class="hu-delta-label">${heroText.upgradeProfitHour}</div>
+                    <div class="hu-delta-from">${formatRnx(Math.round(curBoostedH), locale2)}</div>
+                    <div class="hu-delta-arrow">→</div>
+                    <div class="hu-delta-to" style="color:${rc.accent}">${formatRnx(Math.round(nxtBoostedH), locale2)}</div>
+                    <div class="hu-delta-plus">+${formatRnx(Math.round(nxtBoostedH - curBoostedH), locale2)}</div>
+                </div>
+                <div class="hu-delta-tile">
+                    <div class="hu-delta-label">${heroText.upgradeProfitDay}</div>
+                    <div class="hu-delta-from">${formatRnx(Math.round(curDay), locale2)}</div>
+                    <div class="hu-delta-arrow">→</div>
+                    <div class="hu-delta-to" style="color:${rc.accent}">${formatRnx(Math.round(nxtDay), locale2)}</div>
+                    <div class="hu-delta-plus">+${formatRnx(Math.round(deltaDay), locale2)} (+${deltaPct}%)</div>
+                </div>
+                <div class="hu-delta-tile">
+                    <div class="hu-delta-label">${heroText.upgradeProfitCycle}</div>
+                    <div class="hu-delta-from">${formatRnx(Math.round(curCycle), locale2)}</div>
+                    <div class="hu-delta-arrow">→</div>
+                    <div class="hu-delta-to" style="color:${rc.accent}">${formatRnx(Math.round(nxtCycle), locale2)}</div>
+                    <div class="hu-delta-plus">+${formatRnx(Math.round(nxtCycle - curCycle), locale2)}</div>
+                </div>
+            </div>
+
+            <div class="hu-cost-row ${balanceEnough ? 'is-enough' : 'is-deficit'}">
+                <div class="hu-cost-block">
+                    <div class="hu-cost-label">${heroText.upgradeCostLabel}</div>
+                    <div class="hu-cost-value">${formatCurrency(upgradeCost, locale2)}</div>
+                </div>
+                <div class="hu-cost-divider"></div>
+                <div class="hu-cost-block">
+                    <div class="hu-cost-label">${heroText.upgradeYourBalance}</div>
+                    <div class="hu-cost-value hu-balance-value">${formatCurrency(userBalance, locale2)}</div>
+                </div>
+            </div>
+
+            <div class="hu-status-row">
+                ${balanceEnough
+                    ? `<div class="hu-status hu-status-ok"><span class="hu-status-dot"></span>${heroText.upgradeEnoughBalance}${roiCycles ? ` · ${heroText.upgradeRoiLabel}: ~${roiCycles} ${heroText.upgradeRoiValue}` : ''}</div>`
+                    : `<div class="hu-status hu-status-warn"><span class="hu-status-dot"></span>${heroText.upgradeNeedMore}: ${formatCurrency(balanceDeficit, locale2)} <button class="hu-topup-btn" type="button" data-hu-topup="1">${heroText.upgradeTopUpAction}</button></div>`
+                }
+            </div>
+
+            <div class="hu-level-bar">
+                <div class="hu-level-fill" style="width:${levelProgressPct}%; background:linear-gradient(90deg, ${rc.accent}55, ${rc.accent})"></div>
+                <div class="hu-level-ticks">${Array.from({length: MAX_LEVEL}, (_, i) =>
+                    `<span class="hu-tick${i < currentLevel ? ' hu-tick-on' : ''}${i === currentLevel - 1 ? ' hu-tick-current' : ''}"></span>`
+                ).join('')}</div>
+            </div>
+            <div class="hu-level-meta">
+                <span>${heroText.upgradeLevelProgress}</span>
+                <strong>${currentLevel} / ${MAX_LEVEL}</strong>
+            </div>
+        </div>`;
+    }
     body.innerHTML = `
         <div class="hero-profile-layout premium-hero-profile rarity-${displayHero.rarityKey}">
             <div class="hero-profile-visual rarity-${displayHero.rarityKey}" style="--hero-accent:${rc.accent}; --hero-border:${rc.border}; --hero-glow:${rc.glow};">
@@ -7155,6 +7318,7 @@ function renderHeroDetailModal() {
                 </div>
             </div>
             <div class="hero-profile-info premium-hero-info">
+                ${upgradePreviewHTML}
                 <div class="hero-detail-summary-card">
                     <div class="hero-detail-summary-topline">
                         <span class="hero-detail-summary-kicker">${heroText.heroProfile}</span>
@@ -7189,14 +7353,19 @@ function renderHeroDetailModal() {
                     <div class="hero-detail-line"><span>${heroText.duration}</span><strong>${formatHeroDuration(displayHero.durationHours || 24, locale)}</strong></div>
                     ${displayHero.rules?.length ? `<div class="hero-detail-line"><span>${heroText.rules}</span><strong>${displayHero.rules.map((rule) => escapeHTML(rule)).join(' • ')}</strong></div>` : ''}
                 </div>
-                <div class="hero-detail-chip-row">
-                    <span class="hero-detail-chip">${heroText.nextUpgrade}: ${formatCurrency(displayHero.nextUpgradeCost, locale)}</span>
-                    <span class="hero-detail-chip">${heroText.reissue}: ${formatCurrency(displayHero.reissueCost || 0, locale)}</span>
-                    <span class="hero-detail-chip">${heroText.sell}: ${formatCurrency(displayHero.sellValue || 0, locale)}</span>
-                </div>
             </div>
         </div>
     `;
+
+    // Хук на «Пополнить баланс» внутри блока прокачки
+    var topupBtn = body.querySelector('[data-hu-topup]');
+    if (topupBtn) {
+        topupBtn.addEventListener('click', function () {
+            closeHeroDetailModal();
+            var depositBtn = document.getElementById('deposit-btn') || document.querySelector('[data-action="deposit"]');
+            if (depositBtn) depositBtn.click();
+        });
+    }
 }
 
 function createOwnedHeroCard(hero, options = {}) {
@@ -7247,7 +7416,21 @@ function createOwnedHeroCard(hero, options = {}) {
             ${interactive ? `
             <div class="hero-actions-row">
                 <button class="hero-secondary-btn hero-view-btn" type="button">${heroText.details}</button>
-                <button class="buy-btn hero-upgrade-btn${(displayHero.isTestHero || Number(displayHero.level || 1) >= 10) ? ' upgrade-locked' : ''}" type="button"${(displayHero.isTestHero || Number(displayHero.level || 1) >= 10) ? ' disabled' : ''}>${displayHero.isTestHero ? heroText.noUpgradeBtn : Number(displayHero.level || 1) >= 10 ? heroText.maxLevelBtn : heroText.upgrade}</button>
+                <button class="buy-btn hero-upgrade-btn${(displayHero.isTestHero || Number(displayHero.level || 1) >= 10) ? ' upgrade-locked' : ''}" type="button"${(displayHero.isTestHero || Number(displayHero.level || 1) >= 10) ? ' disabled' : ''}>${
+                    displayHero.isTestHero ? heroText.noUpgradeBtn :
+                    Number(displayHero.level || 1) >= 10 ? heroText.maxLevelBtn :
+                    `<span class="huc-main">${heroText.cardUpgradeHint}</span><span class="huc-meta">+${(() => {
+                        const bp = Number(displayHero.baseProfitPerHour || displayHero.profitPerHour || 0);
+                        const gr = Number(displayHero.growthRate || 0.18);
+                        const lvl = Number(displayHero.level || 1);
+                        const dh = Number(displayHero.durationHours || 24);
+                        const synMul = (displayHero.boostedProfitPerHour && displayHero.profitPerHour)
+                            ? (displayHero.boostedProfitPerHour / displayHero.profitPerHour) : 1;
+                        const cur = bp * (1 + (lvl - 1) * gr) * synMul;
+                        const nxt = bp * (1 + lvl * gr) * synMul;
+                        return formatRnx(Math.round((nxt - cur) * 24), locale);
+                    })()}/24h · ${formatCurrency(displayHero.nextUpgradeCost, locale)}</span>`
+                }</button>
             </div>` : ''}
         </div>
     `;
