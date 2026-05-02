@@ -18785,4 +18785,151 @@ button:not(:disabled):active,
     }
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   PERFORMANCE LAYER — оптимизации без потери внешнего вида
+   Активируется автоматически:
+   • html.tab-hidden    — вкладка свёрнута → стопаем все анимации
+   • html.low-fx        — слабое устройство → отключаем дорогие эффекты
+                          (conic-aurora, тяжёлые blur, decorative orbs).
+   • prefers-reduced-motion — уже учитывается выше.
+   Также: contain/will-change для часто перерисовываемых блоков.
+═══════════════════════════════════════════════════════════════ */
+
+/* 1. Полная пауза анимаций когда вкладка не активна */
+html.tab-hidden *,
+html.tab-hidden *::before,
+html.tab-hidden *::after {
+    animation-play-state: paused !important;
+    transition: none !important;
+}
+
+/* 2. CSS containment — изоляция перерисовок */
+.prf-hero-card,
+.prf-finance-block,
+.prf-ref-block,
+.prf-stats-section,
+.profile-onboarding-banner,
+.lm-sheet,
+.lm-income-widget,
+.lm-hero-card,
+.hero-card,
+.owned-hero-card,
+.my-hero-item {
+    contain: layout paint style;
+}
+
+/* 3. Промоция тяжёлых движущихся слоёв в свой compositor-layer */
+.prf-hero-card::before,        /* aurora */
+.lm-income-widget::after,       /* shine */
+.lm-hero-progress-fill::after,
+.lm-synergy-badge::after,
+.profile-onboarding-banner::before,
+.prf-xp-bar .level-progress-fill::after,
+.prf-ref-block::before,
+.prf-live-btn::after,
+.ambient-orb-a,
+.ambient-orb-b,
+.ambient-orb-c {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* 4. Скролл-зоны — momentum scroll + изоляция */
+.lm-body,
+.app-shell,
+main {
+    contain: paint;
+    overscroll-behavior: contain;
+}
+
+/* 5. ─── LOW-FX MODE ─── (слабые телефоны / save-data) */
+html.low-fx .prf-hero-card::before {
+    animation: none !important;
+    /* оставляем статический мягкий glow */
+    background:
+        radial-gradient(ellipse 60% 40% at 30% 20%, rgba(103,232,249,0.10), transparent 70%),
+        radial-gradient(ellipse 60% 40% at 70% 80%, rgba(167,139,250,0.10), transparent 70%) !important;
+    filter: none !important;
+    inset: 0 !important;
+    opacity: 1 !important;
+}
+
+html.low-fx .prf-hero-orb,
+html.low-fx .ambient-orb-a,
+html.low-fx .ambient-orb-b,
+html.low-fx .ambient-orb-c {
+    display: none !important;
+}
+
+html.low-fx .prf-avatar-wrap::after,
+html.low-fx .lm-live-dot::before,
+html.low-fx .lm-income-widget::after,
+html.low-fx .lm-hero-progress-fill::after,
+html.low-fx .lm-synergy-badge::after,
+html.low-fx .profile-onboarding-banner::before,
+html.low-fx .prf-xp-bar .level-progress-fill::after,
+html.low-fx .prf-ref-block::before,
+html.low-fx .prf-live-btn::after,
+html.low-fx .prf-act-sep,
+html.low-fx .header-badge {
+    animation: none !important;
+}
+
+html.low-fx .prf-stat-icon,
+html.low-fx .prf-ref-icon,
+html.low-fx .lm-empty-icon {
+    animation: none !important;
+}
+
+/* Уменьшаем дорогие blur'ы */
+html.low-fx .lm-backdrop {
+    backdrop-filter: blur(3px) !important;
+    -webkit-backdrop-filter: blur(3px) !important;
+}
+html.low-fx .hero-slim-bar { backdrop-filter: none !important; }
+
+/* Убираем дорогие text-shadow цепочки */
+html.low-fx .prf-act-item:nth-child(1) .prf-act-text strong,
+html.low-fx .prf-act-item:nth-child(3) .prf-act-text strong,
+html.low-fx .prf-act-item:nth-child(5) .prf-act-text strong {
+    text-shadow: none !important;
+}
+
+/* Stagger appear-анимации профиля — мгновенно */
+html.low-fx .profile-panel .prf-hero-card,
+html.low-fx .profile-panel .profile-onboarding-banner,
+html.low-fx .profile-panel .prf-finance-block,
+html.low-fx .profile-panel .prf-ref-block,
+html.low-fx .profile-panel .prf-stats-section,
+html.low-fx .profile-panel .request-panel,
+html.low-fx .lm-body .lm-hero-card,
+html.low-fx .lm-body .lm-synergy-badge {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+/* SVG ring spin — выключаем (статичный градиент остаётся) */
+html.low-fx .prf-ring-svg { animation: none !important; }
+
+/* Уменьшаем количество одновременных box-shadow слоёв */
+html.low-fx .lm-hero-card:hover {
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35) !important;
+}
+
+/* 6. Декоративные ambient orbs (glo­bal) — не должны мешать паинту */
+.ambient-orb-a,
+.ambient-orb-b,
+.ambient-orb-c {
+    pointer-events: none;
+    contain: strict;
+}
+
+/* 7. Lazy-render: невидимые вкладки — content-visibility */
+.app-view.hidden {
+    content-visibility: hidden;
+    contain-intrinsic-size: 700px;
+}
+
 

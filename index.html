@@ -13,7 +13,30 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=20260502a">
+    <link rel="stylesheet" href="styles.css?v=20260502b">
+    <script>
+    /* ── Lightweight low-end detector: enables body.low-fx for cheaper visuals ── */
+    (function(){
+        try {
+            var nav = navigator || {};
+            var cores = nav.hardwareConcurrency || 8;
+            var mem   = nav.deviceMemory || 4;
+            var conn  = nav.connection || nav.webkitConnection || {};
+            var saveData = !!conn.saveData;
+            var slowNet  = /^(slow-2g|2g)$/.test(conn.effectiveType || '');
+            var smallScr = Math.min(screen.width||9999, screen.height||9999) < 340;
+            var weakHw   = (cores <= 4 && mem <= 2);
+            var lowEnd   = saveData || slowNet || weakHw || smallScr;
+            if (lowEnd) {
+                document.documentElement.classList.add('low-fx');
+            }
+            /* Pause CSS animations while tab is hidden — saves battery & GPU */
+            document.addEventListener('visibilitychange', function(){
+                document.documentElement.classList.toggle('tab-hidden', document.hidden);
+            });
+        } catch(e) { /* ignore */ }
+    })();
+    </script>
 </head>
 <body>
     <!-- Ambient floating orbs -->
@@ -1179,6 +1202,6 @@
 
     <script src="db_config.js"></script>
     <script src="database.js"></script>
-    <script src="script.js?v=20260502a"></script>
+    <script src="script.js?v=20260502b"></script>
 </body>
 </html>
